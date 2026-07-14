@@ -1,125 +1,151 @@
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { Route, Building2, Sofa, HardHat, Landmark, MapPin } from "lucide-react";
+import SectionHeading from "../ui/SectionHeading";
 
-export default function ProjectsSection() {
+const iconByType = {
+  "Road Construction": Route,
+  Infrastructure: HardHat,
+  Interior: Sofa,
+  "Building Construction": Building2,
+  "Commercial Construction": Landmark,
+};
 
-  const projects = useSelector((s) => s.projects.list);
+export default function ProjectsGallery() {
+  const projects = useSelector((state) => state.projects.list);
+  const navigate = useNavigate();
 
   return (
-    <section className="py-20 bg-[#FFF7ED]">
+    <section className="py-24 bg-bg-light dark:bg-bg-dark transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-6">
 
-      <div className="max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <SectionHeading
+          badge="Our Portfolio"
+          title={
+            <>
+              Featured
+              <span className="text-primary"> Projects</span>
+            </>
+          }
+          subtitle="Discover our residential, commercial and infrastructure projects crafted with innovation, quality and excellence."
+          className="mb-16"
+        />
 
-        {/* TOP HEADER */}
-        <div className="mb-14">
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          <div className="mb-10">
+          {projects?.slice(0, 3).map((project, index) => {
+            const Icon = iconByType[project.type] || Building2;
+            const gradient = project.gradient || "from-primary to-accent";
 
-            <div className="flex items-center gap-3 mb-3">
-
-              {/* animated line */}
+            return (
               <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                whileInView={{ width: 48, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="h-[3px] bg-yellow-400"
-              />
-
-              {/* animated text */}
-              <motion.p
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xl md:text-2xl tracking-wide font-bold text-gray-800 uppercase"
+                key={project.id || index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                }}
+                whileHover={{ y: -10 }}
+                className={`group relative rounded-[28px] p-[1px] bg-gradient-to-br ${gradient} shadow-glass dark:shadow-glass-dark transition-all duration-500 cursor-pointer overflow-hidden`}
               >
-                Our <span className="text-yellow-500">Projects</span>
-              </motion.p>
+                <div className="rounded-[27px] overflow-hidden bg-card-light dark:bg-card-dark">
+                  {/* Gradient hero */}
+                  <div className={`relative h-[220px] overflow-hidden bg-gradient-to-br ${gradient}`}>
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.7 }}
+                    >
+                      <Icon size={92} strokeWidth={1.2} className="text-white/40" />
+                    </motion.div>
 
-            </div>
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-          </div>
+                    {/* Badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/90 text-secondary">
+                        {project.type}
+                      </span>
+                    </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                    {/* Project Name */}
+                    <div className="absolute bottom-5 left-5 right-5">
+                      <h3 className="font-heading text-xl font-bold text-white">
+                        {project.name}
+                      </h3>
+                    </div>
+                  </div>
 
-            <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 max-w-xl">
-              Smart Solutions For Modern Construction Projects
-            </h2>
+                  {/* Content */}
+                  <div className="p-6">
 
-            <p className="text-gray-600 max-w-md text-sm leading-relaxed">
-              We deliver high-quality construction and real estate solutions
-              with precision, innovation, and modern techniques tailored to
-              your needs.
-            </p>
+                    <div className="flex items-center gap-2 text-secondary/60 dark:text-white/60 text-sm mb-5">
+                      <MapPin size={16} className="text-primary" />
+                      {project.city}
+                    </div>
 
-          </div>
+                    <div className="flex items-center justify-between pt-4 border-t border-secondary/10 dark:border-white/10">
 
-        </div>
+                      <span className="text-primary font-semibold text-sm">
+                        View Details
+                      </span>
 
-        {/* CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                      <div
+                        className="
+                          w-10 h-10
+                          rounded-full
+                          bg-primary/10
+                          flex items-center justify-center
+                          text-primary
+                          group-hover:translate-x-1
+                          transition
+                        "
+                      >
+                        →
+                      </div>
 
-          {projects.slice(0, 4).map((p, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100"
-            >
+                    </div>
 
-              {/* IMAGE */}
-              <div className="h-40 overflow-hidden">
-                <img
-                  src={p.image || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"}
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-              </div>
-
-              {/* CONTENT */}
-              <div className="p-4">
-
-                <div className="flex items-center justify-between">
-
-                  <h3 className="text-sm font-semibold text-gray-900">
-                    {p.name}
-                  </h3>
-
-                  <span className="text-gray-400 group-hover:translate-x-1 transition">
-                    →
-                  </span>
-
+                  </div>
                 </div>
-
-                <p className="text-xs text-gray-500 mt-2 leading-relaxed">
-                  {p.description || "High-quality project execution with modern techniques and precision."}
-                </p>
-
-                {/* line */}
-                <div className="mt-4 h-[1px] bg-gray-200 group-hover:bg-yellow-400 transition" />
-
-              </div>
-
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
 
         </div>
 
-        {/* BUTTONS */}
-        <div className="flex justify-center gap-4 mt-12">
+        {/* View More Button */}
+        <div className="flex justify-center mt-14">
+          <button
+            onClick={() => navigate("/projects")}
+            className="
+              group
+              px-8 py-3.5
+              rounded-full
+              bg-gradient-to-r from-secondary to-secondary/90
+              text-white
+              font-medium
+              shadow-lg
+              hover:shadow-glow
+              transition-all duration-300
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+            "
+          >
+            View More Projects
 
-          <button className="px-6 py-2 bg-yellow-400 text-black rounded-full text-sm font-medium shadow">
-            Get a Quote
+            <span className="ml-2 inline-block group-hover:translate-x-1 transition">
+              →
+            </span>
           </button>
-
-          <button className="px-6 py-2 bg-black text-white rounded-full text-sm font-medium">
-            View All Projects
-          </button>
-
         </div>
 
       </div>
-
     </section>
   );
 }

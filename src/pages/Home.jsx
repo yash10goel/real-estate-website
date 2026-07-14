@@ -1,4 +1,5 @@
 
+import CTASection from "../components/sections/CTASection"
 import HeroVideo from "../components/sections/HeroVideo"
 import OurClients from "../components/sections/OurClient"
 import ProjectsGallery from "../components/sections/ProjectsGallery"
@@ -14,6 +15,8 @@ return(
 <HeroVideo/>
 
 
+
+
 <ServiceSlider/>
 
 <ProjectsGallery/>
@@ -24,6 +27,8 @@ return(
 <OurClients/>
 
 <Testimonials/>
+
+<CTASection/>
 
 
 {/* <section className="py-20 text-center">

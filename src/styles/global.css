@@ -6,6 +6,10 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Manrope', sans-serif;
+}
+
 /* Hide horizontal scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -30,53 +34,36 @@ body {
   animation: marquee 25s linear infinite;
 }
 
-.custom-pagination .swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
-  background: #d1d5db;
-  opacity: 1;
-  border-radius: 999px;
-  transition: all 0.3s ease;
-}
-
-.custom-pagination .swiper-pagination-bullet-active {
-  width: 24px;
-  background: #facc15;
-}
-
 .swiper-wrapper {
   transition-timing-function: linear !important;
 }
 
-.swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
-  background: #000000;
-  /* 🔥 all dots black */
-  opacity: 0.3;
-  /* inactive fade */
-  border-radius: 999px;
-  transition: all 0.3s ease;
-}
-
-.swiper-pagination-bullet-active {
-  width: 24px;
-  opacity: 1;
-  /* active full black */
-  background: #000000;
-}
-
+.swiper-pagination-bullet,
 .custom-pagination .swiper-pagination-bullet {
   width: 8px;
   height: 8px;
-  background: #000;
-  opacity: 0.3;
+  background: #111827;
+  opacity: 0.25;
   border-radius: 999px;
   transition: all 0.3s ease;
 }
 
+.dark .swiper-pagination-bullet,
+.dark .custom-pagination .swiper-pagination-bullet {
+  background: #ffffff;
+}
+
+.swiper-pagination-bullet-active,
 .custom-pagination .swiper-pagination-bullet-active {
   width: 26px;
   opacity: 1;
-  background: #000;
+  background: #F4B400;
+}
+
+.input {
+  @apply w-full px-4 py-3 rounded-xl border border-gray-200 outline-none transition;
+}
+
+.input:focus {
+  @apply border-primary ring-2 ring-primary/20;
 }

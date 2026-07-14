@@ -1,144 +1,94 @@
 import { team } from "../../static-data/team";
 import { motion } from "framer-motion";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { Linkedin } from "lucide-react";
+import SectionHeading from "../ui/SectionHeading";
 
 export default function TeamSection() {
   return (
-    <section className="relative py-24 bg-[#fafafa] overflow-hidden">
+    <section className="py-24 bg-bg-light dark:bg-bg-dark transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* SOFT BG GLOW */}
-      <div className="absolute top-[-120px] left-[-100px] w-[320px] h-[320px] bg-yellow-200/30 blur-[120px] rounded-full" />
+        {/* Header */}
+        <SectionHeading
+          badge="Our Team"
+          title={
+            <>
+              Meet Our
+              <span className="text-primary"> Experts</span>
+            </>
+          }
+          subtitle="A passionate team of professionals committed to delivering exceptional construction and real estate solutions with innovation, quality and trust."
+          className="mb-14"
+        />
 
-      <div className="max-w-7xl mx-auto px-6 relative">
+        {/* Team Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto justify-items-center">
 
-        {/* TOP HEADING */}
-      
+          {team.map((member, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.08,
+              }}
+              whileHover={{ y: -10 }}
+              className="group relative w-full max-w-sm h-full rounded-[28px] p-[1px] bg-gradient-to-br from-primary/60 via-accent/40 to-primary/60 shadow-glass dark:shadow-glass-dark hover:shadow-glow transition-all duration-300 cursor-pointer"
+            >
+              <div className="h-full rounded-[27px] bg-card-light/95 dark:bg-card-dark/95 backdrop-blur-xl px-8 pt-10 pb-8 flex flex-col items-center text-center">
 
-        <div className="mb-10">
-
-            <div className="flex items-center gap-3 mb-3">
-
-              {/* animated line */}
-              <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                whileInView={{ width: 48, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="h-[3px] bg-yellow-400"
-              />
-
-              {/* animated text */}
-              <motion.p
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xl md:text-2xl tracking-wide font-bold text-gray-800 uppercase"
-              >
-                Our <span className="text-yellow-500">TEAM</span>
-              </motion.p>
-
-            </div>
-
-          </div>
-
-        {/* GRID */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-
-          {/* LEFT */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-4xl font-semibold text-gray-900 leading-tight mb-6">
-              The People Behind{" "}
-              <span className="text-yellow-500">Great Work</span>
-            </h2>
-
-            <p className="text-gray-600 leading-relaxed mb-8 max-w-md">
-              Our team blends creativity and expertise to deliver high-quality
-              results with precision and innovation.
-            </p>
-
-            <div className="space-y-4 mb-8">
-              {[
-                "Strong collaboration culture",
-                "Focus on innovation & quality",
-              ].map((t, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-2.5 h-2.5 bg-yellow-400 rounded-full"></div>
-                  <p className="text-gray-600">{t}</p>
-                </div>
-              ))}
-            </div>
-
-            <button className="px-7 py-3 bg-yellow-400 text-black font-medium rounded-full hover:scale-105 transition shadow-md">
-              Get a Quote →
-            </button>
-          </motion.div>
-
-          {/* RIGHT */}
-          <div className="grid sm:grid-cols-2 gap-8">
-
-            {team.map((m, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="group bg-white p-6 rounded-2xl 
-                border border-gray-100 shadow-sm 
-                hover:shadow-xl hover:-translate-y-1 transition duration-300"
-              >
-
-                {/* TOP */}
-                <div className="flex items-center gap-4 mb-4">
-
-                  <div className="relative">
-                    <img
-                      src={m.image}
-                      alt={m.name}
-                      className="w-16 h-16 rounded-full object-cover border-2 border-yellow-400"
-                    />
-                    <div className="absolute inset-0 rounded-full bg-yellow-400/20 blur-md opacity-0 group-hover:opacity-100 transition"></div>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-lg leading-tight">
-                      {m.name}
-                    </h3>
-                    <p className="text-sm text-yellow-600 font-medium">
-                      {m.role}
-                    </p>
-                  </div>
-
+                {/* Circular Image with golden border */}
+                <div className="relative w-32 h-32 rounded-full p-1.5 bg-gradient-to-br from-primary to-accent mb-6 shadow-glow">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    loading="lazy"
+                    className="w-full h-full rounded-full object-cover border-4 border-card-light dark:border-card-dark transition duration-700 group-hover:scale-105"
+                  />
                 </div>
 
-                {/* DESC */}
-                <p className="text-sm text-gray-500 leading-relaxed mb-5">
-                  Sample text. Click to edit. Double click to start editing the content.
+                {/* Name & Role */}
+                <h3 className="font-heading text-xl font-bold text-secondary dark:text-white">
+                  {member.name}
+                </h3>
+                <p className="text-primary text-xs font-semibold tracking-wide uppercase mt-2">
+                  {member.role}
                 </p>
 
-                {/* SOCIAL */}
-                <div className="flex gap-3">
-                  {[FaFacebookF, FaInstagram, FaLinkedinIn].map((Icon, idx) => (
-                    <div
-                      key={idx}
-                      className="w-9 h-9 flex items-center justify-center 
-                      rounded-full border border-gray-200 text-gray-500
-                      hover:bg-yellow-400 hover:text-black hover:border-yellow-400
-                      transition cursor-pointer"
-                    >
-                      <Icon size={14} />
-                    </div>
-                  ))}
-                </div>
+                <p className="text-secondary/60 dark:text-white/60 text-sm leading-6 mt-5">
+                  Dedicated to excellence, innovation and delivering
+                  outstanding project results through expertise,
+                  teamwork and commitment.
+                </p>
 
-              </motion.div>
-            ))}
+                <div
+                  className="
+                    mt-5
+                    h-[2px]
+                    w-0
+                    bg-primary
+                    group-hover:w-12
+                    transition-all duration-500
+                  "
+                />
 
-          </div>
+                <a
+                  href="#"
+                  aria-label={`${member.name} on LinkedIn`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="mt-5 w-10 h-10 rounded-full bg-primary/10 dark:bg-white/10 flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                >
+                  <Linkedin size={16} />
+                </a>
+
+              </div>
+            </motion.div>
+          ))}
 
         </div>
+
       </div>
     </section>
   );
