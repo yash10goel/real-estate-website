@@ -9,7 +9,7 @@ export default {
         accent: "#FFD54F",
         bg: {
           light: "#FAFAFA",
-          dark: "#0F172A",
+          dark: "#0B1220",
         },
         card: {
           light: "#FFFFFF",

@@ -24,8 +24,15 @@ export default function CursorHighlight() {
       style={{ x: springX, y: springY }}
       className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2"
     >
+      {/* soft golden glow halo */}
+      <motion.div
+        animate={{ opacity: [0.35, 0.6, 0.35] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-primary/25 blur-2xl"
+      />
+
       {/* outer circle */}
-      <div className="w-10 h-10 rounded-full border border-yellow-400/80 flex items-center justify-center">
+      <div className="relative w-10 h-10 rounded-full border border-yellow-400/80 flex items-center justify-center">
 
         {/* center dot */}
         <div className="w-2 h-2 rounded-full bg-yellow-400" />
