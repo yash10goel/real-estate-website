@@ -307,11 +307,11 @@ export default function HeroSection() {
                             variants={item}
                             className="flex flex-wrap gap-4"
                         >
-                            <Button variant="primary" arrow>
+                            <Button to="/projects" variant="primary" arrow>
                                 View Projects
                             </Button>
 
-                            <Button variant="secondary">
+                            <Button to="/contact" variant="secondary">
                                 Contact Us
                             </Button>
                         </motion.div>

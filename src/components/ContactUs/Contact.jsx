@@ -424,26 +424,36 @@ export default function ContactPage() {
 
                 <div className="space-y-4 mt-8">
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex gap-4">
-                    <MapPin className="text-primary mt-1" />
+                    <MapPin className="text-primary mt-1 shrink-0" />
                     <div>
-                      <p className="text-white/50 text-sm">Location</p>
-                      <p>Noida, India</p>
+                      <p className="text-white/50 text-sm">Office Address</p>
+                      <p>408, 409 4th Floor, Aditya High Street, Lalkuan, Ghaziabad</p>
                     </div>
                   </div>
 
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex gap-4">
-                    <Phone className="text-primary mt-1" />
+                    <MapPin className="text-primary mt-1 shrink-0" />
+                    <div>
+                      <p className="text-white/50 text-sm">Head Office</p>
+                      <p>Plot No 2, Vill Kot, Near EPE Toll Plaza, Dadri - 203207</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex gap-4">
+                    <Phone className="text-primary mt-1 shrink-0" />
                     <div>
                       <p className="text-white/50 text-sm">Phone</p>
-                      <p>+91 9876543210</p>
+                      <p>+91 77352 35277</p>
+                      <p>+91 8527190899</p>
                     </div>
                   </div>
 
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex gap-4">
-                    <Mail className="text-primary mt-1" />
+                    <Mail className="text-primary mt-1 shrink-0" />
                     <div>
                       <p className="text-white/50 text-sm">Email</p>
                       <p>info@rkgcgroup.com</p>
+                      <p>rkgupta0001@gmail.com</p>
                     </div>
                   </div>
 

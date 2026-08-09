@@ -17,9 +17,11 @@ const services = [
 ];
 
 const contactDetails = [
-  { icon: MapPin, label: "Dadri, India" },
-  { icon: Phone, label: "+91 9876543210" },
-  { icon: Mail, label: "info@buildestate.com" },
+  { icon: MapPin, label: "408, 409 4th Floor, Aditya High Street, Lalkuan, Ghaziabad" },
+  { icon: MapPin, label: "Head Office: Plot No 2, Vill Kot, Near EPE Toll Plaza, Dadri - 203207" },
+  { icon: Phone, label: "+91 77352 35277 | 8527190899" },
+  { icon: Mail, label: "info@rkgcgroup.com" },
+  { icon: Mail, label: "rkgupta0001@gmail.com" },
 ];
 
 const socials = [
@@ -46,7 +48,7 @@ export default function Footer() {
           {/* BRAND */}
           <div>
             <h2 className="font-heading text-xl font-semibold text-white mb-4">
-              Build<span className="text-primary">Estate</span>
+              RKGC<span className="text-primary"> Group</span>
             </h2>
             <p className="text-sm text-white/60 leading-relaxed mb-6">
               We build modern homes, commercial spaces, and real estate solutions
@@ -101,9 +103,9 @@ export default function Footer() {
               {contactDetails.map(({ icon: Icon, label }) => (
                 <li
                   key={label}
-                  className="flex items-center gap-3 rounded-xl bg-white/5 border border-white/10 px-3 py-2"
+                  className="flex items-start gap-3 rounded-xl bg-white/5 border border-white/10 px-3 py-2"
                 >
-                  <Icon size={15} className="text-primary shrink-0" />
+                  <Icon size={15} className="text-primary shrink-0 mt-0.5" />
                   <span className="text-white/70">{label}</span>
                 </li>
               ))}
@@ -139,7 +141,7 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
 
           <p className="text-sm text-white/40">
-            © 2026 BuildEstate Construction & Real Estate
+            © 2026 RKGC Group Construction & Real Estate
           </p>
 
           <p className="text-sm text-white/40">

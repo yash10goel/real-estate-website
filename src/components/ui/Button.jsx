@@ -7,7 +7,7 @@ const variants = {
   primary:
     "bg-[linear-gradient(135deg,#E69A00,#FFC928)] text-secondary shadow-[0_12px_38px_rgba(230,154,0,0.5)] hover:shadow-[0_20px_55px_rgba(255,201,40,0.7)] font-bold",
   secondary:
-    "bg-white/10 dark:bg-white/5 backdrop-blur-lg border border-secondary/15 dark:border-white/20 text-secondary dark:text-white hover:bg-white/20 dark:hover:bg-white/10 hover:border-primary/60 font-semibold",
+    "bg-white/90 dark:bg-white/90 backdrop-blur-lg border border-secondary/15 dark:border-white/20 text-secondary dark:text-secondary hover:bg-white dark:hover:bg-white hover:border-primary/60 font-semibold",
 };
 
 const sizes = {
