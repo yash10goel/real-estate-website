@@ -1,19 +1,18 @@
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Route, Building2, Sofa, HardHat, Landmark, MapPin } from "lucide-react";
+import { Building2, MapPin } from "lucide-react";
 import SectionHeading from "../ui/SectionHeading";
 
-const iconByType = {
-  "Road Construction": Route,
-  Infrastructure: HardHat,
-  Interior: Sofa,
-  "Building Construction": Building2,
-  "Commercial Construction": Landmark,
-};
+// A representative pick across verticals (road, commercial build, interior)
+// rather than a blind first-three slice, so the teaser reflects the group's range.
+const FEATURED_IDS = [1, 7, 10];
 
 export default function ProjectsGallery() {
-  const projects = useSelector((state) => state.projects.list);
+  const allProjects = useSelector((state) => state.projects.list);
+  const projects = FEATURED_IDS
+    .map((id) => allProjects?.find((p) => p.id === id))
+    .filter(Boolean);
   const navigate = useNavigate();
 
   return (
@@ -29,15 +28,15 @@ export default function ProjectsGallery() {
               <span className="text-primary"> Projects</span>
             </>
           }
-          subtitle="Discover our residential, commercial and infrastructure projects crafted with innovation, quality and excellence."
+          subtitle="A look across our business verticals — from civil infrastructure to interior fit-outs — delivered with the same standard of quality and trust."
           className="mb-16"
         />
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          {projects?.slice(0, 3).map((project, index) => {
-            const Icon = iconByType[project.type] || Building2;
+          {projects.map((project, index) => {
+            const Icon = project.icon || Building2;
             const gradient = project.gradient || "from-primary to-accent";
 
             return (
@@ -51,6 +50,7 @@ export default function ProjectsGallery() {
                   delay: index * 0.08,
                 }}
                 whileHover={{ y: -10 }}
+                onClick={() => navigate(`/projects?category=${project.category}`)}
                 className={`group relative rounded-[28px] p-[1px] bg-gradient-to-br ${gradient} shadow-glass dark:shadow-glass-dark transition-all duration-500 cursor-pointer overflow-hidden`}
               >
                 <div className="rounded-[27px] overflow-hidden bg-card-light dark:bg-card-dark">
@@ -70,7 +70,7 @@ export default function ProjectsGallery() {
                     {/* Badge */}
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/90 text-secondary">
-                        {project.type}
+                        {project.service || project.category}
                       </span>
                     </div>
 
@@ -89,6 +89,21 @@ export default function ProjectsGallery() {
                       <MapPin size={16} className="text-primary" />
                       {project.city}
                     </div>
+
+                    {project.progress && (
+                      <div className="mb-5">
+                        <div className="flex items-center justify-between text-xs text-secondary/50 dark:text-white/50 mb-1.5">
+                          <span>Progress</span>
+                          <span className="font-semibold text-primary">{project.progress}</span>
+                        </div>
+                        <div className="h-1.5 rounded-full bg-secondary/10 dark:bg-white/10 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-primary to-accent"
+                            style={{ width: project.progress }}
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="flex items-center justify-between pt-4 border-t border-secondary/10 dark:border-white/10">
 

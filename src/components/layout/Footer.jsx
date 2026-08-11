@@ -5,6 +5,7 @@ import { Facebook, Instagram, Linkedin, MapPin, Phone, Mail, Send } from "lucide
 const quickLinks = [
   { name: "Home", path: "/" },
   { name: "Projects", path: "/projects" },
+  { name: "Investment", path: "/investment" },
   { name: "Properties", path: "/under-construction" },
   { name: "Contact", path: "/contact" },
 ];

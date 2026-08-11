@@ -7,6 +7,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import ProjectsDetailPage from "./components/Projects/ProjectsDetailPage";
 import ContactPage from "./components/ContactUs/Contact";
+import InvestmentPage from "./components/Investment/InvestmentPage";
 import UnderConstruction from "./components/layout/UnderConstruction";
 
 import Login from "./pages/admin/Login";
@@ -37,6 +38,11 @@ export default function App() {
                 <Route
                     path="/contact"
                     element={<ContactPage />}
+                />
+
+                <Route
+                    path="/investment"
+                    element={<InvestmentPage />}
                 />
 
                 <Route
