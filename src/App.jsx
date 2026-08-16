@@ -8,10 +8,12 @@ import Home from "./pages/Home";
 import ProjectsDetailPage from "./components/Projects/ProjectsDetailPage";
 import ContactPage from "./components/ContactUs/Contact";
 import InvestmentPage from "./components/Investment/InvestmentPage";
+import CareersPage from "./components/Careers/CareersPage";
 import UnderConstruction from "./components/layout/UnderConstruction";
 
 import Login from "./pages/admin/Login";
 import UserInfo from "./pages/admin/UserInfo";
+import JobApplications from "./pages/admin/JobApplications";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const RkgcPdf = lazy(() => import("./components/Pdf/RkgcPdf"));
@@ -46,6 +48,11 @@ export default function App() {
                 />
 
                 <Route
+                    path="/careers"
+                    element={<CareersPage />}
+                />
+
+                <Route
                     path="/under-construction"
                     element={<UnderConstruction />}
                 />
@@ -62,6 +69,15 @@ export default function App() {
                     element={
                         <ProtectedRoute>
                             <UserInfo />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/admin/job-applications"
+                    element={
+                        <ProtectedRoute>
+                            <JobApplications />
                         </ProtectedRoute>
                     }
                 />
