@@ -31,11 +31,11 @@ export default function Navbar() {
     const links = [
         { name: "Home", path: "/" },
         { name: "Projects", path: "/projects" },
-        { name: "Investment", path: "/investment" },
-        { name: "Careers", path: "/careers" },
-        { name: "Exports", path: "/exports" },
         // { name: "Properties", path: "/properties" },
         { name: "Properties", path: "/under-construction" },
+        { name: "Exports", path: "/exports" },
+        { name: "Investment", path: "/investment" },
+        { name: "Careers", path: "/careers" },
 
         { name: "Contact", path: "/contact" },
     ];
