@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Mail,
   Phone,
@@ -27,6 +28,7 @@ import Container from "../ui/Container";
 const inquiryTypes = [
   "General Inquiry",
   "Project Consultation",
+  "Export Enquiry",
   "Partnership",
   "Careers",
 ];
@@ -203,6 +205,11 @@ export default function ContactPage() {
   });
   const glowY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 80]);
 
+  const [searchParams] = useSearchParams();
+  const requestedSubject = inquiryTypes.includes(searchParams.get("subject"))
+    ? searchParams.get("subject")
+    : inquiryTypes[0];
+
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
@@ -210,7 +217,7 @@ export default function ContactPage() {
     fullName: "",
     phone: "",
     email: "",
-    subject: inquiryTypes[0],
+    subject: requestedSubject,
     message: "",
   });
 

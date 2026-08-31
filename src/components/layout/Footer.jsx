@@ -7,6 +7,7 @@ const quickLinks = [
   { name: "Projects", path: "/projects" },
   { name: "Investment", path: "/investment" },
   { name: "Careers", path: "/careers" },
+  { name: "Exports", path: "/exports" },
   { name: "Properties", path: "/under-construction" },
   { name: "Contact", path: "/contact" },
 ];

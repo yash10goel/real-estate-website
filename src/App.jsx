@@ -9,6 +9,7 @@ import ProjectsDetailPage from "./components/Projects/ProjectsDetailPage";
 import ContactPage from "./components/ContactUs/Contact";
 import InvestmentPage from "./components/Investment/InvestmentPage";
 import CareersPage from "./components/Careers/CareersPage";
+import ExportsPage from "./components/Exports/ExportsPage";
 import UnderConstruction from "./components/layout/UnderConstruction";
 
 import Login from "./pages/admin/Login";
@@ -50,6 +51,11 @@ export default function App() {
                 <Route
                     path="/careers"
                     element={<CareersPage />}
+                />
+
+                <Route
+                    path="/exports"
+                    element={<ExportsPage />}
                 />
 
                 <Route

@@ -33,6 +33,7 @@ export default function Navbar() {
         { name: "Projects", path: "/projects" },
         { name: "Investment", path: "/investment" },
         { name: "Careers", path: "/careers" },
+        { name: "Exports", path: "/exports" },
         // { name: "Properties", path: "/properties" },
         { name: "Properties", path: "/under-construction" },
 
