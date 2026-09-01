@@ -10,6 +10,7 @@ import ContactPage from "./components/ContactUs/Contact";
 import InvestmentPage from "./components/Investment/InvestmentPage";
 import CareersPage from "./components/Careers/CareersPage";
 import ExportsPage from "./components/Exports/ExportsPage";
+import OurBrandPage from "./components/OurBrand/OurBrandPage";
 import UnderConstruction from "./components/layout/UnderConstruction";
 
 import Login from "./pages/admin/Login";
@@ -32,6 +33,11 @@ export default function App() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
+
+                <Route
+                    path="/our-brand"
+                    element={<OurBrandPage />}
+                />
 
                 <Route
                     path="/projects"

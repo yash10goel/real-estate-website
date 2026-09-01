@@ -4,11 +4,12 @@ import { Facebook, Instagram, Linkedin, MapPin, Phone, Mail, Send } from "lucide
 
 const quickLinks = [
   { name: "Home", path: "/" },
+  { name: "Our Brand", path: "/our-brand" },
   { name: "Projects", path: "/projects" },
+  { name: "Properties", path: "/under-construction" },
+  { name: "Exports", path: "/exports" },
   { name: "Investment", path: "/investment" },
   { name: "Careers", path: "/careers" },
-  { name: "Exports", path: "/exports" },
-  { name: "Properties", path: "/under-construction" },
   { name: "Contact", path: "/contact" },
 ];
 

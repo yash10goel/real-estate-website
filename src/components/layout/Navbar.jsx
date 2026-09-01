@@ -30,6 +30,7 @@ export default function Navbar() {
 
     const links = [
         { name: "Home", path: "/" },
+        { name: "Our Brand", path: "/our-brand" },
         { name: "Projects", path: "/projects" },
         // { name: "Properties", path: "/properties" },
         { name: "Properties", path: "/under-construction" },
@@ -37,16 +38,18 @@ export default function Navbar() {
         { name: "Investment", path: "/investment" },
         { name: "Careers", path: "/careers" },
 
-        { name: "Contact", path: "/contact" },
+        { name: "Partner With Us", path: "/contact" },
     ];
 
-    const navLinks = links.filter((link) => link.name !== "Contact");
-    const contactLink = links.find((link) => link.name === "Contact");
+    const navLinks = links.filter((link) => link.path !== "/contact");
+    const contactLink = links.find((link) => link.path === "/contact");
 
-    // Only the Home hero is a full-bleed dark background suited to a
-    // transparent-until-scrolled navbar; every other route keeps the glass bar.
-    const isHome = location.pathname === "/";
-    const transparent = isHome && !scrolled;
+    // Pages with a full-bleed dark hero read best with a transparent,
+    // overlay navbar that resolves to dark glass on scroll; every other
+    // route keeps the glass bar throughout.
+    const darkHeroRoute = location.pathname === "/" || location.pathname === "/our-brand" || location.pathname === "/projects";
+    const fixedPosition = darkHeroRoute;
+    const transparent = darkHeroRoute && !scrolled;
 
     const handleDownload = () => {
         const link = document.createElement("a");
@@ -57,87 +60,74 @@ export default function Navbar() {
         document.body.removeChild(link);
     };
 
-    // Shared glass styling for each floating pill
-    const pillGlass = transparent
-        ? "bg-white/[0.06] border border-white/15 backdrop-blur-xl text-white"
-        : "bg-white/70 dark:bg-secondary/70 backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-[0_16px_45px_-16px_rgba(17,24,39,0.25)] dark:shadow-[0_16px_45px_-12px_rgba(0,0,0,0.65)] text-secondary dark:text-white";
+    const inactiveClass = transparent
+        ? "text-white/65 hover:text-white"
+        : "text-secondary/55 dark:text-white/55 hover:text-secondary dark:hover:text-white";
+    const activeClass = transparent ? "text-white" : "text-secondary dark:text-white";
 
     return (
         <motion.nav
-            initial={{ y: -60, opacity: 0 }}
+            initial={{ y: -40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className={`${isHome ? "fixed" : "sticky"} top-0 left-0 w-full z-[9999] px-4 pt-4`}
+            className={`${fixedPosition ? "fixed" : "sticky"} top-0 left-0 w-full z-[9999] transition-colors duration-500 ${
+                transparent
+                    ? "bg-transparent border-b border-transparent"
+                    : "bg-white/85 dark:bg-secondary/85 backdrop-blur-xl border-b border-secondary/10 dark:border-white/10 shadow-[0_1px_0_rgba(0,0,0,0.02)]"
+            }`}
         >
-            <div className="w-[92%] max-w-6xl mx-auto flex items-center justify-between gap-3">
+            <div className={`max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-10 flex items-center justify-between gap-3 xl:gap-6 h-[76px] ${transparent ? "text-white" : "text-secondary dark:text-white"}`}>
 
-                {/* Pill 1 — Logo */}
-                <Link to="/">
+                {/* Logo */}
+                <Link to="/" className="flex items-center gap-3 shrink-0">
                     <motion.div
-                        whileHover={{ scale: 1.04, y: -2 }}
-                        whileTap={{ scale: 0.97 }}
-                        className={`flex items-center gap-2 cursor-pointer rounded-full pl-2.5 pr-4 py-2 transition-all duration-[350ms] ${pillGlass}`}
+                        whileHover={{ rotate: 6, scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="relative w-10 h-10 rounded-lg bg-gradient-to-br from-primary via-primary to-accent flex items-center justify-center text-secondary shadow-glow ring-1 ring-white/40 shrink-0"
                     >
-                        <div className="relative">
-                            <div className="absolute inset-0 rounded-xl bg-primary/50 blur-lg scale-125" />
-                            <motion.div
-                                whileHover={{ rotate: 6 }}
-                                className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-primary via-primary to-accent flex items-center justify-center text-secondary shadow-glow ring-1 ring-white/40"
-                            >
-                                <Building2 size={16} strokeWidth={2.4} />
-                            </motion.div>
-                        </div>
-
-                        <h1 className="text-lg font-heading font-bold tracking-tight leading-none">
-                            RKGC{" "}
-                            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                                Group
-                            </span>
-                        </h1>
+                        <Building2 size={17} strokeWidth={2.2} />
                     </motion.div>
+                    <div className="leading-none">
+                        <h1 className="font-heading text-[17px] font-bold tracking-tight">
+                            RKGC <span className="text-primary">Group</span>
+                        </h1>
+                        <p className="hidden xl:block text-[9px] font-semibold tracking-[0.28em] uppercase mt-1.5 opacity-55">
+                            Building Legacies
+                        </p>
+                    </div>
                 </Link>
 
-                {/* Pill 2 — Navigation links (desktop only, floats centered) */}
-                <div
-                    className={`hidden md:flex items-center gap-0.5 rounded-full p-1.5 transition-all duration-[350ms] ${pillGlass}`}
-                >
+                {/* Desktop nav links — underline active indicator */}
+                <div className="hidden lg:flex items-center gap-4 xl:gap-8">
                     {navLinks.map((link, i) => {
                         const isActive = location.pathname === link.path;
-                        const inactiveClass = transparent
-                            ? "text-white/60 hover:text-white"
-                            : "text-secondary/55 dark:text-white/55 hover:text-secondary dark:hover:text-white";
                         return (
                             <Link
                                 key={i}
                                 to={link.path}
-                                className={`relative px-3.5 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
-                                    isActive
-                                        ? transparent
-                                            ? "text-white"
-                                            : "text-secondary dark:text-white"
-                                        : inactiveClass
+                                className={`group relative py-2 text-[12px] xl:text-[13px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap transition-colors duration-300 ${
+                                    isActive ? activeClass : inactiveClass
                                 }`}
                             >
-                                {isActive && (
+                                {link.name}
+                                {isActive ? (
                                     <motion.span
-                                        layoutId="nav-pill"
-                                        className="absolute inset-0 rounded-full bg-primary/15 dark:bg-primary/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15)]"
-                                        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                                        layoutId="nav-underline"
+                                        className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-primary rounded-full"
+                                        transition={{ type: "spring", stiffness: 420, damping: 34 }}
                                     />
+                                ) : (
+                                    <span className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-primary/70 rounded-full scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" />
                                 )}
-                                <span className="relative z-10">{link.name}</span>
                             </Link>
                         );
                     })}
                 </div>
 
-                {/* Pill 3 — Actions (desktop only) */}
-                <div
-                    className={`hidden md:flex items-center gap-1.5 rounded-full p-1.5 transition-all duration-[350ms] ${pillGlass}`}
-                >
+                {/* Desktop actions */}
+                <div className="hidden lg:flex items-center gap-2.5 xl:gap-4">
                     <ThemeToggle />
 
-                    {/* RKGC PDF Button */}
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
@@ -146,32 +136,32 @@ export default function Navbar() {
                         className="w-9 h-9 rounded-full flex items-center justify-center text-current hover:text-primary transition-colors duration-300 relative group"
                     >
                         <FileText size={16} />
-
-                        {/* Tooltip */}
                         <span className="pointer-events-none absolute -bottom-10 whitespace-nowrap bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
                             What is RKGC?
                         </span>
                     </motion.button>
 
-                    {/* Contact CTA (magnetic) */}
-                    <Button to={contactLink.path} variant="primary" size="lg" className="ml-0.5">
-                        {contactLink.name}
+                    <span className={`w-px h-6 ${transparent ? "bg-white/20" : "bg-secondary/15 dark:bg-white/15"}`} />
+
+                    <Button to={contactLink.path} variant="primary" size="md" className="!px-4 xl:!px-7 whitespace-nowrap">
+                        <span className="xl:hidden">Partner</span>
+                        <span className="hidden xl:inline">{contactLink.name}</span>
                     </Button>
                 </div>
 
-                {/* Mobile Controls — its own floating pill */}
-                <div
-                    className={`flex items-center gap-2 md:hidden rounded-full p-1.5 transition-all duration-[350ms] ${pillGlass}`}
-                >
+                {/* Mobile controls */}
+                <div className="flex items-center gap-3 lg:hidden">
                     <ThemeToggle />
                     <button
                         type="button"
                         aria-label={isOpen ? "Close menu" : "Open menu"}
                         aria-expanded={isOpen}
                         onClick={() => setIsOpen((prev) => !prev)}
-                        className="w-9 h-9 rounded-full bg-primary/10 dark:bg-white/10 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        className={`w-10 h-10 rounded-full flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                            transparent ? "bg-white/10" : "bg-primary/10 dark:bg-white/10"
+                        }`}
                     >
-                        {isOpen ? <X size={20} /> : <Menu size={20} />}
+                        {isOpen ? <X size={19} /> : <Menu size={19} />}
                     </button>
                 </div>
             </div>
@@ -184,7 +174,7 @@ export default function Navbar() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="md:hidden fixed inset-0 z-[9998] bg-white/95 dark:bg-secondary/95 backdrop-blur-2xl flex flex-col items-center justify-center gap-3"
+                        className="lg:hidden fixed inset-0 z-[9998] bg-bg-light/98 dark:bg-secondary/98 backdrop-blur-2xl flex flex-col items-center justify-center gap-1"
                     >
                         <motion.button
                             initial={{ opacity: 0, scale: 0.8 }}
@@ -198,6 +188,15 @@ export default function Navbar() {
                             <X size={22} />
                         </motion.button>
 
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.1 }}
+                            className="text-primary text-xs font-semibold tracking-[0.3em] uppercase mb-6"
+                        >
+                            RKGC Group
+                        </motion.p>
+
                         {links.map((link, i) => {
                             const isActive = location.pathname === link.path;
                             return (
@@ -205,11 +204,11 @@ export default function Navbar() {
                                     key={i}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.12 + i * 0.06 }}
+                                    transition={{ delay: 0.14 + i * 0.06 }}
                                 >
                                     <Link
                                         to={link.path}
-                                        className={`text-3xl font-heading font-semibold ${
+                                        className={`font-display italic text-3xl sm:text-4xl font-medium ${
                                             isActive ? "text-primary" : "text-secondary dark:text-white"
                                         }`}
                                     >
@@ -222,9 +221,9 @@ export default function Navbar() {
                         <motion.button
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.12 + links.length * 0.06 }}
+                            transition={{ delay: 0.14 + links.length * 0.06 }}
                             onClick={handleDownload}
-                            className="mt-6 flex items-center gap-2 text-base font-medium text-secondary/70 dark:text-white/70"
+                            className="mt-8 flex items-center gap-2 text-base font-medium text-secondary/70 dark:text-white/70"
                         >
                             <FileText size={18} className="text-primary" />
                             Download Profile

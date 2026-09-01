@@ -15,10 +15,20 @@ export default {
           light: "#FFFFFF",
           dark: "#1E293B",
         },
+        // Agro vertical accent only — deliberately not used elsewhere,
+        // so the rest of the site stays on the navy/gold palette.
+        agro: {
+          forest: "#1B3B2F",
+          olive: "#6B7B4F",
+          earth: "#A67B5B",
+        },
       },
       fontFamily: {
         heading: ["Manrope", "sans-serif"],
         body: ["Poppins", "sans-serif"],
+        // Editorial serif — reserved for large brand-story headline
+        // moments (e.g. Our Brand page), not the sitewide heading font.
+        display: ["Playfair Display", "serif"],
       },
       boxShadow: {
         glass: "0 8px 32px rgba(17, 24, 39, 0.08)",
