@@ -1,16 +1,18 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { MapPin, Landmark } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { verticals } from "../../static-data/verticals";
 import { companyStats } from "../../static-data/companyStats";
 import Container from "../ui/Container";
 import Button from "../ui/Button";
 import AgroExperience from "./AgroExperience";
 import RealtyExperience from "./RealtyExperience";
+import InfrastructureExperience from "./InfrastructureExperience";
+import ProjectDetailsModal from "./ProjectDetailsModal";
+import { FeaturedProject, ProjectCard, gridPattern } from "./ProjectPresentation";
 
-const categories = ["All", ...verticals.map((v) => v.slug)];
+const categories = verticals.map((v) => v.slug);
 
 const corners = [
   "top-6 left-6 border-t border-l",
@@ -30,7 +32,6 @@ const heroStats = [
 
 export default function ProjectsDetailPage() {
   const allProjects = useSelector((state) => state.projects.list);
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const reduceMotion = useReducedMotion();
   const heroRef = useRef(null);
@@ -39,28 +40,40 @@ export default function ProjectsDetailPage() {
   const heroImgY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 80]);
 
   const requested = searchParams.get("category");
+  // No "All" option — the page always shows one of the four verticals,
+  // defaulting to Infrastructure (RKGC's flagship, data-rich vertical).
   const [activeCategory, setActiveCategory] = useState(
-    categories.includes(requested) ? requested : "All"
+    categories.includes(requested) ? requested : "Infrastructure"
   );
 
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
-    setSearchParams(cat === "All" ? {} : { category: cat });
+    setSearchParams(cat === "Infrastructure" ? {} : { category: cat });
   };
 
-  const filtered =
-    activeCategory === "All"
-      ? allProjects
-      : allProjects.filter((p) => p.category === activeCategory);
+  const filtered = allProjects.filter((p) => p.category === activeCategory);
 
   const emptyVertical =
     filtered.length === 0
       ? verticals.find((v) => v.slug === activeCategory)
       : null;
 
+  const [featured, ...rest] = filtered;
+
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const openProject = (project) => {
+    setSelectedProject(project);
+    setIsProjectModalOpen(true);
+  };
+  const closeProjectModal = () => setIsProjectModalOpen(false);
+
   // Realty and Agro render their own contextual CTA at the end of their
   // experience — showing the generic page-wide CTA too would duplicate it.
   const hasOwnCTA = (activeCategory === "Agro" || activeCategory === "Realty") && emptyVertical;
+  // Infrastructure already carries its own editorial statement + portfolio
+  // summary — showing the generic statement again would repeat the beat.
+  const hasOwnStatement = activeCategory === "Infrastructure";
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark transition-colors duration-300">
@@ -81,6 +94,15 @@ export default function ProjectsDetailPage() {
         </motion.div>
         <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(11,18,32,0.9)_0%,rgba(11,18,32,0.94)_60%,rgba(11,18,32,0.88)_100%)]" />
         <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,_transparent_45%,_rgba(11,18,32,0.3)_100%)] pointer-events-none" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-[1] opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(244,180,0,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(244,180,0,0.8) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
         <div className="hidden lg:block absolute inset-6 z-[2] pointer-events-none">
           {corners.map((pos) => (
             <span key={pos} className={`absolute w-8 h-8 ${pos} border-white/20`} />
@@ -112,13 +134,13 @@ export default function ProjectsDetailPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-2 gap-x-8 gap-y-8"
+              className="grid grid-cols-2 divide-x divide-y divide-white/10 border-t border-l border-white/10"
             >
               {heroStats.map((s) => {
                 const Icon = s.icon;
                 return (
-                  <div key={s.label}>
-                    <Icon size={18} className="text-primary mb-3" />
+                  <div key={s.label} className="px-6 py-5">
+                    <Icon size={16} className="text-primary mb-3" />
                     <p className="font-display text-3xl sm:text-4xl italic leading-none mb-2">
                       {s.value}
                       {s.suffix}
@@ -133,18 +155,19 @@ export default function ProjectsDetailPage() {
       </section>
 
       {/* Category Filter — editorial underline switcher */}
-      <div className="flex justify-center py-14 px-6 overflow-x-auto no-scrollbar">
-        <div className="inline-flex flex-wrap justify-center gap-6 sm:gap-9">
+      <nav aria-label="Filter projects by vertical" className="flex justify-center py-14 px-6 overflow-x-auto no-scrollbar">
+        <div className="inline-flex justify-center gap-6 sm:gap-9">
           {categories.map((cat) => {
             const isActive = activeCategory === cat;
             return (
               <button
                 key={cat}
                 type="button"
+                aria-pressed={isActive}
                 onClick={() => handleCategoryChange(cat)}
-                className={`group relative py-2 text-xs sm:text-[13px] font-semibold tracking-[0.15em] uppercase whitespace-nowrap transition-colors duration-300 ${
+                className={`group relative py-2 text-xs sm:text-[13px] font-semibold tracking-[0.15em] uppercase whitespace-nowrap transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   isActive
-                    ? "text-secondary dark:text-white"
+                    ? "text-primary [text-shadow:0_0_18px_rgba(244,180,0,0.35)]"
                     : "text-secondary/50 dark:text-white/50 hover:text-secondary dark:hover:text-white"
                 }`}
               >
@@ -162,11 +185,13 @@ export default function ProjectsDetailPage() {
             );
           })}
         </div>
-      </div>
+      </nav>
 
-      {/* Projects Grid / Empty State */}
+      {/* Projects / Empty State */}
       <div className={`max-w-7xl mx-auto px-6 ${hasOwnCTA ? "pb-24" : ""}`}>
-        {activeCategory === "Agro" && emptyVertical ? (
+        {activeCategory === "Infrastructure" ? (
+          <InfrastructureExperience onView={openProject} />
+        ) : activeCategory === "Agro" && emptyVertical ? (
           <AgroExperience />
         ) : activeCategory === "Realty" && emptyVertical ? (
           <RealtyExperience />
@@ -176,160 +201,100 @@ export default function ProjectsDetailPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex flex-col items-center text-center py-20 px-6 rounded-[28px] border border-dashed border-secondary/20 dark:border-white/15 max-w-2xl mx-auto"
+            className="flex flex-col items-center text-center py-16 px-6 rounded-[4px] border border-dashed border-secondary/20 dark:border-white/15 max-w-xl mx-auto"
           >
-            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-              <emptyVertical.icon size={26} className="text-primary" />
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-5">
+              <emptyVertical.icon size={22} className="text-primary" />
             </div>
-            <h3 className="font-heading text-2xl font-bold text-secondary dark:text-white mb-3">
+            <p className="text-xs text-primary font-semibold tracking-[0.25em] uppercase mb-3">Coming Soon</p>
+            <h3 className="font-heading text-xl font-bold text-secondary dark:text-white mb-3">
               {emptyVertical.name}
             </h3>
-            <p className="text-secondary/60 dark:text-white/60 max-w-md mb-2 leading-relaxed">
-              {emptyVertical.description}
+            <p className="text-secondary/55 dark:text-white/55 max-w-sm mb-8 leading-relaxed">
+              New projects are currently being prepared for this vertical.
             </p>
-            <p className="text-sm text-primary font-semibold mt-4 mb-8 tracking-wide uppercase">
-              Portfolio showcase coming soon
-            </p>
-            <Button to="/contact" variant="primary" arrow>
+            <Button to="/contact?subject=Project%20Consultation" variant="primary" arrow>
               Discuss This Vertical
             </Button>
           </motion.div>
         ) : (
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((project, index) => {
-                const Icon = project.icon || Landmark;
-                const gradient = project.gradient || "from-primary to-accent";
+          <AnimatePresence mode="wait">
+            <motion.div key={activeCategory} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+              <FeaturedProject project={featured} onView={openProject} />
 
-                return (
-                  <motion.div
-                    layout
-                    key={project.id}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.96 }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
-                    whileHover={{ y: -8 }}
-                    className={`group relative rounded-[28px] p-[1px] bg-gradient-to-br ${gradient} shadow-glass dark:shadow-glass-dark transition-all duration-300 overflow-hidden`}
-                  >
-                    <div className="rounded-[27px] overflow-hidden bg-card-light dark:bg-card-dark h-full flex flex-col">
-                      {/* Gradient hero */}
-                      <div className={`relative h-[200px] overflow-hidden bg-gradient-to-br ${gradient} shrink-0`}>
-                        <motion.div
-                          className="absolute inset-0 flex items-center justify-center"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.7 }}
-                        >
-                          <Icon size={80} strokeWidth={1.2} className="text-white/40" />
-                        </motion.div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-
-                        <div className="absolute top-4 left-4 flex gap-2">
-                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/90 text-secondary">
-                            {project.service}
-                          </span>
-                        </div>
-
-                        <div className="absolute bottom-5 left-5 right-5">
-                          <h3 className="font-heading text-xl font-bold text-white leading-snug">
-                            {project.name}
-                          </h3>
-                        </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6 flex flex-col flex-1">
-                        <div className="flex items-center gap-2 text-secondary/60 dark:text-white/60 text-sm mb-3">
-                          <MapPin size={16} className="text-primary" />
-                          {project.city}
-                        </div>
-
-                        {project.description && (
-                          <p className="text-secondary/60 dark:text-white/60 text-sm leading-relaxed mb-4">
-                            {project.description}
-                          </p>
-                        )}
-
-                        {project.progress && (
-                          <div className="mb-4">
-                            <div className="flex items-center justify-between text-xs text-secondary/50 dark:text-white/50 mb-1.5">
-                              <span>Progress</span>
-                              <span className="font-semibold text-primary">{project.progress}</span>
-                            </div>
-                            <div className="h-1.5 rounded-full bg-secondary/10 dark:bg-white/10 overflow-hidden">
-                              <div
-                                className="h-full rounded-full bg-gradient-to-r from-primary to-accent"
-                                style={{ width: project.progress }}
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        {project.amount && (
-                          <div className="flex items-center justify-between text-sm mt-auto pt-4 border-t border-secondary/10 dark:border-white/10">
-                            <span className="text-secondary/50 dark:text-white/50">Tender Value</span>
-                            <span className="font-semibold text-secondary dark:text-white">
-                              ₹{project.amount}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+              {rest.length > 0 && (
+                <section>
+                  <div className="flex items-center gap-3 mb-8">
+                    <span className="w-8 h-px bg-primary" />
+                    <span className="text-primary text-xs font-semibold tracking-[0.25em] uppercase">
+                      More From The Portfolio
+                    </span>
+                  </div>
+                  <motion.div layout className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 pb-20 lg:pb-28">
+                    {rest.map((project, i) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        number={String(i + 2).padStart(2, "0")}
+                        layout={gridPattern[i % gridPattern.length]}
+                        onView={openProject}
+                      />
+                    ))}
                   </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
+                </section>
+              )}
+            </motion.div>
+          </AnimatePresence>
         )}
       </div>
 
-      {/* CTA — Realty/Agro already show their own contextual CTA above */}
-      {!hasOwnCTA && (
-        <div className="mt-28 relative text-center overflow-hidden">
-
-          {/* Background Glow */}
-          <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 6, repeat: Infinity }}
-            className="absolute inset-0 flex justify-center items-center pointer-events-none"
-          >
-            <div className="w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full" />
-          </motion.div>
-
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
+      {/* Portfolio Statement */}
+      {!hasOwnCTA && !hasOwnStatement && (
+        <section className="pb-20 lg:pb-24 px-6 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative z-10 px-6"
+            transition={{ duration: 0.6 }}
+            className="font-display italic text-2xl sm:text-3xl lg:text-4xl text-secondary dark:text-white max-w-2xl mx-auto leading-tight"
           >
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-secondary dark:text-white">
-              Let&apos;s Build <span className="text-primary">Something Great</span> Together
-            </h2>
-
-            <p className="text-secondary/60 dark:text-white/60 mt-4 text-lg">
-              Start your next project with us — quality, trust &amp; excellence guaranteed
-            </p>
-
-            <motion.button
-              whileHover={{ scale: 1.06, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/contact")}
-              className="relative mt-10 px-10 py-4 rounded-full font-semibold text-secondary
-              bg-gradient-to-r from-primary to-accent
-              shadow-glow
-              hover:shadow-[0_12px_40px_rgba(244,180,0,0.5)]
-              transition-all duration-300 overflow-hidden
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            >
-              <span className="absolute inset-0 bg-white/20 opacity-0 hover:opacity-100 transition duration-500 blur-xl" />
-              <span className="relative z-10">Get in Touch</span>
-            </motion.button>
-          </motion.div>
-
-        </div>
+            Built for progress. <span className="text-primary">Designed for permanence.</span>
+          </motion.p>
+        </section>
       )}
+
+      {/* CTA — Realty/Agro already show their own contextual CTA above */}
+      {!hasOwnCTA && (
+        <section className="pb-24 lg:pb-28 px-6">
+          <div className="max-w-4xl mx-auto rounded-[4px] border border-secondary/10 dark:border-white/10 px-8 sm:px-14 py-12 sm:py-16 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="font-display text-2xl sm:text-3xl italic text-secondary dark:text-white mb-2">
+                Have a Project in Mind?
+              </h2>
+              <p className="text-primary text-sm font-semibold tracking-wide uppercase mb-5">
+                Let&apos;s Build Something Extraordinary
+              </p>
+              <p className="text-secondary/60 dark:text-white/60 max-w-md mx-auto mb-8 leading-relaxed">
+                Share your requirements with the RKGC team.
+              </p>
+              <Button to="/contact?subject=Project%20Consultation" variant="primary" arrow>
+                Discuss Your Project
+              </Button>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      <ProjectDetailsModal
+        project={selectedProject}
+        isOpen={isProjectModalOpen}
+        onClose={closeProjectModal}
+      />
 
     </div>
   );
