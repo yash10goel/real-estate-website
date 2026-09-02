@@ -14,8 +14,7 @@ export const brandPortfolio = [
     shortName: "The Archi",
     tagline: "Embellishing Space",
     meta: "ESTD 2018",
-    layout: "text-left",
-    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=80",
     imageAlt: "The Archi — architectural minimalism",
   },
   {
@@ -25,8 +24,7 @@ export const brandPortfolio = [
     shortName: "MOO",
     tagline: "Healthy Farm Milk",
     meta: "by RKGC Group",
-    layout: "image-left",
-    image: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1596733430284-f7437764b1a9?w=1600&q=80",
     imageAlt: "MOO — healthy farm milk by RKGC Group",
   },
   {
@@ -36,9 +34,8 @@ export const brandPortfolio = [
     shortName: "The Hillberg",
     tagline: null,
     meta: null,
-    layout: "text-left",
-    image: "https://images.unsplash.com/photo-1487147264018-f937fba0c817?w=1400&q=80",
-    imageAlt: "The Hillberg",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80",
+    imageAlt: "The Hillberg — premium interior",
   },
   {
     id: "organica",
@@ -47,8 +44,7 @@ export const brandPortfolio = [
     shortName: "Organica",
     tagline: "Natural Organic Food",
     meta: null,
-    layout: "text-left",
-    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80",
     imageAlt: "Organica — natural organic food",
   },
 ];

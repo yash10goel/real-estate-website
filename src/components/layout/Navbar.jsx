@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { FileText, Menu, X, Building2 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -166,7 +167,11 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* Fullscreen Mobile Menu */}
+            {/* Fullscreen Mobile Menu — portalled to <body> so it always
+                fixed-positions relative to the viewport, not the navbar
+                (a backdrop-blur ancestor creates a containing block that
+                would otherwise trap position:fixed descendants). */}
+            {createPortal(
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -174,63 +179,68 @@ export default function Navbar() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="lg:hidden fixed inset-0 z-[9998] bg-bg-light/98 dark:bg-secondary/98 backdrop-blur-2xl flex flex-col items-center justify-center gap-1"
+                        className="lg:hidden fixed inset-0 z-[9998] bg-bg-light/98 dark:bg-secondary/98 backdrop-blur-2xl flex flex-col"
                     >
                         <motion.button
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.1 }}
                             type="button"
-                            aria-label="Close menu"
+                            aria-label="Close navigation menu"
                             onClick={() => setIsOpen(false)}
-                            className="absolute top-6 right-6 w-11 h-11 rounded-full bg-secondary/5 dark:bg-white/10 flex items-center justify-center text-secondary dark:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                            className="fixed top-6 right-6 z-10 w-11 h-11 rounded-full bg-secondary/5 dark:bg-white/10 flex items-center justify-center text-secondary dark:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         >
                             <X size={22} />
                         </motion.button>
 
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.1 }}
-                            className="text-primary text-xs font-semibold tracking-[0.3em] uppercase mb-6"
-                        >
-                            RKGC Group
-                        </motion.p>
+                        <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center justify-center gap-1 px-6 py-20">
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.1 }}
+                                className="text-primary text-xs font-semibold tracking-[0.3em] uppercase mb-5 shrink-0"
+                            >
+                                RKGC Group
+                            </motion.p>
 
-                        {links.map((link, i) => {
-                            const isActive = location.pathname === link.path;
-                            return (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.14 + i * 0.06 }}
-                                >
-                                    <Link
-                                        to={link.path}
-                                        className={`font-display italic text-3xl sm:text-4xl font-medium ${
-                                            isActive ? "text-primary" : "text-secondary dark:text-white"
-                                        }`}
+                            {links.map((link, i) => {
+                                const isActive = location.pathname === link.path;
+                                return (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.14 + i * 0.06 }}
+                                        className="shrink-0"
                                     >
-                                        {link.name}
-                                    </Link>
-                                </motion.div>
-                            );
-                        })}
+                                        <Link
+                                            to={link.path}
+                                            className={`font-display italic text-2xl sm:text-4xl font-medium ${
+                                                isActive ? "text-primary" : "text-secondary dark:text-white"
+                                            }`}
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
 
-                        <motion.button
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.14 + links.length * 0.06 }}
-                            onClick={handleDownload}
-                            className="mt-8 flex items-center gap-2 text-base font-medium text-secondary/70 dark:text-white/70"
-                        >
-                            <FileText size={18} className="text-primary" />
-                            Download Profile
-                        </motion.button>
+                            <motion.button
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.14 + links.length * 0.06 }}
+                                onClick={handleDownload}
+                                className="mt-6 shrink-0 flex items-center gap-2 text-base font-medium text-secondary/70 dark:text-white/70"
+                            >
+                                <FileText size={18} className="text-primary" />
+                                Download Profile
+                            </motion.button>
+                        </div>
                     </motion.div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence>,
+            document.body
+            )}
         </motion.nav>
     );
 }
