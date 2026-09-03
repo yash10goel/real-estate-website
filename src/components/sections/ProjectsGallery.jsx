@@ -103,48 +103,48 @@ export default function ProjectsGallery() {
         {/* =====================================================
             HEADER
         ====================================================== */}
-{/* =====================================================
+        {/* =====================================================
     PORTFOLIO HEADER
 ===================================================== */}
 
-<motion.div
-  initial={{ opacity: 0, y: 25 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.7 }}
-  className="relative mb-16 text-center"
->
-  {/* Badge */}
-  <div className="mb-7 inline-flex items-center rounded-full bg-[#f5b817]/10 px-5 py-2">
-    <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#f5b817]">
-      Our Portfolio
-    </span>
-  </div>
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative mb-16 text-center"
+        >
+          {/* Badge */}
+          <div className="mb-7 inline-flex items-center rounded-full bg-[#f5b817]/10 px-5 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#f5b817]">
+              Our Portfolio
+            </span>
+          </div>
 
-  {/* Heading */}
-  <h2 className="font-heading text-4xl font-medium leading-tight tracking-[-0.025em] text-white sm:text-5xl lg:text-6xl">
-    Explore Our{" "}
-    <span className="text-[#f5b817]">
-      Projects
-    </span>
-  </h2>
+          {/* Heading */}
+          <h2 className="font-heading text-4xl font-medium leading-tight tracking-[-0.025em] text-white sm:text-5xl lg:text-6xl">
+            Explore Our{" "}
+            <span className="text-[#f5b817]">
+              Projects
+            </span>
+          </h2>
 
-  {/* Description */}
-  <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-white/55 sm:text-lg">
-    A look across our business verticals — from civil infrastructure
-    to real estate and interior spaces — delivered with the same
-    standard of quality, trust and excellence.
-  </p>
+          {/* Description */}
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-white/55 sm:text-lg">
+            A look across our business verticals — from civil infrastructure
+            to real estate and interior spaces — delivered with the same
+            standard of quality, trust and excellence.
+          </p>
 
-  {/* Decorative line */}
-  <div className="mx-auto mt-8 flex items-center justify-center gap-3">
-    <span className="h-px w-10 bg-[#f5b817]/50" />
-    
-    <span className="h-1.5 w-1.5 rounded-full bg-[#f5b817]" />
-    
-    <span className="h-px w-10 bg-[#f5b817]/50" />
-  </div>
-</motion.div>
+          {/* Decorative line */}
+          <div className="mx-auto mt-8 flex items-center justify-center gap-3">
+            <span className="h-px w-10 bg-[#f5b817]/50" />
+
+            <span className="h-1.5 w-1.5 rounded-full bg-[#f5b817]" />
+
+            <span className="h-px w-10 bg-[#f5b817]/50" />
+          </div>
+        </motion.div>
 
         {/* =====================================================
             FEATURED PROJECT
@@ -209,48 +209,48 @@ export default function ProjectsGallery() {
                       {(activeProject.employer ||
                         activeProject.client ||
                         activeProject.company) && (
-                        <div className="flex items-center gap-3 text-white/60">
-                          <Building2
-                            size={15}
-                            strokeWidth={1.4}
-                            className="text-[#f5b817]"
-                          />
+                          <div className="flex items-center gap-3 text-white/60">
+                            <Building2
+                              size={15}
+                              strokeWidth={1.4}
+                              className="text-[#f5b817]"
+                            />
 
-                          <span>
-                            {activeProject.employer ||
-                              activeProject.client ||
-                              activeProject.company}
-                          </span>
-                        </div>
-                      )}
+                            <span>
+                              {activeProject.employer ||
+                                activeProject.client ||
+                                activeProject.company}
+                            </span>
+                          </div>
+                        )}
 
                       {/* location */}
                       {(activeProject.city ||
                         activeProject.location) && (
-                        <div className="flex items-center gap-3 text-white/60">
-                          <MapPin
-                            size={15}
-                            strokeWidth={1.4}
-                            className="text-[#f5b817]"
-                          />
+                          <div className="flex items-center gap-3 text-white/60">
+                            <MapPin
+                              size={15}
+                              strokeWidth={1.4}
+                              className="text-[#f5b817]"
+                            />
 
-                          <span>
-                            {activeProject.city ||
-                              activeProject.location}
-                          </span>
-                        </div>
-                      )}
+                            <span>
+                              {activeProject.city ||
+                                activeProject.location}
+                            </span>
+                          </div>
+                        )}
 
                       {/* work type */}
                       {(activeProject.workType ||
                         activeProject.natureOfWork ||
                         activeProject.service) && (
-                        <div className="pt-1 text-xs uppercase tracking-[0.12em] text-white/35">
-                          {activeProject.workType ||
-                            activeProject.natureOfWork ||
-                            activeProject.service}
-                        </div>
-                      )}
+                          <div className="pt-1 text-xs uppercase tracking-[0.12em] text-white/35">
+                            {activeProject.workType ||
+                              activeProject.natureOfWork ||
+                              activeProject.service}
+                          </div>
+                        )}
                     </div>
                   </motion.div>
                 </AnimatePresence>
@@ -291,18 +291,18 @@ export default function ProjectsGallery() {
                   {(activeProject.contractValue ||
                     activeProject.value ||
                     activeProject.tenderValue) && (
-                    <div>
-                      <div className="mb-2 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/35">
-                        Contract Value
-                      </div>
+                      <div>
+                        <div className="mb-2 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/35">
+                          Contract Value
+                        </div>
 
-                      <div className="font-serif text-xl text-white sm:text-2xl">
-                        {activeProject.contractValue ||
-                          activeProject.value ||
-                          activeProject.tenderValue}
+                        <div className="font-serif text-xl text-white sm:text-2xl">
+                          {activeProject.contractValue ||
+                            activeProject.value ||
+                            activeProject.tenderValue}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
 
                 {/* CTA */}
@@ -389,17 +389,15 @@ export default function ProjectsGallery() {
                   <button
                     key={project.id || index}
                     onClick={() => setActiveIndex(index)}
-                    className={`group relative min-w-[210px] flex-1 border-r border-white/[0.08] px-5 py-5 text-left transition-all duration-300 ${
-                      isActive
+                    className={`group relative min-w-[210px] flex-1 border-r border-white/[0.08] px-5 py-5 text-left transition-all duration-300 ${isActive
                         ? "bg-white/[0.035]"
                         : "hover:bg-white/[0.02]"
-                    }`}
+                      }`}
                   >
                     {/* active line */}
                     <span
-                      className={`absolute bottom-0 left-0 h-px bg-[#f5b817] transition-all duration-500 ${
-                        isActive ? "w-full" : "w-0 group-hover:w-full"
-                      }`}
+                      className={`absolute bottom-0 left-0 h-px bg-[#f5b817] transition-all duration-500 ${isActive ? "w-full" : "w-0 group-hover:w-full"
+                        }`}
                     />
 
                     <div className="mb-1 text-[10px] font-serif italic text-[#f5b817]">
@@ -407,11 +405,10 @@ export default function ProjectsGallery() {
                     </div>
 
                     <div
-                      className={`text-xs font-medium uppercase tracking-[0.08em] transition-colors ${
-                        isActive
+                      className={`text-xs font-medium uppercase tracking-[0.08em] transition-colors ${isActive
                           ? "text-white"
                           : "text-white/40 group-hover:text-white"
-                      }`}
+                        }`}
                     >
                       {project.name}
                     </div>

@@ -23,6 +23,9 @@ import Button from "../ui/Button";
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
 import OurClients from "../sections/OurClient";
+import Seo from "../../seo/Seo";
+import { seoConfig } from "../../seo/seoConfig";
+import { breadcrumbSchema } from "../../seo/schema";
 
 const philosophy = [
   {
@@ -271,6 +274,12 @@ export default function InvestmentPage() {
 
   return (
     <div className="bg-bg-light dark:bg-bg-dark transition-colors duration-300">
+
+      <Seo
+        {...seoConfig["/investment"]}
+        path="/investment"
+        jsonLd={breadcrumbSchema(seoConfig["/investment"].breadcrumb)}
+      />
 
       {/* ============ HERO ============ */}
       <section

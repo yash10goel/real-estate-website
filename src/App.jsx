@@ -12,6 +12,7 @@ import CareersPage from "./components/Careers/CareersPage";
 import ExportsPage from "./components/Exports/ExportsPage";
 import OurBrandPage from "./components/OurBrand/OurBrandPage";
 import UnderConstruction from "./components/layout/UnderConstruction";
+import NotFoundPage from "./components/layout/NotFoundPage";
 
 import Login from "./pages/admin/Login";
 import UserInfo from "./pages/admin/UserInfo";
@@ -93,6 +94,9 @@ export default function App() {
                         </ProtectedRoute>
                     }
                 />
+
+                {/* Catch-all 404 */}
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
 
             {/* Hidden PDF Content */}

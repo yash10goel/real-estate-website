@@ -11,6 +11,9 @@ import RealtyExperience from "./RealtyExperience";
 import InfrastructureExperience from "./InfrastructureExperience";
 import ProjectDetailsModal from "./ProjectDetailsModal";
 import { FeaturedProject, ProjectCard, gridPattern } from "./ProjectPresentation";
+import Seo from "../../seo/Seo";
+import { seoConfig } from "../../seo/seoConfig";
+import { breadcrumbSchema } from "../../seo/schema";
 
 const categories = verticals.map((v) => v.slug);
 
@@ -77,6 +80,12 @@ export default function ProjectsDetailPage() {
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark transition-colors duration-300">
+
+      <Seo
+        {...seoConfig["/projects"]}
+        path="/projects"
+        jsonLd={breadcrumbSchema(seoConfig["/projects"].breadcrumb)}
+      />
 
       {/* ============ HERO ============ */}
       <section ref={heroRef} className="relative overflow-hidden bg-bg-dark text-white pt-28 lg:pt-24 pb-20">

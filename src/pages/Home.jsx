@@ -6,11 +6,15 @@ import ProjectsGallery from "../components/sections/ProjectsGallery"
 import ServiceSlider from "../components/sections/ServiceSlider"
 import TeamSection from "../components/sections/TeamSection"
 import Testimonials from "../components/sections/Testimonials"
+import Seo from "../seo/Seo"
+import { seoConfig } from "../seo/seoConfig"
 
 export default function Home(){
 
 return(
 <div>
+
+<Seo {...seoConfig["/"]} path="/" />
 
 <HeroVideo/>
 

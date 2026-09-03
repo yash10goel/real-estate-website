@@ -129,7 +129,7 @@ export default function ProjectDetailsModal({ project, isOpen, onClose }) {
                     <img
                       key={gallery[mainImageIndex]}
                       src={gallery[mainImageIndex]}
-                      alt={project.name}
+                      alt={`${project.name} — RKGC ${project.category} project`}
                       className="absolute inset-0 w-full h-full object-cover"
                       style={{ filter: "saturate(0.95)" }}
                     />

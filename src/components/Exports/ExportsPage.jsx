@@ -5,7 +5,9 @@ import { exportDivisions, whyExports } from "../../static-data/exports";
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
 import Button from "../ui/Button";
-import useDocumentMeta from "../../utils/useDocumentMeta";
+import Seo from "../../seo/Seo";
+import { seoConfig } from "../../seo/seoConfig";
+import { breadcrumbSchema } from "../../seo/schema";
 
 const corners = [
   "top-6 left-6 border-t border-l",
@@ -160,11 +162,6 @@ function GlobalNetworkVisual({ reduceMotion }) {
 }
 
 export default function ExportsPage() {
-  useDocumentMeta(
-    "RKGC Exports | Garments & FMCG Export Company from India",
-    "RKGC Exports connects quality Indian garments and FMCG products — active wear, gym wear, beach wear, bags, spices, cold-pressed oils, flour and rice — with global markets. Send an export enquiry today."
-  );
-
   const reduceMotion = useReducedMotion();
   const heroRef = useRef(null);
   const categoriesRef = useRef(null);
@@ -183,6 +180,12 @@ export default function ExportsPage() {
 
   return (
     <div className="bg-bg-light dark:bg-bg-dark transition-colors duration-300">
+
+      <Seo
+        {...seoConfig["/exports"]}
+        path="/exports"
+        jsonLd={breadcrumbSchema(seoConfig["/exports"].breadcrumb)}
+      />
 
       {/* ============ HERO ============ */}
       <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-bg-dark text-white pb-16 lg:pb-10">

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Building2, Leaf } from "lucide-react";
+import { ArrowRight, Building2 } from "lucide-react";
 import { brandPortfolio } from "../../static-data/brandPortfolio";
 import Container from "../ui/Container";
 import Button from "../ui/Button";
-import useDocumentMeta from "../../utils/useDocumentMeta";
+import Seo from "../../seo/Seo";
+import { seoConfig } from "../../seo/seoConfig";
+import { breadcrumbSchema } from "../../seo/schema";
 
 const [archi, moo, hillberg, organica] = brandPortfolio;
 
@@ -53,7 +55,7 @@ function HeroCompass({ onSelect, reduceMotion }) {
       initial={{ opacity: 0, scale: 0.94 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: reduceMotion ? 0 : 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full max-w-[400px] sm:max-w-[480px] lg:max-w-[560px] aspect-square mx-auto"
+      className="relative w-full max-w-[460px] sm:max-w-[540px] lg:max-w-[620px] aspect-square mx-auto"
     >
       {/* soft central illumination */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] aspect-square rounded-full bg-primary/[0.08] blur-[70px] pointer-events-none" />
@@ -178,191 +180,79 @@ function MobileChapterNav({ activeId, onSelect }) {
 // the next, alternating layout and palette per brand.
 // ============================================================
 
-function ArchiChapter({ registerRef, reduceMotion }) {
+function BrandChapter({ brand, number, registerRef, reduceMotion }) {
   return (
     <section
       ref={registerRef}
-      id={archi.id}
-      data-brand-id={archi.id}
-      aria-labelledby="archi-heading"
-      className="relative bg-[#0A0E1A] text-white scroll-mt-24 px-6 sm:px-10 lg:px-14 py-16 lg:py-20 overflow-hidden"
+      id={brand.id}
+      data-brand-id={brand.id}
+      aria-labelledby={`${brand.id}-heading`}
+      className="group relative bg-[#080D18] text-white px-5 sm:px-8 lg:px-14 py-10 lg:py-14 overflow-hidden"
     >
-      <div className="grid lg:grid-cols-2 gap-10 items-center max-w-[1280px] mx-auto">
-        <div className="relative z-10">
-          <span className="block text-primary font-display italic text-sm mb-4">01</span>
-          <h2 id="archi-heading" className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] font-bold uppercase tracking-tight mb-3">
-            The Archi
-          </h2>
-          <p className="font-display italic text-primary text-lg mb-1">{archi.tagline}</p>
-          <p className="text-white/40 text-xs font-semibold tracking-[0.2em] uppercase mb-7">{archi.meta}</p>
-          <DiscoverLink brand={archi} />
-        </div>
+      <div className="absolute inset-0 pointer-events-none opacity-[0.035] bg-[linear-gradient(rgba(255,255,255,.7)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.7)_1px,transparent_1px)] bg-[size:48px_48px]" />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 1.03 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: reduceMotion ? 0 : 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative"
-        >
-          <GhostNumber className="-top-8 right-2 text-[7rem] sm:text-[8rem] text-white/[0.06]">01</GhostNumber>
-          <div className="relative rounded-tl-[90px] rounded-br-[20px] overflow-hidden h-[260px] sm:h-[320px] border border-white/10">
-            <img src={archi.image} alt={archi.imageAlt} loading="lazy" className="w-full h-full object-cover" />
+      <div className="relative max-w-[1320px] mx-auto border border-primary/15 overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.28)]">
+        <div className="grid lg:grid-cols-[0.72fr_1.28fr] min-h-[390px]">
+          <div className="relative z-10 flex flex-col justify-center px-7 sm:px-10 lg:px-14 py-14">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-8 h-px bg-primary" />
+              <span className="text-primary text-[9px] font-semibold tracking-[0.3em] uppercase">RKGC Portfolio</span>
+            </div>
+            <span className="font-display italic text-primary text-sm mb-3">{number}</span>
+            <h2
+              id={`${brand.id}-heading`}
+              className="font-display text-4xl sm:text-5xl lg:text-[4.35rem] font-medium leading-[0.9] tracking-tight"
+            >
+              {brand.name}
+            </h2>
+            <p className="font-display italic text-primary text-lg mt-3">{brand.tagline}</p>
+            {brand.meta && (
+              <p className="text-primary/55 text-[10px] font-semibold tracking-[0.25em] uppercase mt-2">
+                {brand.meta}
+              </p>
+            )}
+            <div className="mt-8"><DiscoverLink brand={brand} /></div>
           </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
 
-function MooChapter({ registerRef, reduceMotion }) {
-  return (
-    <section
-      ref={registerRef}
-      id={moo.id}
-      data-brand-id={moo.id}
-      aria-labelledby="moo-heading"
-      className="relative bg-[#F7EEDF] text-secondary scroll-mt-24 px-6 sm:px-10 lg:px-14 py-16 lg:py-20 overflow-hidden"
-    >
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 220 150"
-        className="hidden lg:block absolute left-8 xl:left-16 bottom-8 w-36 lg:w-44 text-[#8A5A2B]/[0.14] pointer-events-none select-none"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-      >
-        <circle cx="55" cy="85" r="35" />
-        <line x1="55" y1="50" x2="55" y2="18" />
-        <path d="M38 24 L55 6 L72 24" />
-        <rect x="105" y="60" width="80" height="65" />
-        <path d="M105 60 L145 30 L185 60" />
-        <rect x="128" y="88" width="24" height="37" />
-      </svg>
-      <div className="grid lg:grid-cols-2 gap-10 items-center max-w-[1280px] mx-auto">
-        <div className="relative z-10">
-          <span className="block text-[#8A5A2B] font-display italic text-sm mb-4">02</span>
-          <h2 id="moo-heading" className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] font-bold uppercase tracking-tight mb-3">
-            {moo.name}
-          </h2>
-          <p className="font-display italic text-[#8A5A2B] text-lg mb-1">{moo.tagline}</p>
-          <p className="text-secondary/40 text-xs font-semibold tracking-[0.2em] uppercase mb-7">{moo.meta}</p>
-          <DiscoverLink brand={moo} />
+          <motion.div
+            initial={{ opacity: 0, scale: 1.04 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: reduceMotion ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="relative min-h-[300px] lg:min-h-[430px] border-l border-primary/20 overflow-hidden bg-[#050A12]"
+          >
+            <GhostNumber className="right-5 top-2 text-[8rem] lg:text-[10rem] text-white/[0.045]">{number}</GhostNumber>
+            <img
+              src={brand.image}
+              alt={brand.imageAlt}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-[1400ms] ease-out group-hover:scale-[1.08]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#080D18]/80 via-[#080D18]/10 to-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050A12]/65 via-transparent to-transparent" />
+            <div className="absolute inset-0 opacity-[0.10] mix-blend-overlay pointer-events-none bg-[radial-gradient(circle_at_30%_20%,white,transparent_35%)]" />
+            <div className="absolute inset-5 border border-white/10 pointer-events-none" />
+            <div className="absolute left-6 bottom-6 z-10 flex items-center gap-2 text-[9px] tracking-[0.25em] uppercase text-white/55">
+              <span className="w-5 h-px bg-primary" />
+              RKGC Collection
+            </div>
+            <div className="absolute top-5 right-5 left-5 flex items-center justify-between text-[9px] tracking-[0.28em] uppercase text-white/55">
+              <span>RKGC Group</span>
+              <span className="text-primary">Explore</span>
+            </div>
+            <div className="absolute top-5 right-5 w-8 h-8 border-t border-r border-primary/70 pointer-events-none" />
+            <div className="absolute bottom-5 left-5 w-8 h-8 border-b border-l border-primary/50 pointer-events-none" />
+            <div className="absolute right-5 bottom-5 w-12 h-12 border border-primary/70 flex items-center justify-center text-primary bg-[#080D18]/65 backdrop-blur-md transition-all duration-300 group-hover:bg-primary group-hover:text-[#080D18]">
+              <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </div>
+          </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 1.03 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: reduceMotion ? 0 : 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative"
-        >
-          <GhostNumber className="-top-10 right-2 text-[7rem] sm:text-[8rem] text-[#8A5A2B]/[0.08]">02</GhostNumber>
-          <div className="relative rounded-tr-[90px] rounded-bl-[20px] overflow-hidden h-[260px] sm:h-[320px] border border-secondary/10">
-            <img src={moo.image} alt={moo.imageAlt} loading="lazy" className="w-full h-full object-cover" />
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function HillbergChapter({ registerRef, reduceMotion }) {
-  return (
-    <section
-      ref={registerRef}
-      id={hillberg.id}
-      data-brand-id={hillberg.id}
-      aria-labelledby="hillberg-heading"
-      className="relative bg-[#1A1613] text-white scroll-mt-24 px-6 sm:px-10 lg:px-14 py-16 lg:py-20 overflow-hidden"
-    >
-      <div className="grid lg:grid-cols-2 gap-10 items-center max-w-[1280px] mx-auto">
-        <div className="relative z-10">
-          <span className="block text-white/30 font-display italic text-sm mb-4">03</span>
-          <h2 id="hillberg-heading" className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] font-bold uppercase tracking-tight mb-4">
-            The Hillberg
-          </h2>
-          <span className="block w-10 h-px bg-primary/70 mb-7" aria-hidden="true" />
-          <DiscoverLink brand={hillberg} />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 1.03 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: reduceMotion ? 0 : 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative"
-        >
-          <GhostNumber className="-top-8 right-2 text-[7rem] sm:text-[8rem] text-white/[0.06]">03</GhostNumber>
-          <div className="relative rounded-tr-[90px] rounded-bl-[20px] overflow-hidden h-[260px] sm:h-[320px] border border-white/10">
-            <img src={hillberg.image} alt={hillberg.imageAlt} loading="lazy" className="w-full h-full object-cover" />
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function OrganicaChapter({ registerRef, reduceMotion }) {
-  return (
-    <section
-      ref={registerRef}
-      id={organica.id}
-      data-brand-id={organica.id}
-      aria-labelledby="organica-heading"
-      className="relative bg-[#12291E] text-white scroll-mt-24 px-6 sm:px-10 lg:px-14 py-16 lg:py-20 overflow-hidden"
-    >
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 300 220"
-        className="absolute inset-0 w-full h-full text-white/[0.05] pointer-events-none select-none"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1"
-      >
-        <path d="M15 210 Q35 165 15 120 Q-5 75 25 25" />
-        <path d="M15 175 Q32 169 43 152" />
-        <path d="M17 128 Q34 122 47 106" />
-        <path d="M20 80 Q37 74 50 58" />
-        <path d="M285 15 Q305 60 285 105 Q265 150 295 195" />
-        <path d="M285 50 Q301 56 312 72" />
-        <path d="M283 95 Q299 101 310 116" />
-      </svg>
-      <div className="grid lg:grid-cols-2 gap-10 items-center max-w-[1280px] mx-auto">
-        <div className="relative z-10">
-          <span className="block text-[#8FD9A8] font-display italic text-sm mb-4">04</span>
-          <h2 id="organica-heading" className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] font-bold uppercase tracking-tight mb-3">
-            {organica.name}
-          </h2>
-          <p className="font-display italic text-[#8FD9A8] text-lg mb-7 flex items-center gap-2">
-            <Leaf size={16} className="shrink-0" /> {organica.tagline}
-          </p>
-          <DiscoverLink brand={organica} />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: reduceMotion ? 0 : 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative"
-        >
-          <GhostNumber className="-top-8 right-2 text-[7rem] sm:text-[8rem] text-white/[0.06]">04</GhostNumber>
-          <div className="relative rounded-[20px] overflow-hidden h-[260px] sm:h-[320px] border border-white/10">
-            <img src={organica.image} alt={organica.imageAlt} loading="lazy" className="w-full h-full object-cover" />
-          </div>
-        </motion.div>
       </div>
     </section>
   );
 }
 
 export default function OurBrandPage() {
-  useDocumentMeta(
-    "Our Brands | RKGC Group",
-    "Discover the brands shaping RKGC Group across design, food, lifestyle and emerging businesses — The Archi, MOO, The Hillberg and Organica."
-  );
-
   const reduceMotion = useReducedMotion();
   const sectionRefs = useRef({});
   const [activeBrand, setActiveBrand] = useState(brandPortfolio[0].id);
@@ -385,19 +275,28 @@ export default function OurBrandPage() {
   };
 
   return (
-    <div className="bg-bg-light dark:bg-bg-dark transition-colors duration-300">
+    <div className="bg-[#080D18] text-white">
+
+      <Seo
+        {...seoConfig["/our-brand"]}
+        path="/our-brand"
+        jsonLd={breadcrumbSchema(seoConfig["/our-brand"].breadcrumb)}
+      />
 
       {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden bg-bg-dark text-white min-h-[82vh] lg:min-h-[85vh] flex items-center pt-24 lg:pt-20 pb-14">
+      <section className="relative overflow-hidden bg-[#070C17] text-white min-h-[82vh] lg:min-h-[85vh] flex items-center pt-24 lg:pt-20 pb-14">
         <div
           aria-hidden="true"
-          className="absolute inset-0 opacity-[0.06]"
+          className="absolute inset-0 opacity-[0.025]"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(135deg, rgba(45,212,191,0.7) 0px, rgba(45,212,191,0.7) 1px, transparent 1px, transparent 30px)",
+              "repeating-linear-gradient(135deg, rgba(244,180,0,0.55) 0px, rgba(244,180,0,0.55) 1px, transparent 1px, transparent 42px)",
           }}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(11,18,32,0.15)_0%,_rgba(11,18,32,0.94)_75%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_45%,rgba(244,180,0,0.08)_0%,transparent_22%),radial-gradient(ellipse_at_top,rgba(11,18,32,0.10)_0%,rgba(5,10,18,0.96)_78%)]" />
+
+        <div className="absolute right-[-8%] top-[12%] w-[48vw] max-w-[760px] aspect-square rounded-full border border-primary/[0.06] shadow-[0_0_120px_rgba(244,180,0,0.06)] pointer-events-none" />
+        <div className="absolute right-[4%] top-[25%] w-[34vw] max-w-[540px] aspect-square rounded-full border border-primary/[0.08] pointer-events-none" />
 
         <Container className="relative z-[3] w-full">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-10 items-center">
@@ -420,8 +319,8 @@ export default function OurBrandPage() {
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="font-display font-medium leading-[0.95] mb-6"
               >
-                <span className="block text-[clamp(3.75rem,8.5vw,6.75rem)]">Our</span>
-                <span className="block text-[clamp(3.75rem,8.5vw,6.75rem)] italic text-primary">Brands.</span>
+                <span className="block text-[clamp(4.25rem,9vw,7.5rem)]">Our</span>
+                <span className="block text-[clamp(4.25rem,9vw,7.5rem)] italic text-primary">Brands.</span>
               </motion.h1>
 
               <motion.p
@@ -445,7 +344,7 @@ export default function OurBrandPage() {
                 <button
                   type="button"
                   onClick={() => scrollToBrand(archi.id)}
-                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/25 text-white text-sm font-semibold tracking-wide hover:border-primary hover:text-primary transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-primary/55 bg-primary/[0.03] text-primary text-sm font-semibold tracking-wide hover:bg-primary hover:text-[#080D18] hover:shadow-[0_12px_40px_rgba(244,180,0,0.22)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   Explore Our Brands
                   <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -459,8 +358,9 @@ export default function OurBrandPage() {
       </section>
 
       {/* ============ BRAND STATEMENT ============ */}
-      <section className="bg-bg-dark text-white py-16 lg:py-20 text-center">
-        <Container className="max-w-xl">
+      <section className="relative bg-[#070C17] text-white py-24 lg:py-28 text-center border-y border-white/[0.06] overflow-hidden">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[220px] rounded-full bg-primary/[0.035] blur-[90px] pointer-events-none" />
+        <Container className="relative z-10 max-w-xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -487,22 +387,22 @@ export default function OurBrandPage() {
       <div className="lg:grid lg:grid-cols-[140px_1fr] xl:grid-cols-[160px_1fr]">
         <ChapterNav activeId={activeBrand} onSelect={scrollToBrand} />
         <div>
-          <ArchiChapter registerRef={(el) => (sectionRefs.current[archi.id] = el)} reduceMotion={reduceMotion} />
-          <MooChapter registerRef={(el) => (sectionRefs.current[moo.id] = el)} reduceMotion={reduceMotion} />
-          <HillbergChapter registerRef={(el) => (sectionRefs.current[hillberg.id] = el)} reduceMotion={reduceMotion} />
-          <OrganicaChapter registerRef={(el) => (sectionRefs.current[organica.id] = el)} reduceMotion={reduceMotion} />
+          <BrandChapter brand={archi} number="01" registerRef={(el) => (sectionRefs.current[archi.id] = el)} reduceMotion={reduceMotion} />
+          <BrandChapter brand={moo} number="02" registerRef={(el) => (sectionRefs.current[moo.id] = el)} reduceMotion={reduceMotion} />
+          <BrandChapter brand={hillberg} number="03" registerRef={(el) => (sectionRefs.current[hillberg.id] = el)} reduceMotion={reduceMotion} />
+          <BrandChapter brand={organica} number="04" registerRef={(el) => (sectionRefs.current[organica.id] = el)} reduceMotion={reduceMotion} />
         </div>
       </div>
 
       {/* ============ CLOSING ============ */}
-      <section className="bg-secondary py-14 lg:py-16">
+      <section className="bg-[#070C17] py-12 lg:py-16 border-t border-white/[0.06]">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 rounded-[24px] border border-white/10 px-6 sm:px-10 py-7 sm:py-8"
+            className="relative flex flex-col sm:flex-row items-center gap-6 sm:gap-8 rounded-[2px] border border-primary/25 bg-primary/[0.025] px-6 sm:px-10 py-8 sm:py-9 shadow-[0_20px_70px_rgba(0,0,0,0.2)]"
           >
             <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
               <Building2 size={18} className="text-primary" />

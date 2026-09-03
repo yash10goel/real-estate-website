@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /under-construction
+
+Sitemap: https://www.rkgcgroup.com/sitemap.xml

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Hammer, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Seo from "../../seo/Seo";
+import { seoConfig } from "../../seo/seoConfig";
 
 export default function UnderConstruction() {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ export default function UnderConstruction() {
     <div className="min-h-screen flex items-center justify-center px-6
     bg-gradient-to-br from-yellow-50 via-yellow-100 to-yellow-50
     dark:from-[#0f0f0f] dark:via-[#111] dark:to-[#1a1a1a]">
+
+      <Seo {...seoConfig["/under-construction"]} path="/under-construction" />
 
       {/* Glow Background */}
       <div className="absolute w-[500px] h-[500px] bg-yellow-300/30 blur-[150px] rounded-full" />

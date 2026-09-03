@@ -24,6 +24,9 @@ import { supabase } from "../../configs/supabase";
 import Button from "../ui/Button";
 import Card from "../ui/Card";
 import Container from "../ui/Container";
+import Seo from "../../seo/Seo";
+import { seoConfig } from "../../seo/seoConfig";
+import { breadcrumbSchema } from "../../seo/schema";
 
 const inquiryTypes = [
   "General Inquiry",
@@ -279,6 +282,12 @@ export default function ContactPage() {
       ref={sectionRef}
       className="relative overflow-hidden pt-32 pb-24 bg-gradient-to-br from-bg-light via-white to-primary/5 dark:from-bg-dark dark:via-bg-dark dark:to-secondary transition-colors duration-300"
     >
+      <Seo
+        {...seoConfig["/contact"]}
+        path="/contact"
+        jsonLd={breadcrumbSchema(seoConfig["/contact"].breadcrumb)}
+      />
+
       {/* Background glow */}
       <motion.div
         style={{ y: glowY }}

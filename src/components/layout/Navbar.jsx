@@ -89,9 +89,9 @@ export default function Navbar() {
                         <Building2 size={17} strokeWidth={2.2} />
                     </motion.div>
                     <div className="leading-none">
-                        <h1 className="font-heading text-[17px] font-bold tracking-tight">
+                        <p className="font-heading text-[17px] font-bold tracking-tight">
                             RKGC <span className="text-primary">Group</span>
-                        </h1>
+                        </p>
                         <p className="hidden xl:block text-[9px] font-semibold tracking-[0.28em] uppercase mt-1.5 opacity-55">
                             Building Legacies
                         </p>

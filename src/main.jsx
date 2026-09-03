@@ -3,12 +3,14 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import {BrowserRouter} from "react-router-dom"
 import {Provider} from "react-redux"
+import {HelmetProvider} from "react-helmet-async"
 import App from "./App"
 import store from "./redux/store"
 import { ThemeProvider } from "./utils/theme.jsx"
 import "./styles/global.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+<HelmetProvider>
 <Provider store={store}>
 <BrowserRouter>
 <ThemeProvider>
@@ -16,4 +18,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 </ThemeProvider>
 </BrowserRouter>
 </Provider>
+</HelmetProvider>
 )

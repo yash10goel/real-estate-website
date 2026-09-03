@@ -25,6 +25,9 @@ import JobFilters from "./JobFilters";
 import JobDetailsDrawer from "./JobDetailsDrawer";
 import ApplicationFlow from "./ApplicationFlow";
 import TrackApplicationModal from "./TrackApplicationModal";
+import Seo from "../../seo/Seo";
+import { seoConfig } from "../../seo/seoConfig";
+import { breadcrumbSchema } from "../../seo/schema";
 
 const WHY_JOIN = [
   { icon: TrendingUp, title: "Growth", desc: "Learn, experiment and grow your career." },
@@ -174,6 +177,12 @@ function CareersPageContent() {
 
   return (
     <div className="bg-bg-light dark:bg-bg-dark transition-colors duration-300">
+
+      <Seo
+        {...seoConfig["/careers"]}
+        path="/careers"
+        jsonLd={breadcrumbSchema(seoConfig["/careers"].breadcrumb)}
+      />
 
       {/* ============ HERO ============ */}
       <section ref={heroRef} className="relative overflow-hidden bg-bg-dark text-white pt-32 lg:pt-40 pb-20 lg:pb-28">

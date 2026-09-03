@@ -202,7 +202,7 @@ export default function ServiceSection() {
                       className="overflow-hidden"
                     >
                       <div className="relative h-48 mx-5 rounded-xl overflow-hidden mb-5">
-                        <img src={v.image} alt={v.name} className="w-full h-full object-cover" />
+                        <img src={v.image} alt={`${v.name} — ${v.tagline}`} className="w-full h-full object-cover" loading="lazy" />
                         <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-secondary/10 to-transparent" />
                       </div>
                       <p className="px-5 text-sm text-secondary/60 dark:text-white/60 leading-relaxed mb-5">
