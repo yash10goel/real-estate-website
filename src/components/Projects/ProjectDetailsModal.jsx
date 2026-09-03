@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X, MapPin, Landmark, Building2, Loader2 } from "lucide-react";
 import { verticals } from "../../static-data/verticals";
 import { generateProjectPdf, buildFallbackDescription } from "../../utils/generateProjectPdf";
+import { getProjectImageAlt } from "../../seo/projectSeo";
 import Button from "../ui/Button";
 
 export default function ProjectDetailsModal({ project, isOpen, onClose }) {
@@ -129,7 +130,7 @@ export default function ProjectDetailsModal({ project, isOpen, onClose }) {
                     <img
                       key={gallery[mainImageIndex]}
                       src={gallery[mainImageIndex]}
-                      alt={`${project.name} — RKGC ${project.category} project`}
+                      alt={getProjectImageAlt(project)}
                       className="absolute inset-0 w-full h-full object-cover"
                       style={{ filter: "saturate(0.95)" }}
                     />

@@ -4,9 +4,10 @@
 
 export const seoConfig = {
   "/": {
-    title: "RKGC Group | Construction, Real Estate & Infrastructure",
+    title: "RKGC Group | Construction, Infrastructure & Real Estate",
     description:
-      "RKGC Group is an Indian construction and real estate company delivering roads, civil infrastructure, real estate development and interior spaces across Infrastructure, Realty, Agro and Spaces.",
+      "RKGC Group is a diversified Indian business group delivering construction, infrastructure and real estate development — roads, civil works, property development and interior spaces — across India.",
+    keywords: "RKGC, RKGC Group, RKGC Group India, Construction, Infrastructure, Real Estate",
   },
   "/our-brand": {
     title: "Our Brands | RKGC Group",

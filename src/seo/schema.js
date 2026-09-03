@@ -25,7 +25,7 @@ export function organizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
-    alternateName: "RKGC",
+    alternateName: ["RKGC", "RKGC Group"],
     url: SITE_URL,
     logo: LOGO_URL,
     description:

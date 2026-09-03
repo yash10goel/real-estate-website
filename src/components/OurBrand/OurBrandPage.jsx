@@ -378,6 +378,10 @@ export default function OurBrandPage() {
               <br className="hidden sm:block" /> United by shared values, driven by excellence.
               <br className="hidden sm:block" /> Focused on creating meaningful impact.
             </p>
+            <p className="text-white/40 mt-5 text-sm leading-relaxed max-w-md mx-auto">
+              RKGC Group's core business spans Infrastructure, Realty, Agro and Spaces — the brands below are where
+              that same long-term vision reaches into design, food and lifestyle.
+            </p>
           </motion.div>
         </Container>
       </section>

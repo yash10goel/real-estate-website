@@ -11,7 +11,7 @@ export function getProjectSeo(project) {
   const workBit = project.workType || project.service || "";
 
   const description =
-    `${project.name} — an RKGC ${project.category} project${locationBit}${employerBit}` +
+    `${project.name} — an RKGC Group ${project.category} project${locationBit}${employerBit}` +
     (workBit ? `. ${workBit}.` : ".");
 
   return {
@@ -24,4 +24,12 @@ export function getProjectSeo(project) {
       { name: project.name, path },
     ],
   };
+}
+
+// Shared, descriptive (never keyword-stuffed) alt text for a project's hero
+// photo — reused by ProjectDetailPage.jsx and ProjectDetailsModal.jsx so the
+// two never drift, e.g. "RKGC Group Infrastructure project in Tundla".
+export function getProjectImageAlt(project) {
+  const locationBit = project.location ? ` in ${project.location}` : "";
+  return `RKGC Group ${project.category} project${locationBit}`;
 }

@@ -9,6 +9,7 @@ import { SITE_NAME, OG_IMAGE_URL, canonicalUrlFor } from "./schema";
 export default function Seo({
   title,
   description,
+  keywords,
   path = "/",
   noindex = false,
   jsonLd,
@@ -20,6 +21,7 @@ export default function Seo({
     <Helmet>
       <title>{title}</title>
       {description && <meta name="description" content={description} />}
+      {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={canonicalUrl} />
       <meta name="robots" content={noindex ? "noindex,follow" : "index,follow"} />
 

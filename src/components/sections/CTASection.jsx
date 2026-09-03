@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+const MotionLink = motion(Link);
 
 export default function CTASection() {
-  const navigate = useNavigate();
-
   return (
     <section className="py-20 bg-bg-light dark:bg-bg-dark transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6">
@@ -117,12 +117,12 @@ export default function CTASection() {
 
               </div>
 
-              <motion.button
+              <MotionLink
+                to="/contact"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => navigate("/contact")}
                 className="
-                  w-full
+                  block w-full text-center
                   py-3
                   rounded-xl
                   bg-gradient-to-r from-primary to-accent
@@ -135,7 +135,7 @@ export default function CTASection() {
                 "
               >
                 Get Free Consultation →
-              </motion.button>
+              </MotionLink>
 
             </div>
 

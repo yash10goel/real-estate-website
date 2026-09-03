@@ -1,12 +1,11 @@
 import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, Building2 } from "lucide-react";
 
 export default function ProjectsGallery() {
   const allProjects = useSelector((state) => state.projects.list);
-  const navigate = useNavigate();
 
   /*
    * Keep your existing featured project selection.
@@ -60,15 +59,11 @@ export default function ProjectsGallery() {
   const progress = getProgress(activeProject);
 
   /*
-   * Navigate to complete projects page.
+   * Link to the complete projects page, filtered to this project's category.
    */
-  const openProject = () => {
-    navigate(
-      `/projects?category=${encodeURIComponent(
-        activeProject.category || ""
-      )}`
-    );
-  };
+  const projectHref = `/projects?category=${encodeURIComponent(
+    activeProject.category || ""
+  )}`;
 
   return (
     <section className="relative overflow-hidden bg-[#080f1c] py-24 text-white md:py-32">
@@ -306,8 +301,8 @@ export default function ProjectsGallery() {
                 </div>
 
                 {/* CTA */}
-                <button
-                  onClick={openProject}
+                <Link
+                  to={projectHref}
                   className="group mt-7 inline-flex items-center gap-3 border-b border-[#f5b817]/60 pb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#f5b817] transition-colors hover:border-[#f5b817] hover:text-white"
                 >
                   View Project
@@ -316,7 +311,7 @@ export default function ProjectsGallery() {
                     size={15}
                     className="transition-transform duration-300 group-hover:translate-x-1"
                   />
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -416,13 +411,13 @@ export default function ProjectsGallery() {
                 );
               })}
 
-              <button
-                onClick={() => navigate("/projects")}
+              <Link
+                to="/projects"
                 className="flex min-w-[170px] items-center justify-center gap-2 px-6 text-xs font-semibold uppercase tracking-[0.12em] text-[#f5b817] transition-colors hover:bg-white/[0.03] hover:text-white"
               >
-                View All
+                View All Projects
                 <ArrowRight size={15} />
-              </button>
+              </Link>
             </div>
           </div>
         </motion.div>
@@ -451,8 +446,8 @@ export default function ProjectsGallery() {
             </h3>
           </div>
 
-          <button
-            onClick={() => navigate("/projects")}
+          <Link
+            to="/projects"
             className="group inline-flex shrink-0 items-center gap-3 border border-[#f5b817]/50 px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#f5b817] transition-all duration-300 hover:bg-[#f5b817] hover:text-[#080f1c]"
           >
             Explore Portfolio
@@ -461,7 +456,7 @@ export default function ProjectsGallery() {
               size={15}
               className="transition-transform duration-300 group-hover:translate-x-1"
             />
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>

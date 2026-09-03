@@ -45,7 +45,7 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;");
 }
 
-function renderHtml({ title, description, path, noindex, breadcrumb }) {
+function renderHtml({ title, description, keywords, path, noindex, breadcrumb }) {
   const canonicalUrl = canonicalUrlFor(path);
   let html = template;
 
@@ -54,6 +54,14 @@ function renderHtml({ title, description, path, noindex, breadcrumb }) {
     /<meta name="description" content=".*?"\/>/s,
     `<meta name="description" content="${escapeHtml(description)}"/>`
   );
+  // Only the homepage config declares keywords — every other generated
+  // route drops the tag entirely rather than keep the homepage's stale value.
+  html = keywords
+    ? html.replace(
+        /<meta name="keywords" content=".*?"\/>/s,
+        `<meta name="keywords" content="${escapeHtml(keywords)}"/>`
+      )
+    : html.replace(/<meta name="keywords" content=".*?"\/>\n?/s, "");
   html = html.replace(
     /<meta name="robots" content=".*?"\/>/s,
     `<meta name="robots" content="${noindex ? "noindex,follow" : "index,follow"}"/>`

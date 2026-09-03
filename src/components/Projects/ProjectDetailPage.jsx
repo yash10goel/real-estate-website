@@ -8,7 +8,7 @@ import { findProjectBySlug } from "../../utils/projectSlug";
 import Container from "../ui/Container";
 import Button from "../ui/Button";
 import Seo from "../../seo/Seo";
-import { getProjectSeo } from "../../seo/projectSeo";
+import { getProjectSeo, getProjectImageAlt } from "../../seo/projectSeo";
 import { breadcrumbSchema } from "../../seo/schema";
 import NotFoundPage from "../layout/NotFoundPage";
 
@@ -67,7 +67,7 @@ export default function ProjectDetailPage() {
         {image ? (
           <img
             src={image}
-            alt={`${project.name} — RKGC ${project.category} project`}
+            alt={getProjectImageAlt(project)}
             className="absolute inset-0 w-full h-full object-cover"
             style={{ filter: "saturate(0.95)" }}
             loading="eager"
