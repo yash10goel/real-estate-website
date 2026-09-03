@@ -4,7 +4,21 @@
 
 export const SITE_URL = "https://www.rkgcgroup.com";
 export const SITE_NAME = "RKGC Group";
+// Square mark for schema.org Organization.logo (Google's logo guidance
+// wants a square/near-square image) — distinct from the 1200x630 OG_IMAGE_URL
+// social-card asset, which needs the wider aspect ratio.
 export const LOGO_URL = `${SITE_URL}/apple-touch-icon.png`;
+export const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
+
+// Single source of truth for building an absolute canonical URL from a
+// route path — home keeps a trailing slash ("https://www.rkgcgroup.com/"),
+// every other route drops it ("https://www.rkgcgroup.com/our-brand").
+// Used by Seo.jsx, breadcrumbSchema, and the postbuild static-seo script,
+// so the CSR-rendered canonical and the static HTML baseline can never drift.
+export function canonicalUrlFor(path) {
+  if (path === "/") return `${SITE_URL}/`;
+  return `${SITE_URL}${path.replace(/\/+$/, "")}`;
+}
 
 export function organizationSchema() {
   return {
@@ -61,7 +75,7 @@ export function breadcrumbSchema(items) {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: `${SITE_URL}${item.path === "/" ? "" : item.path}`,
+      item: canonicalUrlFor(item.path),
     })),
   };
 }

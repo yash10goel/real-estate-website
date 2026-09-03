@@ -1,5 +1,25 @@
 {
   "rewrites": [
+    { "source": "/our-brand", "destination": "/our-brand/index.html" },
+    { "source": "/projects", "destination": "/projects/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/investment", "destination": "/investment/index.html" },
+    { "source": "/careers", "destination": "/careers/index.html" },
+    { "source": "/exports", "destination": "/exports/index.html" },
+    { "source": "/under-construction", "destination": "/under-construction/index.html" },
+    { "source": "/projects/infrastructure/tundla", "destination": "/projects/infrastructure/tundla/index.html" },
+    { "source": "/projects/infrastructure/sasni", "destination": "/projects/infrastructure/sasni/index.html" },
+    { "source": "/projects/infrastructure/pocket-q-sector-20", "destination": "/projects/infrastructure/pocket-q-sector-20/index.html" },
+    { "source": "/projects/infrastructure/pocket-e-sector-20", "destination": "/projects/infrastructure/pocket-e-sector-20/index.html" },
+    { "source": "/projects/infrastructure/sector-20", "destination": "/projects/infrastructure/sector-20/index.html" },
+    { "source": "/projects/infrastructure/sector-56", "destination": "/projects/infrastructure/sector-56/index.html" },
+    { "source": "/projects/infrastructure/sikandrabad", "destination": "/projects/infrastructure/sikandrabad/index.html" },
+    { "source": "/projects/infrastructure/makoda", "destination": "/projects/infrastructure/makoda/index.html" },
+    { "source": "/projects/infrastructure/hardoi", "destination": "/projects/infrastructure/hardoi/index.html" },
+    { "source": "/projects/infrastructure/ecotech-10", "destination": "/projects/infrastructure/ecotech-10/index.html" },
+    { "source": "/projects/infrastructure/sector-mu-2", "destination": "/projects/infrastructure/sector-mu-2/index.html" },
+    { "source": "/projects/spaces/nv-group-office-interior", "destination": "/projects/spaces/nv-group-office-interior/index.html" },
+    { "source": "/projects/spaces/vidya-polymers-interior", "destination": "/projects/spaces/vidya-polymers-interior/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

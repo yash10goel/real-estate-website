@@ -121,7 +121,8 @@ export default function ServiceSection() {
               >
                 <img
                   src={current.image}
-                  alt={current.name}
+                  alt={`${current.name} — ${current.tagline}`}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/55 to-secondary/10" />

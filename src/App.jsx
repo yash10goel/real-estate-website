@@ -5,21 +5,25 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 
 import Home from "./pages/Home";
-import ProjectsDetailPage from "./components/Projects/ProjectsDetailPage";
-import ContactPage from "./components/ContactUs/Contact";
-import InvestmentPage from "./components/Investment/InvestmentPage";
-import CareersPage from "./components/Careers/CareersPage";
-import ExportsPage from "./components/Exports/ExportsPage";
-import OurBrandPage from "./components/OurBrand/OurBrandPage";
-import UnderConstruction from "./components/layout/UnderConstruction";
-import NotFoundPage from "./components/layout/NotFoundPage";
-
-import Login from "./pages/admin/Login";
-import UserInfo from "./pages/admin/UserInfo";
-import JobApplications from "./pages/admin/JobApplications";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-const RkgcPdf = lazy(() => import("./components/Pdf/RkgcPdf"));
+// Route-level code splitting — Home stays eager for the fastest first
+// paint on "/"; everything else (including admin, which pulls in
+// xlsx-js-style/file-saver) loads only when its route is actually
+// visited, keeping those out of the homepage's initial JS payload.
+const ProjectsDetailPage = lazy(() => import("./components/Projects/ProjectsDetailPage"));
+const ProjectDetailPage = lazy(() => import("./components/Projects/ProjectDetailPage"));
+const ContactPage = lazy(() => import("./components/ContactUs/Contact"));
+const InvestmentPage = lazy(() => import("./components/Investment/InvestmentPage"));
+const CareersPage = lazy(() => import("./components/Careers/CareersPage"));
+const ExportsPage = lazy(() => import("./components/Exports/ExportsPage"));
+const OurBrandPage = lazy(() => import("./components/OurBrand/OurBrandPage"));
+const UnderConstruction = lazy(() => import("./components/layout/UnderConstruction"));
+const NotFoundPage = lazy(() => import("./components/layout/NotFoundPage"));
+
+const Login = lazy(() => import("./pages/admin/Login"));
+const UserInfo = lazy(() => import("./pages/admin/UserInfo"));
+const JobApplications = lazy(() => import("./pages/admin/JobApplications"));
 
 export default function App() {
     const location = useLocation();
@@ -32,85 +36,79 @@ export default function App() {
 
             {!isAdminRoute && <Navbar />}
 
-            <Routes>
-                <Route path="/" element={<Home />} />
+            <Suspense fallback={null}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
 
-                <Route
-                    path="/our-brand"
-                    element={<OurBrandPage />}
-                />
+                    <Route
+                        path="/our-brand"
+                        element={<OurBrandPage />}
+                    />
 
-                <Route
-                    path="/projects"
-                    element={<ProjectsDetailPage />}
-                />
+                    <Route
+                        path="/projects"
+                        element={<ProjectsDetailPage />}
+                    />
 
-                <Route
-                    path="/contact"
-                    element={<ContactPage />}
-                />
+                    <Route
+                        path="/projects/:categorySlug/:projectSlug"
+                        element={<ProjectDetailPage />}
+                    />
 
-                <Route
-                    path="/investment"
-                    element={<InvestmentPage />}
-                />
+                    <Route
+                        path="/contact"
+                        element={<ContactPage />}
+                    />
 
-                <Route
-                    path="/careers"
-                    element={<CareersPage />}
-                />
+                    <Route
+                        path="/investment"
+                        element={<InvestmentPage />}
+                    />
 
-                <Route
-                    path="/exports"
-                    element={<ExportsPage />}
-                />
+                    <Route
+                        path="/careers"
+                        element={<CareersPage />}
+                    />
 
-                <Route
-                    path="/under-construction"
-                    element={<UnderConstruction />}
-                />
+                    <Route
+                        path="/exports"
+                        element={<ExportsPage />}
+                    />
 
-                {/* Admin Login */}
-                <Route
-                    path="/admin"
-                    element={<Login />}
-                />
+                    <Route
+                        path="/under-construction"
+                        element={<UnderConstruction />}
+                    />
 
-                {/* Protected Admin Page */}
-                <Route
-                    path="/admin/userinfo"
-                    element={
-                        <ProtectedRoute>
-                            <UserInfo />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Admin Login */}
+                    <Route
+                        path="/admin"
+                        element={<Login />}
+                    />
 
-                <Route
-                    path="/admin/job-applications"
-                    element={
-                        <ProtectedRoute>
-                            <JobApplications />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Protected Admin Page */}
+                    <Route
+                        path="/admin/userinfo"
+                        element={
+                            <ProtectedRoute>
+                                <UserInfo />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                {/* Catch-all 404 */}
-                <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+                    <Route
+                        path="/admin/job-applications"
+                        element={
+                            <ProtectedRoute>
+                                <JobApplications />
+                            </ProtectedRoute>
+                        }
+                    />
 
-            {/* Hidden PDF Content */}
-            <div
-                style={{
-                    position: "absolute",
-                    left: "-9999px",
-                    top: 0,
-                }}
-            >
-                <Suspense fallback={null}>
-                    <RkgcPdf />
-                </Suspense>
-            </div>
+                    {/* Catch-all 404 */}
+                    <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+            </Suspense>
 
             {!isAdminRoute && <Footer />}
         </div>

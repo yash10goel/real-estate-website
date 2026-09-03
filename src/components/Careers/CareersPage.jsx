@@ -257,7 +257,8 @@ function CareersPageContent() {
                   <div className="rounded-[27px] overflow-hidden border border-white/15">
                     <img
                       src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200&q=80"
-                      alt="The RKGC team on site"
+                      alt="The RKGC Group team on a construction site"
+                      loading="lazy"
                       className="w-full h-[340px] sm:h-[420px] object-cover object-[50%_68%]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/60 via-transparent to-transparent" />

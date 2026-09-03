@@ -1,7 +1,21 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { MapPin, Landmark, ArrowUpRight } from "lucide-react";
 import { verticals } from "../../static-data/verticals";
+import { projectDetailPath } from "../../utils/projectSlug";
 import Button from "../ui/Button";
+
+const MotionLink = motion(Link);
+
+// A plain click still opens the modal exactly as before (preventDefault
+// stops the real navigation); a modified click (ctrl/cmd/shift/middle-click)
+// is left alone so "open in new tab" correctly lands on the standalone,
+// crawlable project page instead.
+function guardedNavigate(e, onView, project) {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  onView(project);
+}
 
 // Every project's abstract visual reuses its own vertical's real,
 // already-published photography (verticals.js) — never a fabricated
@@ -185,27 +199,25 @@ export function FeaturedProject({ project, onView, number = "01" }) {
             )}
           </div>
 
-          <Button variant="primary" arrow onClick={() => onView(project)}>
+          <Button
+            to={projectDetailPath(project)}
+            variant="primary"
+            arrow
+            onClick={(e) => guardedNavigate(e, onView, project)}
+          >
             View Project
           </Button>
         </motion.div>
 
-        <motion.div
+        <MotionLink
+          to={projectDetailPath(project)}
           initial={{ opacity: 0, scale: 1.03 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          onClick={() => onView(project)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onView(project);
-            }
-          }}
+          onClick={(e) => guardedNavigate(e, onView, project)}
           aria-label={`View ${project.name} details`}
-          className="group relative rounded-[4px] overflow-hidden h-[320px] sm:h-[420px] lg:h-[500px] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="group relative block rounded-[4px] overflow-hidden h-[320px] sm:h-[420px] lg:h-[500px] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           <ProjectVisual project={project} />
           <span
@@ -214,7 +226,7 @@ export function FeaturedProject({ project, onView, number = "01" }) {
           >
             {number}
           </span>
-        </motion.div>
+        </MotionLink>
       </div>
     </section>
   );
@@ -222,23 +234,16 @@ export function FeaturedProject({ project, onView, number = "01" }) {
 
 export function ProjectCard({ project, number, layout, onView }) {
   return (
-    <motion.div
+    <MotionLink
+      to={projectDetailPath(project)}
       layout
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
       transition={{ duration: 0.4 }}
-      onClick={() => onView(project)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onView(project);
-        }
-      }}
+      onClick={(e) => guardedNavigate(e, onView, project)}
       aria-label={`View ${project.name} details`}
-      className={`group relative overflow-hidden rounded-[4px] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${layout.col} ${layout.aspect}`}
+      className={`group relative block overflow-hidden rounded-[4px] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${layout.col} ${layout.aspect}`}
     >
       <ProjectVisual project={project} />
       <span
@@ -289,6 +294,6 @@ export function ProjectCard({ project, number, layout, onView }) {
           </span>
         </div>
       </div>
-    </motion.div>
+    </MotionLink>
   );
 }
