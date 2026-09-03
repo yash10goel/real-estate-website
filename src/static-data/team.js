@@ -14,7 +14,6 @@ export const team = [
   {
     name: "Ankur Goyal",
     role: "Executive Officer",
-    image:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800",
+    image: "/ankur.png",
   },
 ];
