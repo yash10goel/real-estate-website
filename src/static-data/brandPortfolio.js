@@ -4,8 +4,8 @@
 //
 // Only fields with confirmed source content are populated. No taglines,
 // founding stories, sectors or descriptions are invented — where the
-// source material doesn't specify one (e.g. The Hillberg has no
-// published tagline), the field is left null and the UI simply omits it.
+// source material doesn't specify one, the field is left null and the
+// UI simply omits it.
 export const brandPortfolio = [
   {
     id: "the-archi",
@@ -14,8 +14,8 @@ export const brandPortfolio = [
     shortName: "The Archi",
     tagline: "Embellishing Space",
     meta: "ESTD 2018",
-    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=80",
-    imageAlt: "The Archi — architectural minimalism",
+    image: "/archibrand.png",
+    imageAlt: "The Archi — architectural design by RKGC Group",
   },
   {
     id: "moo",
@@ -24,7 +24,7 @@ export const brandPortfolio = [
     shortName: "MOO",
     tagline: "Healthy Farm Milk",
     meta: "by RKGC Group",
-    image: "https://images.unsplash.com/photo-1596733430284-f7437764b1a9?w=1600&q=80",
+    image: "/moo-brand.png",
     imageAlt: "MOO — healthy farm milk by RKGC Group",
   },
   {
@@ -32,19 +32,19 @@ export const brandPortfolio = [
     number: "03",
     name: "THE HILLBERG",
     shortName: "The Hillberg",
-    tagline: null,
-    meta: null,
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80",
-    imageAlt: "The Hillberg — premium interior",
+    tagline: "Crafted for Modern Men",
+    meta: "Premium Fabrics · Refined Designs · Timeless Elegance",
+    image: "/hillbergbrand.png",
+    imageAlt: "The Hillberg — premium menswear by RKGC Group",
   },
   {
     id: "organica",
     number: "04",
     name: "ORGANICA",
     shortName: "Organica",
-    tagline: "Natural Organic Food",
-    meta: null,
-    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80",
-    imageAlt: "Organica — natural organic food",
+    tagline: "Pure. Natural. Authentic.",
+    meta: "Premium Masala",
+    image: "/organicabrand.png",
+    imageAlt: "Organica — premium natural spices by RKGC Group",
   },
 ];
