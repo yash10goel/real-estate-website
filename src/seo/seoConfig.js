@@ -12,7 +12,7 @@ export const seoConfig = {
   "/our-brand": {
     title: "Our Brands | RKGC Group",
     description:
-      "Discover the brands shaping RKGC Group across design, food, lifestyle and emerging businesses — The Archi, MOO, The Hillberg and Organica.",
+      "Discover the brands under RKGC Group — Archistylo, Moo Farm, Hillberg and The Farmer Studio — spanning home furnishings, milk products, garments and farm-sourced food.",
     breadcrumb: [
       { name: "Home", path: "/" },
       { name: "Our Brands", path: "/our-brand" },
@@ -57,7 +57,7 @@ export const seoConfig = {
   "/exports": {
     title: "RKGC Exports | Garments & FMCG Export Company from India",
     description:
-      "RKGC Exports connects quality Indian garments and FMCG products — active wear, gym wear, beach wear, bags, spices, cold-pressed oils, flour and rice — with global markets. Send an export enquiry today.",
+      "RKGC Exports connects quality Indian garments and FMCG products — active wear, beach wear, Indian suits, bags, spices, cold-pressed oils, flour and rice — with global markets. Send an export enquiry today.",
     breadcrumb: [
       { name: "Home", path: "/" },
       { name: "Exports", path: "/exports" },

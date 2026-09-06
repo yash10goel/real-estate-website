@@ -2,49 +2,56 @@
 // RKGC name, distinct from the four internal construction verticals
 // (Infrastructure/Realty/Agro/Spaces) modeled in verticals.js.
 //
-// Only fields with confirmed source content are populated. No taglines,
-// founding stories, sectors or descriptions are invented — where the
-// source material doesn't specify one, the field is left null and the
-// UI simply omits it.
+// Content reflects the client's latest handwritten brand brief. Only
+// fields the client provided are populated — no taglines, histories or
+// products are invented beyond what was given.
 export const brandPortfolio = [
   {
-    id: "the-archi",
+    id: "archistylo",
     number: "01",
-    name: "THE ARCHI",
-    shortName: "The Archi",
-    tagline: "Embellishing Space",
-    meta: "ESTD 2018",
+    name: "ARCHISTYLO",
+    shortName: "Archistylo",
+    tagline: "Home Furnishing Products",
+    meta: "Office & E-Commerce",
+    description:
+      "Creating refined home furnishing products that combine design, functionality and contemporary living.",
     image: "/archibrand.png",
-    imageAlt: "The Archi — architectural design by RKGC Group",
+    imageAlt: "Archistylo — premium home furnishing products by RKGC Group",
   },
   {
-    id: "moo",
+    id: "moo-farm",
     number: "02",
-    name: "MOO",
-    shortName: "MOO",
-    tagline: "Healthy Farm Milk",
-    meta: "by RKGC Group",
+    name: "MOO FARM",
+    shortName: "Moo Farm",
+    tagline: "Milk Products",
+    meta: "For Exports",
+    description:
+      "Focused on quality milk products with a commitment to purity, consistency and responsible sourcing.",
     image: "/moo-brand.png",
-    imageAlt: "MOO — healthy farm milk by RKGC Group",
+    imageAlt: "Moo Farm — quality milk products by RKGC Group",
   },
   {
-    id: "the-hillberg",
+    id: "hillberg",
     number: "03",
-    name: "THE HILLBERG",
-    shortName: "The Hillberg",
-    tagline: "Crafted for Modern Men",
-    meta: "Premium Fabrics · Refined Designs · Timeless Elegance",
+    name: "HILLBERG",
+    shortName: "Hillberg",
+    tagline: "Garments",
+    meta: "Active Wear · Beach Wear · Indian Suits · Bags",
+    description:
+      "Premium garments crafted for modern lifestyles, with a focus on quality fabrics, refined design and export markets.",
     image: "/hillbergbrand.png",
-    imageAlt: "The Hillberg — premium menswear by RKGC Group",
+    imageAlt: "Hillberg — garments for global markets by RKGC Group",
   },
   {
-    id: "organica",
+    id: "the-farmer-studio",
     number: "04",
-    name: "ORGANICA",
-    shortName: "Organica",
-    tagline: "Pure. Natural. Authentic.",
-    meta: "Premium Masala",
+    name: "THE FARMER STUDIO",
+    shortName: "The Farmer Studio",
+    tagline: "Food Products",
+    meta: "Spices · Cold-Pressed Oils · Flour · Rice · Fruits · Vegetables",
+    description:
+      "Natural and quality-focused food products including spices, cold-pressed oils, flour and rice for global markets.",
     image: "/organicabrand.png",
-    imageAlt: "Organica — premium natural spices by RKGC Group",
+    imageAlt: "The Farmer Studio — farm-sourced food products by RKGC Group",
   },
 ];

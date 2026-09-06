@@ -22,7 +22,31 @@
 //   skills: ["Site Supervision", "AutoCAD", "Quality Control"],
 // }
 
-export const OPEN_POSITIONS = [];
+export const OPEN_POSITIONS = [
+  {
+    id: "civil-engineer",
+    title: "Civil Engineer",
+    department: "Infrastructure",
+    location: "Multiple Locations",
+    workMode: "On-site",
+    type: "Full Time",
+    experience: "Not Specified",
+    postedDate: "2026-09-07",
+    description:
+      "Oversee site execution and quality control across RKGC's infrastructure projects, from measurements and billing support to drawing execution and project documentation.",
+    responsibilities: [
+      "Site Execution",
+      "Quality Control",
+      "Quantity & Measurements",
+      "Bill Support",
+      "DPR & Documentation",
+      "Drawing Execution",
+    ],
+    requirements: [],
+    niceToHave: [],
+    skills: [],
+  },
+];
 
 // Always present — lets candidates apply even when no specific role matches.
 export const GENERAL_APPLICATION = {

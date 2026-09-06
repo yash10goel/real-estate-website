@@ -3,10 +3,37 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown, ArrowUpRight } from "lucide-react";
 import { verticals } from "../../static-data/verticals";
+import { brandPortfolio } from "../../static-data/brandPortfolio";
 import SectionHeading from "../ui/SectionHeading";
 import Button from "../ui/Button";
 
 const AUTO_ADVANCE_MS = 6000;
+
+// The Global Trade vertical represents four brands rather than one site
+// photo, so its slide shows a 2x2 mosaic of real brand imagery instead
+// of the single full-bleed photo the other three verticals use.
+function BrandMosaicTile({ brand }) {
+  return (
+    <Link
+      to="/our-brand"
+      className="group relative block h-full w-full overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:z-10"
+    >
+      <img
+        src={brand.image}
+        alt={`${brand.name} — ${brand.tagline}`}
+        loading="lazy"
+        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/25 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-4">
+        <h4 className="font-heading text-[10px] sm:text-sm font-bold text-white leading-tight line-clamp-2">
+          {brand.name}
+        </h4>
+        <p className="hidden sm:block text-white/55 text-[11px] mt-0.5 truncate">{brand.tagline}</p>
+      </div>
+    </Link>
+  );
+}
 
 export default function ServiceSection() {
   const reduceMotion = useReducedMotion();
@@ -119,40 +146,76 @@ export default function ServiceSection() {
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute inset-0"
               >
-                <img
-                  src={current.image}
-                  alt={`${current.name} — ${current.tagline}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/55 to-secondary/10" />
-
-                <div className="absolute inset-0 flex flex-col justify-end p-10">
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.15 }}
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center mb-5">
-                      <current.icon size={22} className="text-primary" />
+                {current.slug === "Spaces" ? (
+                  // Global Trade represents four brands, not one site photo —
+                  // a compact header plus a real-image mosaic replaces the
+                  // single full-bleed photo the other verticals use.
+                  <div className="absolute inset-0 flex flex-col">
+                    <div className="relative z-10 flex items-center justify-between gap-4 px-6 sm:px-8 py-5 bg-secondary">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 shrink-0 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center">
+                          <current.icon size={18} className="text-primary" />
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="font-heading text-base sm:text-lg font-bold text-white truncate">
+                            {current.name}
+                          </h3>
+                          <p className="text-white/50 text-xs truncate">{current.tagline}</p>
+                        </div>
+                      </div>
+                      <Link
+                        to="/our-brand"
+                        className="shrink-0 inline-flex items-center gap-1.5 text-primary text-sm font-semibold hover:text-accent transition-colors duration-300 focus-visible:outline-none"
+                      >
+                        Explore Our Brands
+                        <ArrowUpRight size={14} />
+                      </Link>
                     </div>
 
-                    <h3 className="font-heading text-3xl font-bold text-white mb-3">
-                      {current.name}
-                    </h3>
-                    <p className="text-white/70 leading-relaxed max-w-lg mb-6">
-                      {current.description}
-                    </p>
+                    <div className="relative flex-1 grid grid-cols-2 grid-rows-2 gap-[2px] bg-secondary">
+                      {brandPortfolio.map((brand) => (
+                        <BrandMosaicTile key={brand.id} brand={brand} />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <img
+                      src={current.image}
+                      alt={`${current.name} — ${current.tagline}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/55 to-secondary/10" />
 
-                    <Button
-                      to={`/projects?category=${current.slug}`}
-                      variant="secondary"
-                      arrow
-                    >
-                      Explore {current.slug} Projects
-                    </Button>
-                  </motion.div>
-                </div>
+                    <div className="absolute inset-0 flex flex-col justify-end p-10">
+                      <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.15 }}
+                      >
+                        <div className="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center mb-5">
+                          <current.icon size={22} className="text-primary" />
+                        </div>
+
+                        <h3 className="font-heading text-3xl font-bold text-white mb-3">
+                          {current.name}
+                        </h3>
+                        <p className="text-white/70 leading-relaxed max-w-lg mb-6">
+                          {current.description}
+                        </p>
+
+                        <Button
+                          to={`/projects?category=${current.slug}`}
+                          variant="secondary"
+                          arrow
+                        >
+                          Explore {current.slug} Projects
+                        </Button>
+                      </motion.div>
+                    </div>
+                  </>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -202,19 +265,29 @@ export default function ServiceSection() {
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="relative h-48 mx-5 rounded-xl overflow-hidden mb-5">
-                        <img src={v.image} alt={`${v.name} — ${v.tagline}`} className="w-full h-full object-cover" loading="lazy" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-secondary/10 to-transparent" />
-                      </div>
+                      {v.slug === "Spaces" ? (
+                        <div className="grid grid-cols-2 gap-1.5 mx-5 mb-5 rounded-xl overflow-hidden">
+                          {brandPortfolio.map((brand) => (
+                            <div key={brand.id} className="relative h-28 sm:h-32">
+                              <BrandMosaicTile brand={brand} />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="relative h-48 mx-5 rounded-xl overflow-hidden mb-5">
+                          <img src={v.image} alt={`${v.name} — ${v.tagline}`} className="w-full h-full object-cover" loading="lazy" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-secondary/10 to-transparent" />
+                        </div>
+                      )}
                       <p className="px-5 text-sm text-secondary/60 dark:text-white/60 leading-relaxed mb-5">
                         {v.description}
                       </p>
                       <div className="px-5 pb-5">
                         <Link
-                          to={`/projects?category=${v.slug}`}
+                          to={v.slug === "Spaces" ? "/our-brand" : `/projects?category=${v.slug}`}
                           className="inline-flex items-center gap-1.5 text-primary text-sm font-semibold"
                         >
-                          Explore {v.slug} Projects
+                          {v.slug === "Spaces" ? "Explore Our Brands" : `Explore ${v.slug} Projects`}
                           <ArrowUpRight size={14} />
                         </Link>
                       </div>

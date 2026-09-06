@@ -1,4 +1,4 @@
-import { HardHat, Landmark, Sprout, Sofa } from "lucide-react";
+import { HardHat, Landmark, Sprout, Globe2 } from "lucide-react";
 
 // The four RKGC business verticals — source of truth for Services,
 // Projects categorization, and cross-page navigation.
@@ -40,11 +40,18 @@ export const verticals = [
     id: "spaces",
     number: "04",
     slug: "Spaces",
-    name: "RKGC Spaces",
-    tagline: "Interior design, fit-outs & turnkey solutions",
+    // Display text only — the slug/id stay "Spaces" so category matching,
+    // the ?category= URL param, and the 2 real interior fit-out projects
+    // tagged "Spaces" in projects.js keep working unchanged. Every
+    // user-visible label/name/tagline/description now reflects the
+    // client's "RKGC Global Trade" rebrand (Archistylo, Moo Farm,
+    // Hillberg, The Farmer Studio), per their brief.
+    label: "RKGC Global Trade",
+    name: "RKGC Global Trade",
+    tagline: "Connecting businesses, markets & possibilities",
     description:
-      "Full interior design, fit-out and turnkey execution for corporate and residential spaces — carrying the same build quality from the site to the final finish.",
-    icon: Sofa,
+      "RKGC brings together diverse businesses across home furnishings, dairy, garments and food products, creating opportunities for growth across global markets.",
+    icon: Globe2,
     image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80",
   },
 ];

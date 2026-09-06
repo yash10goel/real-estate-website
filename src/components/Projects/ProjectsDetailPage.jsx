@@ -9,6 +9,7 @@ import Button from "../ui/Button";
 import AgroExperience from "./AgroExperience";
 import RealtyExperience from "./RealtyExperience";
 import InfrastructureExperience from "./InfrastructureExperience";
+import GlobalTradeExperience from "./GlobalTradeExperience";
 import ProjectDetailsModal from "./ProjectDetailsModal";
 import { FeaturedProject, ProjectCard, gridPattern } from "./ProjectPresentation";
 import Seo from "../../seo/Seo";
@@ -73,10 +74,15 @@ export default function ProjectsDetailPage() {
 
   // Realty and Agro render their own contextual CTA at the end of their
   // experience — showing the generic page-wide CTA too would duplicate it.
-  const hasOwnCTA = (activeCategory === "Agro" || activeCategory === "Realty") && emptyVertical;
+  // Global Trade (Spaces) always has its own CTA regardless of emptiness,
+  // since it no longer renders the empty-vertical placeholder at all.
+  const hasOwnCTA =
+    ((activeCategory === "Agro" || activeCategory === "Realty") && emptyVertical) ||
+    activeCategory === "Spaces";
   // Infrastructure already carries its own editorial statement + portfolio
-  // summary — showing the generic statement again would repeat the beat.
-  const hasOwnStatement = activeCategory === "Infrastructure";
+  // summary, and Global Trade carries its own footer statement — showing
+  // the generic statement again would repeat the beat.
+  const hasOwnStatement = activeCategory === "Infrastructure" || activeCategory === "Spaces";
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark transition-colors duration-300">
@@ -134,8 +140,8 @@ export default function ProjectsDetailPage() {
                 <span className="block text-4xl sm:text-5xl lg:text-[56px] italic text-primary">Every Vertical.</span>
               </h1>
               <p className="text-gray-300 text-lg max-w-md leading-relaxed">
-                RKGC Group operates across Infrastructure, Realty, Agro and Spaces — explore the
-                work behind each vertical.
+                RKGC Group operates across Infrastructure, Realty, Agro and RKGC Global Trade —
+                explore the work behind each vertical.
               </p>
             </motion.div>
 
@@ -166,7 +172,8 @@ export default function ProjectsDetailPage() {
       {/* Category Filter — editorial underline switcher */}
       <nav aria-label="Filter projects by vertical" className="flex justify-center py-14 px-6 overflow-x-auto no-scrollbar">
         <div className="inline-flex justify-center gap-6 sm:gap-9">
-          {categories.map((cat) => {
+          {verticals.map((v) => {
+            const cat = v.slug;
             const isActive = activeCategory === cat;
             return (
               <button
@@ -180,7 +187,7 @@ export default function ProjectsDetailPage() {
                     : "text-secondary/50 dark:text-white/50 hover:text-secondary dark:hover:text-white"
                 }`}
               >
-                {cat}
+                {v.label || cat}
                 {isActive ? (
                   <motion.span
                     layoutId="project-filter-underline"
@@ -204,6 +211,8 @@ export default function ProjectsDetailPage() {
           <AgroExperience />
         ) : activeCategory === "Realty" && emptyVertical ? (
           <RealtyExperience />
+        ) : activeCategory === "Spaces" ? (
+          <GlobalTradeExperience />
         ) : emptyVertical ? (
           <motion.div
             key={activeCategory}

@@ -1,6 +1,7 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { Globe2 } from "lucide-react";
+import { Globe2, ArrowRight } from "lucide-react";
 import { exportDivisions, whyExports } from "../../static-data/exports";
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
@@ -68,34 +69,359 @@ function DivisionRow({ division, index, onExplore }) {
 
 function ProductCard({ product, index }) {
   const Icon = product.icon;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.06 }}
-      className="group relative rounded-[24px] overflow-hidden border border-secondary/10 dark:border-white/10 bg-card-light dark:bg-card-dark"
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.08,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      whileHover={{ y: -6 }}
+      className="
+        group
+        relative
+        flex
+        h-full
+        flex-col
+        overflow-hidden
+        rounded-[22px]
+        border
+        border-primary/25
+        bg-gradient-to-b
+        from-[#0D1A2B]
+        to-[#0A1420]
+        shadow-[0_10px_40px_rgba(0,0,0,0.30)]
+        transition-all
+        duration-500
+        hover:border-primary/70
+        hover:shadow-[0_20px_55px_rgba(244,180,0,0.14)]
+      "
     >
-      <div className="relative h-[190px] overflow-hidden">
+      {/* ================= IMAGE ================= */}
+      <div className="relative h-[260px] shrink-0 overflow-hidden">
+
         <motion.img
           src={product.image}
           alt={`${product.name} — RKGC Exports product`}
-          className="w-full h-full object-cover"
-          whileHover={{ scale: 1.08 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="
+            w-full
+            h-full
+            object-cover
+            transition-transform
+            duration-700
+            ease-out
+            group-hover:scale-[1.05]
+          "
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-secondary/70 via-secondary/0 to-transparent" />
-        <div className="absolute bottom-3 left-4 flex items-center gap-2">
-          <span className="w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-            <Icon size={15} className="text-white" />
-          </span>
+
+        {/* Cinematic gradient — bright at top, merges into the card's
+            own navy at the bottom so image and content read as one surface */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-t
+            from-[#0A1420]
+            via-[#0A1420]/25
+            to-transparent
+          "
+        />
+
+        {/* Subtle gold cinematic tint */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-tr
+            from-primary/[0.07]
+            via-transparent
+            to-transparent
+          "
+        />
+
+        {/* ================= DECORATIVE DOTS — fades toward its own edges ================= */}
+        <div
+          aria-hidden="true"
+          className="absolute top-4 right-4 w-16 h-16 opacity-40 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(#F4B400 1px, transparent 1px)",
+            backgroundSize: "8px 8px",
+            maskImage: "radial-gradient(circle, black 20%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(circle, black 20%, transparent 75%)",
+          }}
+        />
+
+        {/* ================= GOLD CORNER — smaller, sharper, metallic ================= */}
+        <span
+          aria-hidden="true"
+          className="
+            absolute
+            top-0
+            left-0
+            w-9
+            h-9
+            bg-gradient-to-br
+            from-[#FFE9A8]
+            via-primary
+            to-[#9C680D]
+            opacity-95
+            [clip-path:polygon(0_0,100%_0,0_100%)]
+          "
+        />
+        <span aria-hidden="true" className="absolute top-0 left-0 w-8 h-px bg-primary/60" />
+        <span aria-hidden="true" className="absolute top-0 left-0 w-px h-8 bg-primary/60" />
+      </div>
+
+      {/* ================= ICON — overlaps the image/content boundary ================= */}
+      <div className="relative z-10 px-6 -mt-7">
+        <div
+          className="
+            flex
+            h-14
+            w-14
+            items-center
+            justify-center
+            rounded-full
+            border-[1.5px]
+            border-primary/80
+            bg-[#0A1420]/90
+            text-primary
+            shadow-[0_0_22px_rgba(244,180,0,0.22)]
+            backdrop-blur-md
+            transition-all
+            duration-500
+            group-hover:border-primary
+            group-hover:shadow-[0_0_32px_rgba(244,180,0,0.35)]
+          "
+        >
+          <Icon size={20} strokeWidth={1.7} />
         </div>
       </div>
-      <div className="p-5">
-        <h4 className="font-heading font-bold text-secondary dark:text-white mb-1.5">{product.name}</h4>
-        <p className="text-sm text-secondary/55 dark:text-white/55 leading-relaxed">{product.description}</p>
+
+      {/* ================= CONTENT ================= */}
+      <div className="relative flex flex-1 flex-col px-6 pt-4 pb-6">
+
+        {/* Oversized editorial number — very subtle, low-right, behind content */}
+        <span
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            select-none
+            absolute
+            bottom-1
+            right-2
+            font-heading
+            text-[104px]
+            font-bold
+            leading-none
+            text-white/[0.025]
+          "
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
+        {/* Product Name — elegant serif, not bold */}
+        <h4
+          className="
+            relative
+            font-display
+            italic
+            font-medium
+            text-[26px]
+            text-white
+            tracking-tight
+          "
+        >
+          {product.name}
+        </h4>
+
+        {/* Gold underline */}
+        <div
+          className="
+            relative
+            mt-3
+            mb-4
+            h-[2px]
+            w-14
+            bg-primary
+            transition-all
+            duration-500
+            group-hover:w-16
+          "
+        />
+
+        {/* Description */}
+        <p className="relative max-w-[90%] text-[15px] leading-relaxed text-white/55">
+          {product.description}
+        </p>
+
+        {/* Explore Collection — text link, not a button; arrow responds
+            to hovering the whole card, not just the link itself */}
+        <Link
+          to="/contact?subject=Export%20Enquiry"
+          className="
+            relative
+            mt-auto
+            inline-flex
+            w-fit
+            items-center
+            gap-2
+            pt-5
+            text-sm
+            font-medium
+            text-primary
+            transition-colors
+            duration-300
+            hover:text-accent
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-primary
+            rounded-sm
+          "
+        >
+          Explore Collection
+          <ArrowRight
+            size={15}
+            className="transition-transform duration-300 group-hover:translate-x-1.5"
+          />
+        </Link>
       </div>
+
+      {/* ================= HOVER GLOW ================= */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -bottom-16
+          -right-16
+          h-36
+          w-36
+          rounded-full
+          bg-primary/10
+          opacity-0
+          blur-[60px]
+          transition-opacity
+          duration-700
+          group-hover:opacity-100
+        "
+      />
     </motion.div>
+  );
+}
+
+// Shared premium section shell for both export divisions — Garments and
+// FMCG render identically (background, header, card grid, bottom bar);
+// only the copy and product data differ per division.
+function CollectionSection({
+  sectionRef,
+  name,
+  tagline,
+  products,
+  rightPanelLines,
+  rightPanelCaption,
+  bottomLeftText,
+  onViewAll,
+}) {
+  return (
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden border-t border-white/[0.06] bg-bg-dark py-24 scroll-mt-24"
+    >
+      {/* Decorative background — faint grid + radial gold glow, never
+          competing with the cards for attention */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
+            backgroundSize: "46px 46px",
+          }}
+        />
+        <div className="absolute left-1/2 top-0 h-[420px] w-[620px] -translate-x-1/2 rounded-full bg-primary/[0.05] blur-[140px]" />
+        <div className="absolute -right-32 bottom-0 h-[320px] w-[320px] rounded-full bg-primary/[0.04] blur-[110px]" />
+        <div className="absolute -left-32 top-1/3 h-[280px] w-[280px] rounded-full bg-primary/[0.03] blur-[100px]" />
+
+        {/* Architectural/editorial arcs — large, faint ring outlines */}
+        <div className="absolute -right-40 -top-40 h-[560px] w-[560px] rounded-full border border-primary/[0.07]" />
+        <div className="absolute -left-52 bottom-[-160px] h-[480px] w-[480px] rounded-full border border-primary/[0.05]" />
+      </div>
+
+      <Container className="relative z-10">
+        {/* ================= HEADER ================= */}
+        <div className="mb-14 flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-xl"
+          >
+            <span className="mb-4 inline-flex items-center gap-3 text-xs font-semibold tracking-[0.28em] text-primary uppercase">
+              <span className="h-px w-8 bg-primary" />
+              {name} Collection
+            </span>
+            <h2 className="font-heading text-4xl sm:text-5xl font-medium leading-[1.05] tracking-tight text-white">
+              {name}{" "}
+              <span className="bg-gradient-to-r from-[#f8c447] via-primary to-[#c88710] bg-clip-text text-transparent">
+                Collection
+              </span>
+            </h2>
+            <p className="mt-5 text-white/55 leading-relaxed">{tagline}</p>
+          </motion.div>
+
+          {/* Right-side premium text element — hidden on mobile */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="hidden lg:flex items-stretch gap-6 shrink-0"
+          >
+            <span className="w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+            <div>
+              <p className="font-display italic text-2xl leading-[1.15] text-white/85">
+                {rightPanelLines[0]}
+                <br />
+                {rightPanelLines[1]}
+                <br />
+                <span className="text-primary">{rightPanelLines[2]}</span>
+              </p>
+              <p className="mt-3 max-w-[180px] text-xs text-white/40 leading-relaxed">
+                {rightPanelCaption}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ================= CARDS ================= */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products.map((p, i) => (
+            <ProductCard key={p.id} product={p} index={i} />
+          ))}
+        </div>
+
+        {/* ================= BOTTOM BAR ================= */}
+        <div className="mt-14 flex flex-col gap-4 border-t border-white/10 pt-7 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[11px] font-semibold tracking-[0.2em] text-white/35 uppercase">
+            {bottomLeftText}
+          </p>
+          <button
+            type="button"
+            onClick={onViewAll}
+            className="group/all inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm w-fit"
+          >
+            View All Collections
+            <ArrowRight size={15} className="transition-transform duration-300 group-hover/all:translate-x-1" />
+          </button>
+        </div>
+      </Container>
+    </section>
   );
 }
 
@@ -286,34 +612,29 @@ export default function ExportsPage() {
         </Container>
       </section>
 
-      {/* ============ PRODUCT CATEGORIES ============ */}
-      <section className="py-24 bg-card-light/40 dark:bg-card-dark/20">
-        <Container>
-          <div ref={garmentsRef} className="scroll-mt-24">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-secondary dark:text-white mb-2">
-              Garments Collection
-            </h2>
-            <p className="text-secondary/55 dark:text-white/55 mb-8 max-w-xl">{exportDivisions[0].tagline}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
-              {exportDivisions[0].products.map((p, i) => (
-                <ProductCard key={p.id} product={p} index={i} />
-              ))}
-            </div>
-          </div>
+      {/* ============ GARMENTS COLLECTION ============ */}
+      <CollectionSection
+        sectionRef={garmentsRef}
+        name="Garments"
+        tagline={exportDivisions[0].tagline}
+        products={exportDivisions[0].products}
+        rightPanelLines={["Fashion", "Beyond", "Borders"]}
+        rightPanelCaption="Crafting Global Style with Purpose"
+        bottomLeftText="Exporting Style. Empowering Possibilities."
+        onViewAll={() => scrollToRef(fmcgRef)}
+      />
 
-          <div ref={fmcgRef} className="scroll-mt-24">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-secondary dark:text-white mb-2">
-              FMCG Collection
-            </h2>
-            <p className="text-secondary/55 dark:text-white/55 mb-8 max-w-xl">{exportDivisions[1].tagline}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {exportDivisions[1].products.map((p, i) => (
-                <ProductCard key={p.id} product={p} index={i} />
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
+      {/* ============ FMCG COLLECTION ============ */}
+      <CollectionSection
+        sectionRef={fmcgRef}
+        name="FMCG"
+        tagline={exportDivisions[1].tagline}
+        products={exportDivisions[1].products}
+        rightPanelLines={["Flavors", "Without", "Borders"]}
+        rightPanelCaption="Nourishing Global Kitchens with Purpose"
+        bottomLeftText="Nourishing Kitchens. Connecting Cultures."
+        onViewAll={() => scrollToRef(garmentsRef)}
+      />
 
       {/* ============ WHY RKGC EXPORTS ============ */}
       <section className="py-24">

@@ -132,8 +132,8 @@ export default function JobDetailsDrawer({ job, onClose, onApply }) {
             </div>
 
             <div className="px-6 py-5 border-t border-secondary/10 dark:border-white/10 shrink-0 flex items-center gap-3">
-              <Button variant="primary" className="flex-1 justify-center" onClick={() => onApply(job)}>
-                Apply for this Position
+              <Button variant="primary" arrow className="flex-1 justify-center" onClick={() => onApply(job)}>
+                Apply Now
               </Button>
 
               <div className="relative" ref={shareRef}>

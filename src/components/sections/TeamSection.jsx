@@ -13,7 +13,7 @@ export default function TeamSection() {
     member?.[key] || fallback;
 
   return (
-    <section className="relative overflow-hidden bg-[#07101d] py-16 md:py-20">
+    <section className="relative overflow-hidden bg-[#07101d] py-14 md:py-16">
       {/* =========================================================
           BACKGROUND
       ========================================================= */}
@@ -180,7 +180,7 @@ export default function TeamSection() {
                   className="
                     relative
                     h-full
-                    min-h-[520px]
+                    min-h-[440px]
                     overflow-hidden
                     rounded-[20px]
                     border
@@ -261,7 +261,7 @@ export default function TeamSection() {
                   {/* =================================================
                       CONTENT
                   ================================================= */}
-                  <div className="relative flex h-full flex-col px-5 pb-5 pt-7 sm:px-6">
+                  <div className="relative flex h-full flex-col px-5 pb-5 pt-6 sm:px-6">
                     {/* =================================================
                         PROFILE IMAGE
                     ================================================= */}
@@ -269,8 +269,8 @@ export default function TeamSection() {
                       <div
                         className="
                           relative
-                          h-[125px]
-                          w-[125px]
+                          h-[104px]
+                          w-[104px]
                           rounded-full
                           p-[4px]
                           bg-gradient-to-br
@@ -309,11 +309,11 @@ export default function TeamSection() {
                     {/* =================================================
                         NAME + ROLE
                     ================================================= */}
-                    <div className="mt-5 text-center">
+                    <div className="mt-4 text-center">
                       <h3
                         className="
                           font-heading
-                          text-[23px]
+                          text-[21px]
                           font-medium
                           leading-tight
                           tracking-tight
@@ -336,7 +336,7 @@ export default function TeamSection() {
                         {member.role || position}
                       </p>
 
-                      <div className="mx-auto mt-3 h-[2px] w-10 bg-[#dca21a] transition-all duration-500 group-hover:w-14" />
+                      <div className="mx-auto mt-2.5 h-[2px] w-10 bg-[#dca21a] transition-all duration-500 group-hover:w-14" />
                     </div>
 
                     {/* =================================================
@@ -345,7 +345,7 @@ export default function TeamSection() {
                     <p
                       className="
                         mx-auto
-                        mt-4
+                        mt-3
                         max-w-[310px]
                         text-center
                         text-[12px]
@@ -359,7 +359,7 @@ export default function TeamSection() {
                     {/* =================================================
                         INFORMATION GRID
                     ================================================= */}
-                    <div className="mt-5 border-y border-[#dca21a]/20">
+                    <div className="mt-4 border-y border-[#dca21a]/20">
                       <div className="grid grid-cols-2">
                         {/* Position */}
                         <InfoItem
@@ -398,8 +398,8 @@ export default function TeamSection() {
                     {/* =================================================
                         LINKEDIN
                     ================================================= */}
-                    <div className="mt-auto pt-5">
-                      <div className="mb-4 h-px bg-[#dca21a]/20" />
+                    <div className="mt-auto pt-4">
+                      <div className="mb-3.5 h-px bg-[#dca21a]/20" />
 
                       <div className="flex items-center justify-center">
                         <a
@@ -491,11 +491,11 @@ function InfoItem({
     <div
       className={`
         flex
-        min-h-[62px]
+        min-h-[70px]
         items-center
         gap-2.5
         px-2.5
-        py-3
+        py-2.5
         sm:px-3
         ${borderRight ? "border-r border-[#dca21a]/20" : ""}
         ${borderTop ? "border-t border-[#dca21a]/20" : ""}
@@ -520,8 +520,10 @@ function InfoItem({
         <Icon size={15} strokeWidth={1.6} />
       </div>
 
-      {/* Text */}
-      <div className="min-w-0">
+      {/* Text — no truncation: every value (not just the longest one) reserves
+          the same 2-line block height, so all four cells stay row-aligned and
+          every card renders at the same height regardless of member. */}
+      <div className="min-w-0 flex-1">
         <p
           className="
             text-[8px]
@@ -535,10 +537,12 @@ function InfoItem({
         </p>
 
         <p
-          title={value}
           className="
             mt-0.5
-            truncate
+            flex
+            min-h-[2rem]
+            items-center
+            break-words
             text-[10px]
             leading-4
             text-white/75

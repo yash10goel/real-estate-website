@@ -1,11 +1,11 @@
 
 import CTASection from "../components/sections/CTASection"
 import HeroVideo from "../components/sections/HeroVideo"
+import OurBrandsHero from "../components/sections/OurBrandsHero"
 import OurClients from "../components/sections/OurClient"
 import ProjectsGallery from "../components/sections/ProjectsGallery"
 import ServiceSlider from "../components/sections/ServiceSlider"
 import TeamSection from "../components/sections/TeamSection"
-import Testimonials from "../components/sections/Testimonials"
 import Seo from "../seo/Seo"
 import { seoConfig } from "../seo/seoConfig"
 
@@ -30,7 +30,7 @@ return(
 
 <OurClients/>
 
-<Testimonials/>
+<OurBrandsHero/>
 
 <CTASection/>
 
