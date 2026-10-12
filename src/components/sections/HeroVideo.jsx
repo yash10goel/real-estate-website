@@ -10,14 +10,11 @@ import {
 import CountUp from "react-countup";
 import CursorHighlight from "../Cursor/CursorEffect";
 import Button from "../ui/Button";
-import { companyStats as stats } from "../../static-data/companyStats";
+import { companyStats as stats, capabilities } from "../../static-data/companyStats";
 
 // A quick-glance credibility rail in the hero, pulled from the same data
 // as the full stats dashboard below so the two never fall out of sync.
 const heroCredits = [stats[3], stats[1], stats[0]];
-
-// Alternating vertical offsets for a staggered, non-grid feel on desktop
-const staggerOffset = ["lg:mt-0", "lg:mt-10", "lg:mt-0", "lg:mt-10"];
 
 const container = {
     hidden: { opacity: 0 },
@@ -272,104 +269,86 @@ export default function HeroSection() {
 
         </section>
 
-        {/* Stats dashboard strip — floats, overlapping the hero's bottom edge */}
-        <div className="relative z-40 -mt-12 lg:-mt-16 px-6 pb-10 lg:pb-16">
-            <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
-            >
-                {stats.map((stat, i) => {
-                    const Icon = stat.icon;
+        {/* "Our Capability" — dark band continuing straight out of the hero */}
+        <section
+            aria-labelledby="capability-heading"
+            className="relative overflow-hidden bg-bg-dark text-white"
+        >
+            {/* Hairline + one soft light source for depth */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+            <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[720px] max-w-full h-[320px] rounded-full bg-primary/[0.07] blur-[120px]" />
 
-                    return (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: i * 0.12 }}
-                            className={`rounded-[24px] p-[1.5px] bg-gradient-to-br from-primary/50 via-white/10 to-accent/40 hover:from-primary/80 hover:to-accent/70 transition-colors duration-300 ${staggerOffset[i]}`}
+            <div className="relative max-w-7xl mx-auto px-5 sm:px-6 pt-14 pb-16 lg:pt-20 lg:pb-20">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: reduceMotion ? 0 : 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex items-end gap-8 mb-10 lg:mb-12"
+                >
+                    <div className="shrink-0">
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="w-8 h-px bg-primary" />
+                            <span className="text-primary text-[11px] font-semibold tracking-[0.3em] uppercase">
+                                What we bring
+                            </span>
+                        </div>
+                        <h2
+                            id="capability-heading"
+                            className="font-display text-[34px] sm:text-5xl lg:text-[56px] font-semibold leading-[1.05] tracking-tight"
                         >
-                            <motion.div
-                                animate={{ y: [0, -6, 0] }}
-                                transition={{
-                                    duration: 3.5 + i * 0.4,
-                                    repeat: Infinity,
-                                    ease: "easeInOut",
-                                }}
-                                whileHover={{ y: -10, boxShadow: "0 0 40px rgba(244,180,0,0.35)" }}
-                                className="
-                                    group
-                                    relative
-                                    overflow-hidden
-                                    rounded-[24px]
-                                    bg-card-dark/70
-                                    backdrop-blur-2xl
-                                    border border-white/5
-                                    p-5
-                                    h-[184px]
-                                    shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]
-                                "
+                            Our{" "}
+                            <span className="italic bg-[linear-gradient(120deg,#FFD54F,#F4B400_50%,#E69A00)] bg-clip-text text-transparent pr-1">
+                                Capability
+                            </span>
+                        </h2>
+                    </div>
+                    <span className="hidden md:block flex-1 h-px mb-4 bg-gradient-to-r from-white/15 to-transparent" />
+                </motion.div>
+
+                {/* Cards */}
+                <div className="grid grid-cols-1 min-[440px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+                    {capabilities.map((cap, i) => {
+                        const Icon = cap.icon;
+                        return (
+                            <motion.article
+                                key={cap.title}
+                                initial={{ opacity: 0, y: reduceMotion ? 0 : 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                                className="group relative flex h-full flex-col rounded-[22px] border border-white/[0.08] bg-gradient-to-b from-[#131c2e] to-[#0d1424] p-5 sm:p-7 transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_22px_45px_-24px_rgba(244,180,0,0.35)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                             >
-                                {/* Moving highlight sweep */}
-                                <motion.div
-                                    animate={{ x: ["-120%", "220%"] }}
-                                    transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
-                                    className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none"
-                                />
+                                {/* Gold top accent, revealed on hover */}
+                                <span className="absolute top-0 left-7 right-7 h-px bg-gradient-to-r from-transparent via-primary/80 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-                                {/* Icon */}
-                                <div className="flex justify-center mb-3">
-                                    <motion.div
-                                        whileHover={{ rotate: 10, scale: 1.1 }}
-                                        className="
-                                            w-12 h-12
-                                            rounded-full
-                                            border border-primary/40
-                                            flex items-center justify-center
-                                            bg-primary/5
-                                        "
-                                    >
-                                        <Icon
-                                            size={22}
-                                            className="text-primary"
-                                        />
-                                    </motion.div>
+                                <div className="flex items-start justify-between">
+                                    <span className="w-12 h-12 rounded-full border border-primary/35 bg-primary/[0.06] flex items-center justify-center text-primary transition-colors duration-500 group-hover:bg-primary group-hover:text-secondary">
+                                        <Icon size={20} strokeWidth={1.8} />
+                                    </span>
+                                    <span className="font-heading text-xs font-semibold tracking-[0.2em] text-white/20">
+                                        {String(i + 1).padStart(2, "0")}
+                                    </span>
                                 </div>
 
-                                {/* Divider */}
-                                <div className="relative mb-3">
-                                    <div className="h-px bg-primary/20" />
-                                    <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-primary" />
-                                </div>
-
-                                {/* Number */}
-                                <h3 className="text-center text-2xl font-heading font-bold text-primary leading-none mb-2">
-                                    <CountUp end={stat.value} duration={2} />
-                                    {stat.suffix}
+                                <h3 className="mt-5 sm:mt-7 font-heading text-lg sm:text-xl font-semibold tracking-[0.16em] uppercase text-white">
+                                    {cap.title}
                                 </h3>
+                                <span className="my-3 sm:my-4 block w-8 h-px bg-primary/60 transition-all duration-500 group-hover:w-12 group-hover:bg-primary" />
 
-                                {/* Label */}
-                                <p className="text-center text-gray-300 text-sm font-medium">
-                                    {stat.label}
+                                <p className="font-heading text-xl sm:text-[22px] font-bold leading-snug text-primary [text-wrap:balance]">
+                                    {cap.value}
                                 </p>
-
-                                {/* Subtitle — small premium microcopy */}
-                                <p className="text-center text-primary/70 text-[11px] font-medium tracking-wide uppercase mt-1">
-                                    {stat.subtitle}
+                                <p className="mt-1.5 text-[11px] font-medium tracking-[0.2em] uppercase text-white/45">
+                                    {cap.detail}
                                 </p>
-
-                                {/* Bottom Glow */}
-                                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-[2px] bg-primary blur-sm" />
-                            </motion.div>
-                        </motion.div>
-                    );
-                })}
-            </motion.div>
-        </div>
+                            </motion.article>
+                        );
+                    })}
+                </div>
+            </div>
+        </section>
         </>
     );
 }
