@@ -27,6 +27,15 @@ export const seoConfig = {
       { name: "Projects", path: "/projects" },
     ],
   },
+  "/properties": {
+    title: "Properties in Greater Noida | RKGC Group",
+    description:
+      "Explore residences, golf villas and commercial spaces in Greater Noida curated by RKGC Group — Godrej Golf Links, The Hemisphere Golf Villas, Nilay Square, Hero Homes and more. Book a site visit.",
+    breadcrumb: [
+      { name: "Home", path: "/" },
+      { name: "Properties", path: "/properties" },
+    ],
+  },
   "/contact": {
     title: "Contact RKGC Group",
     description:

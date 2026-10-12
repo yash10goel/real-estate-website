@@ -33,8 +33,7 @@ export default function Navbar() {
         { name: "Home", path: "/" },
         { name: "Our Brand", path: "/our-brand" },
         { name: "Projects", path: "/projects" },
-        // { name: "Properties", path: "/properties" },
-        { name: "Properties", path: "/under-construction" },
+        { name: "Properties", path: "/properties" },
         { name: "Exports", path: "/exports" },
         { name: "Investment", path: "/investment" },
         { name: "Careers", path: "/careers" },
@@ -48,7 +47,7 @@ export default function Navbar() {
     // Pages with a full-bleed dark hero read best with a transparent,
     // overlay navbar that resolves to dark glass on scroll; every other
     // route keeps the glass bar throughout.
-    const darkHeroRoute = location.pathname === "/" || location.pathname === "/our-brand" || location.pathname === "/projects";
+    const darkHeroRoute = location.pathname === "/" || location.pathname === "/our-brand" || location.pathname === "/projects" || location.pathname === "/properties";
     const fixedPosition = darkHeroRoute;
     const transparent = darkHeroRoute && !scrolled;
 

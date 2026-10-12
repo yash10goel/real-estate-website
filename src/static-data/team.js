@@ -1,7 +1,8 @@
 // RKGC Group leadership — name, position and experience are exactly as
 // provided by the client. No bios, achievements or certifications are
 // invented; "focus" and "description" both use the client's own
-// wording for each member's responsibility.
+// wording for each member's responsibility. No photos yet — the card
+// renders an initials monogram until a real `image` is added per member.
 export const team = [
   {
     name: "R.K. Gupta",
@@ -10,8 +11,6 @@ export const team = [
     experience: "30 Years",
     focus: "Projects & Liaison",
     description: "Projects & Liaison",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800",
   },
   {
     name: "Neeraj Sharma",
@@ -20,8 +19,6 @@ export const team = [
     experience: "22 Years",
     focus: "Projects & Liaison",
     description: "Projects & Liaison",
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800",
   },
   {
     name: "Ankur Goyal",
@@ -30,6 +27,5 @@ export const team = [
     experience: "15 Years",
     focus: "Finance, Operations & Team Lead",
     description: "Finance, Operations & Team Lead",
-    image: "/ankur.png",
   },
 ];

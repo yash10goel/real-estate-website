@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/our-brand", "destination": "/our-brand/index.html" },
     { "source": "/projects", "destination": "/projects/index.html" },
+    { "source": "/properties", "destination": "/properties/index.html" },
     { "source": "/contact", "destination": "/contact/index.html" },
     { "source": "/investment", "destination": "/investment/index.html" },
     { "source": "/careers", "destination": "/careers/index.html" },

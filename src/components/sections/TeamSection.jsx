@@ -1,5 +1,6 @@
 import { team } from "../../static-data/team";
 import { motion } from "framer-motion";
+
 import {
   Linkedin,
   UserRound,
@@ -7,6 +8,12 @@ import {
   CalendarDays,
   Award,
 } from "lucide-react";
+
+// "R.K. Gupta" -> "RG", "Neeraj Sharma" -> "NS"
+function getInitials(name) {
+  const parts = name.replace(/\./g, " ").trim().split(/\s+/);
+  return ((parts[0]?.[0] || "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
+}
 
 export default function TeamSection() {
   const getValue = (member, key, fallback = "—") =>
@@ -285,20 +292,24 @@ export default function TeamSection() {
                       >
                         {/* Inner ring */}
                         <div className="h-full w-full rounded-full bg-[#07101d] p-[3px]">
-                          <img
-                            src={member.image}
-                            alt={`${member.name} - ${position}`}
-                            loading={index < 3 ? "eager" : "lazy"}
-                            className="
-                              h-full
-                              w-full
-                              rounded-full
-                              object-cover
-                              transition-transform
-                              duration-700
-                              group-hover:scale-[1.04]
-                            "
-                          />
+                          {member.image ? (
+                            <img
+                              src={member.image}
+                              alt={`${member.name} - ${position}`}
+                              loading={index < 3 ? "eager" : "lazy"}
+                              className="h-full w-full rounded-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                            />
+                          ) : (
+                            <div
+                              role="img"
+                              aria-label={`${member.name} - ${position}`}
+                              className="flex h-full w-full items-center justify-center rounded-full bg-[radial-gradient(circle_at_30%_25%,#1c2a42_0%,#0b1525_70%)] transition-transform duration-700 group-hover:scale-[1.04]"
+                            >
+                              <span className="font-display text-[34px] font-semibold tracking-wide bg-[linear-gradient(135deg,#fff0ad,#e5a51d_55%,#b07812)] bg-clip-text text-transparent">
+                                {getInitials(member.name)}
+                              </span>
+                            </div>
+                          )}
                         </div>
 
                         {/* Golden glow */}

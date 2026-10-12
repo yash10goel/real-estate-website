@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // visited, keeping those out of the homepage's initial JS payload.
 const ProjectsDetailPage = lazy(() => import("./components/Projects/ProjectsDetailPage"));
 const ProjectDetailPage = lazy(() => import("./components/Projects/ProjectDetailPage"));
+const PropertiesPage = lazy(() => import("./components/Properties/PropertiesPage"));
 const ContactPage = lazy(() => import("./components/ContactUs/Contact"));
 const InvestmentPage = lazy(() => import("./components/Investment/InvestmentPage"));
 const CareersPage = lazy(() => import("./components/Careers/CareersPage"));
@@ -53,6 +54,11 @@ export default function App() {
                     <Route
                         path="/projects/:categorySlug/:projectSlug"
                         element={<ProjectDetailPage />}
+                    />
+
+                    <Route
+                        path="/properties"
+                        element={<PropertiesPage />}
                     />
 
                     <Route
