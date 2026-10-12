@@ -46,6 +46,52 @@ export const OPEN_POSITIONS = [
     niceToHave: [],
     skills: [],
   },
+  {
+    id: "sales-executive-greater-noida",
+    title: "Sales Executive",
+    department: "Sales",
+    location: "Greater Noida, UP",
+    workMode: "On-site",
+    type: "Full Time",
+    experience: "Not Specified",
+    postedDate: "2026-10-13",
+    description:
+      "Meet prospective buyers, conduct site visits and help clients find the right residential or commercial property in Greater Noida.",
+    responsibilities: [
+      "Client Meetings",
+      "Site Visits",
+      "Lead Follow-ups",
+      "Property Presentations",
+      "Deal Closures",
+      "CRM & Reporting",
+    ],
+    requirements: [],
+    niceToHave: [],
+    skills: [],
+  },
+  {
+    id: "tele-caller-greater-noida",
+    title: "Tele Caller",
+    department: "Sales",
+    location: "Greater Noida, UP",
+    workMode: "On-site",
+    type: "Full Time",
+    experience: "Not Specified",
+    postedDate: "2026-10-13",
+    description:
+      "Connect with enquiries over the phone, share property details and set up site visits for the sales team.",
+    responsibilities: [
+      "Outbound & Inbound Calls",
+      "Lead Qualification",
+      "Property Information",
+      "Site Visit Scheduling",
+      "Follow-up Calls",
+      "Call Records",
+    ],
+    requirements: [],
+    niceToHave: [],
+    skills: [],
+  },
 ];
 
 // Always present — lets candidates apply even when no specific role matches.
