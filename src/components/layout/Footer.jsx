@@ -20,13 +20,19 @@ const services = [
   "Consultation",
 ];
 
-const contactDetails = [
-  { icon: MapPin, label: "408, 409 4th Floor, Aditya High Street, Lalkuan, Ghaziabad" },
-  { icon: MapPin, label: "Head Office: Plot No 2, Vill Kot, Near EPE Toll Plaza, Dadri - 203207" },
-  { icon: Phone, label: "+91 77352 35277 | 8527190899" },
-  { icon: Mail, label: "info@rkgcgroup.com" },
-  { icon: Mail, label: "rkgupta0001@gmail.com" },
+const addresses = [
+  "408, 409 4th Floor, Aditya High Street, Lalkuan, Ghaziabad",
+  "Head Office: Plot No 2, Vill Kot, Near EPE Toll Plaza, Dadri - 203207",
 ];
+
+const phones = [
+  { label: "+91 77352 35277", href: "tel:+917735235277" },
+  { label: "8527190899", href: "tel:+918527190899" },
+];
+
+const emails = ["info@rkgcgroup.com", "rkgupta0001@gmail.com"];
+
+const columnHeading = "text-[11px] font-semibold uppercase tracking-[0.28em] text-primary mb-5";
 
 const socials = [
   { icon: Facebook, label: "Facebook" },
@@ -36,9 +42,10 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary text-white/70 pt-20 pb-8">
+    <footer className="relative bg-[#070d18] text-white/70 pt-16 sm:pt-20 pb-8">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6">
 
         {/* TOP GRID */}
         <motion.div
@@ -46,15 +53,15 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14"
+          className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.7fr_0.7fr_1.4fr] lg:gap-10 mb-14"
         >
 
           {/* BRAND */}
           <div>
-            <h2 className="font-heading text-xl font-semibold text-white mb-4">
-              RKGC<span className="text-primary"> Group</span>
+            <h2 className="font-display text-3xl font-semibold text-white mb-4">
+              RKGC <span className="italic text-primary">Group</span>
             </h2>
-            <p className="text-sm text-white/60 leading-relaxed mb-6">
+            <p className="text-sm text-white/55 leading-relaxed mb-7 max-w-xs">
               We build modern homes, commercial spaces, and real estate solutions
               with quality, trust, and innovation.
             </p>
@@ -76,11 +83,11 @@ export default function Footer() {
 
           {/* LINKS */}
           <div>
-            <h3 className="font-heading text-white font-medium mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className={columnHeading}>Quick Links</h3>
+            <ul className="space-y-2.5 text-sm">
               {quickLinks.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-primary transition-colors">
+                  <Link to={link.path} className="text-white/65 hover:text-primary transition-colors focus-visible:outline-none focus-visible:text-primary">
                     {link.name}
                   </Link>
                 </li>
@@ -90,8 +97,8 @@ export default function Footer() {
 
           {/* SERVICES */}
           <div>
-            <h3 className="font-heading text-white font-medium mb-4">Services</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className={columnHeading}>Services</h3>
+            <ul className="space-y-2.5 text-sm">
               {services.map((service) => (
                 <li key={service} className="text-white/60">
                   {service}
@@ -102,15 +109,31 @@ export default function Footer() {
 
           {/* CONTACT + NEWSLETTER */}
           <div>
-            <h3 className="font-heading text-white font-medium mb-4">Get In Touch</h3>
-            <ul className="space-y-3 text-sm mb-6">
-              {contactDetails.map(({ icon: Icon, label }) => (
-                <li
-                  key={label}
-                  className="flex items-start gap-3 rounded-xl bg-white/5 border border-white/10 px-3 py-2"
-                >
-                  <Icon size={15} className="text-primary shrink-0 mt-0.5" />
-                  <span className="text-white/70">{label}</span>
+            <h3 className={columnHeading}>Get In Touch</h3>
+            <ul className="space-y-4 text-sm mb-7">
+              {addresses.map((address) => (
+                <li key={address} className="flex items-start gap-3">
+                  <MapPin size={15} className="text-primary shrink-0 mt-0.5" />
+                  <span className="text-white/65 leading-relaxed">{address}</span>
+                </li>
+              ))}
+              <li className="flex items-start gap-3">
+                <Phone size={15} className="text-primary shrink-0 mt-0.5" />
+                <span className="flex flex-wrap gap-x-2 text-white/65">
+                  {phones.map((phone, i) => (
+                    <span key={phone.href}>
+                      <a href={phone.href} className="hover:text-primary transition-colors">{phone.label}</a>
+                      {i < phones.length - 1 && <span className="ml-2 text-white/25">|</span>}
+                    </span>
+                  ))}
+                </span>
+              </li>
+              {emails.map((email) => (
+                <li key={email} className="flex items-start gap-3">
+                  <Mail size={15} className="text-primary shrink-0 mt-0.5" />
+                  <a href={`mailto:${email}`} className="text-white/65 hover:text-primary transition-colors break-all">
+                    {email}
+                  </a>
                 </li>
               ))}
             </ul>

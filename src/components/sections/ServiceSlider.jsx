@@ -53,23 +53,24 @@ export default function ServiceSection() {
   const current = verticals[active];
 
   return (
-    <section className="py-24 bg-bg-light dark:bg-bg-dark transition-colors duration-300 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-20 sm:py-24 lg:py-28 bg-bg-light dark:bg-bg-dark transition-colors duration-300 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6">
 
         <SectionHeading
+          variant="editorial"
           badge="What We Do"
           title={
             <>
-              One Group. <span className="text-primary">Four Verticals.</span>
+              One Group. <span className="italic text-primary">Four Verticals.</span>
             </>
           }
           subtitle="From civil infrastructure to interiors, real estate to agriculture — RKGC Group operates across four dedicated business verticals, each built on the same standard of quality and trust."
-          className="mb-14"
+          className="mb-12 lg:mb-16"
         />
 
         {/* DESKTOP — numbered selector + large image panel */}
         <div
-          className="hidden lg:grid grid-cols-[0.85fr_1.15fr] gap-12 items-stretch"
+          className="hidden lg:grid grid-cols-[0.8fr_1.2fr] gap-14 items-stretch"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -83,7 +84,7 @@ export default function ServiceSection() {
                   type="button"
                   onClick={() => setActive(i)}
                   onFocus={() => setActive(i)}
-                  className={`w-full text-left relative pl-7 py-5 border-l-2 transition-colors duration-300 ${
+                  className={`group w-full text-left relative pl-7 py-6 border-l-2 transition-colors duration-300 focus-visible:outline-none focus-visible:bg-primary/[0.04] ${
                     isActive
                       ? "border-primary"
                       : "border-secondary/10 dark:border-white/10 hover:border-primary/40"
@@ -91,7 +92,7 @@ export default function ServiceSection() {
                 >
                   <div className="flex items-baseline gap-4">
                     <span
-                      className={`font-heading text-sm font-bold tracking-wide transition-colors duration-300 ${
+                      className={`font-heading text-xs font-semibold tracking-[0.2em] transition-colors duration-300 ${
                         isActive ? "text-primary" : "text-secondary/30 dark:text-white/30"
                       }`}
                     >
@@ -99,10 +100,10 @@ export default function ServiceSection() {
                     </span>
                     <div className="min-w-0">
                       <h3
-                        className={`font-heading text-xl xl:text-2xl font-bold transition-colors duration-300 ${
+                        className={`font-display text-2xl xl:text-[28px] font-semibold leading-tight transition-colors duration-300 ${
                           isActive
                             ? "text-secondary dark:text-white"
-                            : "text-secondary/45 dark:text-white/45"
+                            : "text-secondary/55 dark:text-white/50 group-hover:text-secondary/80 dark:group-hover:text-white/75"
                         }`}
                       >
                         {v.name}
@@ -111,7 +112,7 @@ export default function ServiceSection() {
                         className={`text-sm mt-1 transition-colors duration-300 ${
                           isActive
                             ? "text-secondary/60 dark:text-white/60"
-                            : "text-secondary/35 dark:text-white/35"
+                            : "text-secondary/50 dark:text-white/45"
                         }`}
                       >
                         {v.tagline}
@@ -136,7 +137,7 @@ export default function ServiceSection() {
           </div>
 
           {/* Image + description panel */}
-          <div className="relative rounded-[32px] overflow-hidden shadow-glass dark:shadow-glass-dark min-h-[520px]">
+          <div className="relative rounded-[28px] overflow-hidden bg-secondary shadow-[0_30px_70px_-30px_rgba(11,18,32,0.55)] min-h-[560px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={current.id}
@@ -186,22 +187,27 @@ export default function ServiceSection() {
                       loading="lazy"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/55 to-secondary/10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220] via-[#0B1220]/50 to-transparent" />
 
-                    <div className="absolute inset-0 flex flex-col justify-end p-10">
+                    <div className="absolute inset-0 flex flex-col justify-end p-10 xl:p-12">
                       <motion.div
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.15 }}
                       >
-                        <div className="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center mb-5">
-                          <current.icon size={22} className="text-primary" />
+                        <div className="flex items-center gap-3 mb-5">
+                          <span className="w-11 h-11 rounded-full border border-primary/50 bg-primary/10 flex items-center justify-center">
+                            <current.icon size={18} className="text-primary" />
+                          </span>
+                          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-primary">
+                            {current.number} &middot; {current.slug}
+                          </span>
                         </div>
 
-                        <h3 className="font-heading text-3xl font-bold text-white mb-3">
+                        <h3 className="font-display text-4xl font-semibold text-white mb-3">
                           {current.name}
                         </h3>
-                        <p className="text-white/70 leading-relaxed max-w-lg mb-6">
+                        <p className="text-white/70 leading-relaxed max-w-lg mb-7">
                           {current.description}
                         </p>
 
@@ -228,7 +234,11 @@ export default function ServiceSection() {
             return (
               <div
                 key={v.id}
-                className="rounded-2xl border border-secondary/10 dark:border-white/10 overflow-hidden bg-card-light/60 dark:bg-card-dark/60"
+                className={`rounded-2xl border overflow-hidden transition-colors duration-300 ${
+                  isOpen
+                    ? "border-primary/40 bg-card-light dark:bg-card-dark"
+                    : "border-secondary/10 dark:border-white/10 bg-card-light/60 dark:bg-card-dark/60"
+                }`}
               >
                 <button
                   type="button"
@@ -240,7 +250,7 @@ export default function ServiceSection() {
                     {v.number}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="font-heading text-lg font-bold text-secondary dark:text-white">
+                    <h3 className="font-display text-xl font-semibold text-secondary dark:text-white">
                       {v.name}
                     </h3>
                     <p className="text-xs text-secondary/50 dark:text-white/50 mt-0.5">

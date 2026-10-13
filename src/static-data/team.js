@@ -29,3 +29,12 @@ export const team = [
     description: "Finance, Operations & Team Lead",
   },
 ];
+
+// Portrait strip on the homepage "About Our Team" section (public/team).
+// Names aren't attached yet — add `name`/`role` here once confirmed.
+export const teamPortraits = [
+  { image: "/team/team-1.webp", alt: "RKGC Group team member" },
+  { image: "/team/team-2.webp", alt: "RKGC Group team member" },
+  { image: "/team/team-3.webp", alt: "RKGC Group team member" },
+  { image: "/team/team-4.webp", alt: "RKGC Group team member" },
+];

@@ -2,98 +2,148 @@ import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { brandPortfolio } from "../../static-data/brandPortfolio";
-import Container from "../ui/Container";
 
-// Compass point per brand, in brandPortfolio order: Archistylo (top),
-// Moo Farm (left), Hillberg (right), The Farmer Studio (bottom) —
-// matches the same radial layout already used on /our-brand's hero.
-const compassPositions = [
-  "top-0 left-1/2 -translate-x-1/2 items-center text-center",
-  "top-1/2 left-0 -translate-y-1/2 items-start text-left",
-  "top-1/2 right-0 -translate-y-1/2 items-end text-right",
-  "bottom-0 left-1/2 -translate-x-1/2 items-center text-center",
-];
-const compassStubs = [
-  "left-1/2 -translate-x-1/2 top-full w-px h-7",
-  "top-1/2 -translate-y-1/2 left-full w-7 h-px",
-  "top-1/2 -translate-y-1/2 right-full w-7 h-px",
-  "left-1/2 -translate-x-1/2 bottom-full w-px h-7",
+const EASE = [0.16, 1, 0.3, 1];
+
+// Node positions on a 100×100 canvas, in brandPortfolio order:
+// Archistylo (top), Moo Farm (left), Hillberg (right), The Farmer Studio (bottom).
+const NODE_RADIUS = 33;
+const nodes = [
+  { x: 50, y: 50 - NODE_RADIUS, side: "top" },
+  { x: 50 - NODE_RADIUS, y: 50, side: "left" },
+  { x: 50 + NODE_RADIUS, y: 50, side: "right" },
+  { x: 50, y: 50 + NODE_RADIUS, side: "bottom" },
 ];
 
-// Radial "brand constellation" — a ghosted RKGC monogram, concentric
-// rings and a pulsing center point, with the four brands positioned
-// at the compass points. Each brand links through to /our-brand rather
-// than deep-linking into a chapter, since this lives on the homepage.
-function BrandConstellation({ reduceMotion }) {
+// Where each label sits relative to its node. Side labels go beneath the
+// node on small screens (no room beside it) and outward from lg up.
+const labelPlacement = {
+  top: "-translate-x-1/2 -translate-y-[calc(100%+14px)] items-center text-center",
+  bottom: "-translate-x-1/2 translate-y-[14px] items-center text-center",
+  left: "-translate-x-1/2 translate-y-[14px] items-center text-center lg:-translate-x-[calc(100%+18px)] lg:-translate-y-1/2 lg:items-end lg:text-right",
+  right: "-translate-x-1/2 translate-y-[14px] items-center text-center lg:translate-x-[18px] lg:-translate-y-1/2 lg:items-start lg:text-left",
+};
+
+const RINGS = [
+  { r: 15, opacity: 0.35 },
+  { r: 24, opacity: 0.16 },
+  { r: NODE_RADIUS, opacity: 0.22, dashed: true },
+  { r: 45, opacity: 0.07 },
+];
+const CENTER_R = 11; // lines start at the edge of the centre disc
+
+function BrandEcosystem({ reduceMotion }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.94 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: reduceMotion ? 0 : 1, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full max-w-[380px] sm:max-w-[480px] lg:max-w-[580px] aspect-square mx-auto"
-    >
-      {/* soft central illumination */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] aspect-square rounded-full bg-primary/[0.08] blur-[70px] pointer-events-none" />
+    <div className="relative mx-auto aspect-square w-full max-w-[340px] min-[400px]:max-w-[400px] sm:max-w-[500px] lg:max-w-[540px]">
+      {/* Restrained central glow */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[46%] w-[46%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.13] blur-[60px]" />
 
-      {/* ghosted vertical RKGC monogram */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none overflow-hidden">
-        {["R", "K", "G", "C"].map((l) => (
-          <span
-            key={l}
-            className="font-display italic font-medium text-primary/[0.09] text-[clamp(2.5rem,6.5vw,4.75rem)] leading-[0.8]"
-          >
-            {l}
-          </span>
+      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
+        {RINGS.map((ring) => (
+          <circle
+            key={ring.r}
+            cx="50"
+            cy="50"
+            r={ring.r}
+            fill="none"
+            stroke="#F4B400"
+            strokeOpacity={ring.opacity}
+            strokeWidth="1"
+            strokeDasharray={ring.dashed ? "1.5 2.5" : undefined}
+            vectorEffect="non-scaling-stroke"
+          />
         ))}
+
+        {nodes.map((n, i) => {
+          const dx = n.x - 50;
+          const dy = n.y - 50;
+          const len = Math.hypot(dx, dy);
+          const x1 = 50 + (dx / len) * CENTER_R;
+          const y1 = 50 + (dy / len) * CENTER_R;
+          // small connection node where the line crosses the middle ring
+          const mx = 50 + (dx / len) * 24;
+          const my = 50 + (dy / len) * 24;
+          return (
+            <g key={i}>
+              <motion.line
+                x1={x1}
+                y1={y1}
+                x2={n.x}
+                y2={n.y}
+                stroke="#F4B400"
+                strokeOpacity="0.6"
+                // canvas units (≈1px at desktop size); non-scaling-stroke
+                // would break Framer's pathLength dash maths
+                strokeWidth="0.22"
+                initial={{ pathLength: reduceMotion ? 1 : 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 1, delay: 0.2 + i * 0.12, ease: EASE }}
+              />
+              <circle cx={mx} cy={my} r="0.9" fill="#F4B400" />
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* Centre — RKGC Group. The wrapper centres it; the inner element
+          animates scale, so Framer's inline transform can't undo the centring. */}
+      <div className="absolute left-1/2 top-1/2 h-[22%] w-[22%] -translate-x-1/2 -translate-y-1/2">
+        <motion.div
+          initial={{ opacity: 0, scale: reduceMotion ? 1 : 0.85 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="flex h-full w-full flex-col items-center justify-center rounded-full border border-primary/50 bg-[radial-gradient(circle_at_35%_30%,#1b2740_0%,#0B1220_75%)] shadow-[0_0_40px_rgba(244,180,0,0.18)]"
+        >
+          <span className="font-display text-[clamp(1rem,3.6vw,1.6rem)] font-semibold leading-none text-white">
+            RKGC
+          </span>
+          <span className="mt-1 text-[clamp(0.45rem,1.3vw,0.6rem)] font-semibold uppercase tracking-[0.3em] text-primary">
+            Group
+          </span>
+        </motion.div>
       </div>
 
-      {/* concentric rings */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[56%] aspect-square rounded-full border border-primary/25" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[78%] aspect-square rounded-full border border-primary/10" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[96%] aspect-square rounded-full border border-primary/[0.06]" />
-
-      {/* cross guides */}
-      <span className="absolute top-1/2 left-[4%] right-[4%] h-px bg-primary/20" />
-      <span className="absolute left-1/2 top-[4%] bottom-[4%] w-px bg-primary/20" />
-
-      {/* pulsing center point */}
-      <motion.span
-        aria-hidden="true"
-        animate={reduceMotion ? { opacity: 0.85 } : { scale: [1, 1.25, 1], opacity: [0.75, 1, 0.75] }}
-        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary shadow-[0_0_30px_8px_rgba(244,180,0,0.5)]"
-      />
-
-      {/* four brands at compass points */}
-      {brandPortfolio.map((brand, i) => (
-        <motion.div
-          key={brand.id}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : 0.3 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-          className={`absolute ${compassPositions[i]}`}
-        >
-          <Link
-            to="/our-brand"
-            aria-label={`Explore ${brand.name}`}
-            className="group flex flex-col focus-visible:outline-none"
+      {/* Brand nodes + labels */}
+      {brandPortfolio.map((brand, i) => {
+        const n = nodes[i];
+        return (
+          <motion.div
+            key={brand.id}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, delay: reduceMotion ? 0 : 0.6 + i * 0.12 }}
+            className="absolute"
+            style={{ left: `${n.x}%`, top: `${n.y}%` }}
           >
-            <span
-              aria-hidden="true"
-              className={`absolute bg-primary/25 transition-colors duration-300 group-hover:bg-primary/60 ${compassStubs[i]}`}
-            />
-            <span className="font-heading text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wide text-white/90 transition-all duration-300 group-hover:text-primary group-hover:[text-shadow:0_0_18px_rgba(244,180,0,0.5)]">
-              {brand.name}
-            </span>
-            <span className="text-white/40 text-[10px] sm:text-xs mt-1 transition-colors duration-300 group-hover:text-white/65">
-              {brand.tagline}
-            </span>
-          </Link>
-        </motion.div>
-      ))}
-    </motion.div>
+            <Link
+              to="/our-brand"
+              aria-label={`${brand.shortName} — ${brand.tagline}`}
+              className="group block focus-visible:outline-none"
+            >
+              {/* node */}
+              <span className="absolute left-0 top-0 flex h-4 w-4 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-primary/60 bg-bg-dark transition-transform duration-300 group-hover:scale-125 group-focus-visible:scale-125">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(244,180,0,0.8)]" />
+              </span>
+
+              {/* label */}
+              <span
+                className={`absolute left-0 top-0 flex w-max max-w-[150px] flex-col sm:max-w-[190px] ${labelPlacement[n.side]}`}
+              >
+                <span className="font-heading text-[12px] font-bold uppercase leading-tight tracking-[0.12em] text-white transition-colors duration-300 group-hover:text-primary group-focus-visible:text-primary sm:text-sm lg:text-[15px]">
+                  {brand.name}
+                </span>
+                <span className="mt-1 text-[10px] leading-snug text-white/50 sm:text-xs">
+                  {brand.tagline}
+                </span>
+              </span>
+            </Link>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -101,76 +151,61 @@ export default function OurBrandsHero() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-bg-dark text-white py-20 lg:py-28">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-[0.025]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(135deg, rgba(244,180,0,0.55) 0px, rgba(244,180,0,0.55) 1px, transparent 1px, transparent 42px)",
-        }}
-      />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_45%,rgba(244,180,0,0.08)_0%,transparent_22%),radial-gradient(ellipse_at_top,rgba(11,18,32,0.10)_0%,rgba(5,10,18,0.96)_78%)]" />
-      <div className="hidden lg:block absolute right-[-8%] top-[10%] w-[46vw] max-w-[680px] aspect-square rounded-full border border-primary/[0.06] pointer-events-none" />
+    <section className="relative overflow-hidden bg-bg-dark py-20 text-white sm:py-24 lg:py-28">
+      <div className="pointer-events-none absolute right-[-10%] top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-primary/[0.04] blur-[140px]" />
 
-      <Container className="relative z-10">
-        <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-14 lg:gap-10 items-center">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+        <div className="grid items-center gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10">
+          {/* Copy */}
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.4 }}
-            variants={{ show: { transition: { staggerChildren: 0.14, delayChildren: 0.1 } } }}
-            className="text-center lg:text-left"
+            variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+            className="max-w-md"
           >
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
-              transition={{ duration: 0.6 }}
-              className="flex items-center justify-center lg:justify-start gap-3 mb-7"
-            >
-              <span className="w-8 h-px bg-primary" />
-              <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase">RKGC Group</span>
-            </motion.div>
-
-            <motion.h2
-              variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display font-medium leading-[0.95] mb-6"
-            >
-              <span className="block text-[clamp(2.75rem,6.5vw,5rem)] text-white">Our</span>
-              <span className="block text-[clamp(2.75rem,6.5vw,5rem)] italic text-primary">Brands.</span>
-            </motion.h2>
-
-            <motion.p
-              variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } }}
-              transition={{ duration: 0.6 }}
-              className="text-white/70 text-lg mb-4"
-            >
-              Different identities. One vision.
-            </motion.p>
-
-            <motion.p
-              variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } }}
-              transition={{ duration: 0.6 }}
-              className="text-gray-400 max-w-md mx-auto lg:mx-0 leading-relaxed mb-9"
-            >
-              From spaces we design to experiences we create, RKGC brings together distinct businesses
-              under one long-term vision.
-            </motion.p>
-
-            <motion.div variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } }} transition={{ duration: 0.6 }}>
-              <Link
-                to="/our-brand"
-                className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-primary/55 bg-primary/[0.03] text-primary text-sm font-semibold tracking-wide hover:bg-primary hover:text-bg-dark hover:shadow-[0_12px_40px_rgba(244,180,0,0.22)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            {[
+              <div key="eyebrow" className="mb-6 flex items-center gap-3">
+                <span className="h-px w-8 bg-primary" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-primary">RKGC Group</span>
+              </div>,
+              <h2 key="title" className="font-display font-semibold leading-[0.95] tracking-tight">
+                <span className="block text-[clamp(3rem,7vw,5.25rem)] text-white">Our</span>
+                <span className="block pr-2 text-[clamp(3rem,7vw,5.25rem)] italic text-primary">Brands.</span>
+              </h2>,
+              <p key="lead" className="mt-7 text-lg text-white/80">
+                Different identities. One vision.
+              </p>,
+              <p key="body" className="mt-3 leading-relaxed text-white/55">
+                From spaces we design to experiences we create, RKGC brings together distinct
+                businesses under one long-term vision.
+              </p>,
+              <div key="cta" className="mt-9">
+                <Link
+                  to="/our-brand"
+                  className="group inline-flex items-center gap-3 rounded-full border border-primary/55 px-7 py-3.5 text-sm font-semibold tracking-wide text-primary transition-all duration-300 hover:bg-primary hover:text-bg-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                >
+                  Explore Our Brands
+                  <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </div>,
+            ].map((child) => (
+              <motion.div
+                key={child.key}
+                variants={{ hidden: { opacity: 0, y: reduceMotion ? 0 : 18 }, show: { opacity: 1, y: 0 } }}
+                transition={{ duration: 0.7, ease: EASE }}
               >
-                Explore Our Brands
-                <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </motion.div>
+                {child}
+              </motion.div>
+            ))}
           </motion.div>
 
-          <BrandConstellation reduceMotion={reduceMotion} />
+          {/* Ecosystem — extra side padding on lg gives outward labels room */}
+          <div className="lg:px-16">
+            <BrandEcosystem reduceMotion={reduceMotion} />
+          </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

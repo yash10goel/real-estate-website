@@ -16,6 +16,8 @@ export const brandPortfolio = [
     description:
       "Creating refined home furnishing products that combine design, functionality and contemporary living.",
     image: "/archibrand.png",
+    // Lightweight WebP of the same artwork for the homepage cards
+    cardImage: "/home/brands/archibrand.webp",
     imageAlt: "Archistylo — premium home furnishing products by RKGC Group",
   },
   {
@@ -28,6 +30,8 @@ export const brandPortfolio = [
     description:
       "Focused on quality milk products with a commitment to purity, consistency and responsible sourcing.",
     image: "/moo-brand.png",
+    // Lightweight WebP of the same artwork for the homepage cards
+    cardImage: "/home/brands/moo-brand.webp",
     imageAlt: "Moo Farm — quality milk products by RKGC Group",
   },
   {
@@ -40,6 +44,8 @@ export const brandPortfolio = [
     description:
       "Premium garments crafted for modern lifestyles, with a focus on quality fabrics, refined design and export markets.",
     image: "/hillbergbrand.png",
+    // Lightweight WebP of the same artwork for the homepage cards
+    cardImage: "/home/brands/hillbergbrand.webp",
     imageAlt: "Hillberg — garments for global markets by RKGC Group",
   },
   {
@@ -52,6 +58,8 @@ export const brandPortfolio = [
     description:
       "Natural and quality-focused food products including spices, cold-pressed oils, flour and rice for global markets.",
     image: "/organicabrand.png",
+    // Lightweight WebP of the same artwork for the homepage cards
+    cardImage: "/home/brands/organicabrand.webp",
     imageAlt: "The Farmer Studio — farm-sourced food products by RKGC Group",
   },
 ];

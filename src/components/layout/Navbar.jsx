@@ -98,7 +98,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* Desktop nav links — underline active indicator */}
-                <div className="hidden lg:flex items-center gap-4 xl:gap-8">
+                <div className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-8">
                     {navLinks.map((link, i) => {
                         const isActive = location.pathname === link.path;
                         return (
@@ -178,7 +178,7 @@ export default function Navbar() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="lg:hidden fixed inset-0 z-[9998] bg-bg-light/98 dark:bg-secondary/98 backdrop-blur-2xl flex flex-col"
+                        className="lg:hidden fixed inset-0 z-[9998] bg-bg-light/95 dark:bg-secondary/95 backdrop-blur-2xl flex flex-col"
                     >
                         <motion.button
                             initial={{ opacity: 0, scale: 0.8 }}

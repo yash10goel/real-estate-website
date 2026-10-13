@@ -13,6 +13,7 @@ export const companyStats = [
   },
   {
     value: 150,
+    prefix: "₹",
     suffix: " Cr",
     label: "Working Capacity",
     subtitle: "Financial Strength",
@@ -37,7 +38,7 @@ export const companyStats = [
 // "Our Capability" panel under the homepage hero — the four pillars from
 // the company profile. Team/capacity figures mirror companyStats above.
 export const capabilities = [
-  { title: "Capacity", value: "₹150 Cr", detail: "Working Capacity", icon: TrendingUp },
+  { title: "Capacity", value: "₹150 Cr", detail: "Working Capacity", icon: TrendingUp, featured: true },
   { title: "Team", value: "100+", detail: "Team Members", icon: Users },
   { title: "Coverage", value: "Greater Noida & NCR", detail: "Area of Operations", icon: MapPin },
   { title: "Network", value: "Multi-Vendor", detail: "Vendor Network", icon: Network },

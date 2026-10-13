@@ -16,6 +16,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Manrope', sans-serif;
 }
 
+/* Playfair defaults to old-style figures (30+ sits low); figures in
+   headings and stats should sit on the baseline like the capitals. */
+.font-display {
+  font-variant-numeric: lining-nums;
+}
+
 /* Hide horizontal scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

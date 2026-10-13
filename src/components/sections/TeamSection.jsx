@@ -1,567 +1,88 @@
-import { team } from "../../static-data/team";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { teamPortraits } from "../../static-data/team";
 
-import {
-  Linkedin,
-  UserRound,
-  Building2,
-  CalendarDays,
-  Award,
-} from "lucide-react";
-
-// "R.K. Gupta" -> "RG", "Neeraj Sharma" -> "NS"
-function getInitials(name) {
-  const parts = name.replace(/\./g, " ").trim().split(/\s+/);
-  return ((parts[0]?.[0] || "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
-}
+const EASE = [0.16, 1, 0.3, 1];
 
 export default function TeamSection() {
-  const getValue = (member, key, fallback = "—") =>
-    member?.[key] || fallback;
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-[#07101d] py-14 md:py-16">
-      {/* =========================================================
-          BACKGROUND
-      ========================================================= */}
-      <div className="pointer-events-none absolute inset-0">
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)
-            `,
-            backgroundSize: "44px 44px",
-          }}
-        />
+    <section
+      aria-labelledby="team-heading"
+      className="relative overflow-hidden bg-[#07101d] py-20 sm:py-24 lg:py-28"
+    >
+      {/* Restrained lighting: a soft wash behind the portraits */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_70%_at_75%_50%,rgba(244,180,0,0.06),transparent_70%)]" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* Soft golden glow */}
-        <div className="absolute left-1/2 top-[15%] h-[450px] w-[650px] -translate-x-1/2 rounded-full bg-[#d99b18]/[0.035] blur-[130px]" />
-
-        {/* Side glow */}
-        <div className="absolute -left-40 top-1/2 h-[350px] w-[350px] rounded-full bg-[#d99b18]/[0.025] blur-[100px]" />
-
-        <div className="absolute -right-40 top-1/3 h-[350px] w-[350px] rounded-full bg-[#d99b18]/[0.025] blur-[100px]" />
-      </div>
-
-      <div className="relative mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
-        {/* =========================================================
-            SECTION HEADER
-        ========================================================= */}
-        <div className="mx-auto mb-10 max-w-4xl text-center md:mb-12">
-          {/* Badge */}
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+        <div className="grid items-center gap-12 xl:grid-cols-[0.8fr_1.2fr] xl:gap-16">
+          {/* Content */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: reduceMotion ? 0 : 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-4 flex items-center justify-center gap-4"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.8, ease: EASE }}
           >
-            <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#dca21a]" />
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-8 bg-primary" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-primary">
+                Our People
+              </span>
+            </div>
 
-            <span className="text-[10px] font-semibold tracking-[0.28em] text-[#e6aa20] uppercase">
-              Our Team
-            </span>
+            <div className="border-l border-primary/40 pl-5 sm:pl-6">
+              <h2
+                id="team-heading"
+                className="font-display text-[42px] font-semibold leading-[1.02] tracking-tight text-white sm:text-[54px] xl:text-[60px]"
+              >
+                About Our <span className="italic text-primary">Team</span>
+              </h2>
+            </div>
 
-            <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#dca21a]" />
+            <p className="mt-6 max-w-md text-[15px] leading-7 text-white/60 sm:text-base sm:leading-8">
+              Our team is made up of passionate professionals with diverse skills and experiences.
+              Together, we collaborate, innovate, and deliver outstanding results while maintaining a
+              strong commitment to our clients and company values.
+            </p>
           </motion.div>
 
-          {/* Heading */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.05 }}
-            className="
-              font-heading
-              text-4xl
-              font-medium
-              leading-[1.05]
-              tracking-tight
-              text-white
-              sm:text-5xl
-              md:text-6xl
-              lg:text-[64px]
-            "
-          >
-            Meet Our{" "}
-            <span className="bg-gradient-to-r from-[#f8c447] via-[#e8a91d] to-[#c88710] bg-clip-text text-transparent">
-              Experts
-            </span>
-          </motion.h2>
+          {/* Portraits */}
+          <div className="relative mx-auto w-full max-w-[340px] sm:mx-0 sm:max-w-[720px] xl:max-w-none">
+            {/* Fine connecting line through the portrait centres (single row only) */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-primary/35 to-transparent sm:block"
+            />
 
-          {/* Gold divider */}
-          <motion.div
-            initial={{ width: 0, opacity: 0 }}
-            whileInView={{ width: 60, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="mx-auto mt-5 h-[2px] bg-[#dca21a]"
-          />
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="
-              mx-auto
-              mt-5
-              max-w-3xl
-              text-sm
-              leading-6
-              text-white/55
-              sm:text-base
-              sm:leading-7
-            "
-          >
-            A passionate team of professionals committed to delivering
-            exceptional construction and real estate solutions with
-            innovation, quality and trust.
-          </motion.p>
-        </div>
-
-        {/* =========================================================
-            TEAM GRID
-        ========================================================= */}
-        <div
-          className="
-            grid
-            grid-cols-1
-            gap-5
-            sm:grid-cols-2
-            xl:grid-cols-3
-            xl:gap-6
-          "
-        >
-          {team.map((member, index) => {
-            const position = getValue(
-              member,
-              "position",
-              getValue(member, "role", "Team Member")
-            );
-
-            const company = getValue(member, "company", "RKGC Group");
-
-            const experience = getValue(
-              member,
-              "experience",
-              member?.yearsOfExperience
-                ? `${member.yearsOfExperience}+ Years`
-                : "—"
-            );
-
-            const focus = getValue(
-              member,
-              "focus",
-              "Excellence • Innovation • Delivery"
-            );
-
-            const description = getValue(
-              member,
-              "description",
-              "Dedicated to excellence, innovation and delivering outstanding project results through expertise, teamwork and commitment."
-            );
-
-            return (
-              <motion.article
-                key={member.id || `${member.name}-${index}`}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{
-                  duration: 0.55,
-                  delay: index * 0.08,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{ y: -7 }}
-                className="group relative h-full"
-              >
-                {/* =====================================================
-                    CARD
-                ===================================================== */}
-                <div
-                  className="
-                    relative
-                    h-full
-                    min-h-[440px]
-                    overflow-hidden
-                    rounded-[20px]
-                    border
-                    border-[#c88d17]/75
-                    bg-[#09131f]
-                    shadow-[0_20px_55px_rgba(0,0,0,0.30)]
-                    transition-all
-                    duration-500
-                    group-hover:border-[#f0b52a]
-                    group-hover:shadow-[0_25px_70px_rgba(217,154,22,0.13)]
-                  "
+            <ul className="relative grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-5 xl:gap-6">
+              {teamPortraits.map((p, i) => (
+                <motion.li
+                  key={p.image}
+                  initial={{ opacity: 0, y: reduceMotion ? 0 : 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.7, delay: 0.1 + i * 0.1, ease: EASE }}
+                  className="group"
                 >
-                  {/* =================================================
-                      TOP LEFT GOLD CORNER
-                  ================================================= */}
-                  <div
-                    className="
-                      absolute
-                      left-0
-                      top-0
-                      z-10
-                      h-[58px]
-                      w-[58px]
-                      bg-gradient-to-br
-                      from-[#f0b52a]
-                      via-[#bd8010]
-                      to-transparent
-                    "
-                    style={{
-                      clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                    }}
-                  />
-
-                  {/* Corner inner line */}
-                  <div className="absolute left-0 top-[57px] z-10 h-px w-14 bg-[#dca21a]/50" />
-
-                  {/* =================================================
-                      TOP RIGHT DOT PATTERN
-                  ================================================= */}
-                  <div
-                    className="
-                      pointer-events-none
-                      absolute
-                      right-5
-                      top-5
-                      h-[70px]
-                      w-[100px]
-                      opacity-50
-                    "
-                    style={{
-                      backgroundImage:
-                        "radial-gradient(circle, rgba(220,162,26,0.75) 1.2px, transparent 1.2px)",
-                      backgroundSize: "9px 9px",
-                      maskImage:
-                        "linear-gradient(to bottom left, black, transparent)",
-                      WebkitMaskImage:
-                        "linear-gradient(to bottom left, black, transparent)",
-                    }}
-                  />
-
-                  {/* Large background number */}
-                  <div
-                    className="
-                      pointer-events-none
-                      absolute
-                      right-6
-                      top-16
-                      font-heading
-                      text-[70px]
-                      font-semibold
-                      leading-none
-                      text-white/[0.025]
-                    "
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-
-                  {/* =================================================
-                      CONTENT
-                  ================================================= */}
-                  <div className="relative flex h-full flex-col px-5 pb-5 pt-6 sm:px-6">
-                    {/* =================================================
-                        PROFILE IMAGE
-                    ================================================= */}
-                    <div className="flex justify-center">
-                      <div
-                        className="
-                          relative
-                          h-[104px]
-                          w-[104px]
-                          rounded-full
-                          p-[4px]
-                          bg-gradient-to-br
-                          from-[#fff0ad]
-                          via-[#e5a51d]
-                          to-[#8a5b0b]
-                          shadow-[0_0_35px_rgba(229,165,29,0.18)]
-                          transition-all
-                          duration-500
-                          group-hover:shadow-[0_0_50px_rgba(229,165,29,0.32)]
-                        "
-                      >
-                        {/* Inner ring */}
-                        <div className="h-full w-full rounded-full bg-[#07101d] p-[3px]">
-                          {member.image ? (
-                            <img
-                              src={member.image}
-                              alt={`${member.name} - ${position}`}
-                              loading={index < 3 ? "eager" : "lazy"}
-                              className="h-full w-full rounded-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                            />
-                          ) : (
-                            <div
-                              role="img"
-                              aria-label={`${member.name} - ${position}`}
-                              className="flex h-full w-full items-center justify-center rounded-full bg-[radial-gradient(circle_at_30%_25%,#1c2a42_0%,#0b1525_70%)] transition-transform duration-700 group-hover:scale-[1.04]"
-                            >
-                              <span className="font-display text-[34px] font-semibold tracking-wide bg-[linear-gradient(135deg,#fff0ad,#e5a51d_55%,#b07812)] bg-clip-text text-transparent">
-                                {getInitials(member.name)}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Golden glow */}
-                        <div className="pointer-events-none absolute inset-[-7px] -z-10 rounded-full bg-[#e5a51d]/10 blur-xl" />
-                      </div>
-                    </div>
-
-                    {/* =================================================
-                        NAME + ROLE
-                    ================================================= */}
-                    <div className="mt-4 text-center">
-                      <h3
-                        className="
-                          font-heading
-                          text-[21px]
-                          font-medium
-                          leading-tight
-                          tracking-tight
-                          text-white
-                        "
-                      >
-                        {member.name}
-                      </h3>
-
-                      <p
-                        className="
-                          mt-1.5
-                          text-[10px]
-                          font-semibold
-                          tracking-[0.17em]
-                          text-[#e6aa20]
-                          uppercase
-                        "
-                      >
-                        {member.role || position}
-                      </p>
-
-                      <div className="mx-auto mt-2.5 h-[2px] w-10 bg-[#dca21a] transition-all duration-500 group-hover:w-14" />
-                    </div>
-
-                    {/* =================================================
-                        DESCRIPTION
-                    ================================================= */}
-                    <p
-                      className="
-                        mx-auto
-                        mt-3
-                        max-w-[310px]
-                        text-center
-                        text-[12px]
-                        leading-5
-                        text-white/55
-                      "
-                    >
-                      {description}
-                    </p>
-
-                    {/* =================================================
-                        INFORMATION GRID
-                    ================================================= */}
-                    <div className="mt-4 border-y border-[#dca21a]/20">
-                      <div className="grid grid-cols-2">
-                        {/* Position */}
-                        <InfoItem
-                          icon={UserRound}
-                          label="Position"
-                          value={position}
-                          borderRight
-                        />
-
-                        {/* Company */}
-                        <InfoItem
-                          icon={Building2}
-                          label="Company"
-                          value={company}
-                        />
-
-                        {/* Experience */}
-                        <InfoItem
-                          icon={CalendarDays}
-                          label="Experience"
-                          value={experience}
-                          borderRight
-                          borderTop
-                        />
-
-                        {/* Focus */}
-                        <InfoItem
-                          icon={Award}
-                          label="Focus"
-                          value={focus}
-                          borderTop
-                        />
-                      </div>
-                    </div>
-
-                    {/* =================================================
-                        LINKEDIN
-                    ================================================= */}
-                    <div className="mt-auto pt-4">
-                      <div className="mb-3.5 h-px bg-[#dca21a]/20" />
-
-                      <div className="flex items-center justify-center">
-                        <a
-                          href={member.linkedin || "#"}
-                          target={
-                            member.linkedin ? "_blank" : undefined
-                          }
-                          rel={
-                            member.linkedin
-                              ? "noopener noreferrer"
-                              : undefined
-                          }
-                          aria-label={`${member.name} on LinkedIn`}
-                          onClick={(e) => {
-                            if (!member.linkedin) {
-                              e.preventDefault();
-                            }
-                          }}
-                          className="
-                            flex
-                            h-11
-                            w-11
-                            items-center
-                            justify-center
-                            rounded-full
-                            border
-                            border-[#dca21a]
-                            bg-[#0d1723]
-                            text-[#e6aa20]
-                            transition-all
-                            duration-300
-                            hover:bg-[#e6aa20]
-                            hover:text-[#07101d]
-                            hover:shadow-[0_0_25px_rgba(230,170,32,0.25)]
-                            focus-visible:outline-none
-                            focus-visible:ring-2
-                            focus-visible:ring-[#e6aa20]
-                          "
-                        >
-                          <Linkedin size={18} strokeWidth={1.8} />
-                        </a>
-                      </div>
+                  {/* Gold outer ring → navy gap → photo */}
+                  <div className="aspect-square rounded-full bg-[linear-gradient(145deg,rgba(255,213,79,0.85),rgba(244,180,0,0.25)_45%,rgba(230,154,0,0.7))] p-[2px] shadow-[0_0_28px_rgba(244,180,0,0.12)] transition-shadow duration-500 group-hover:shadow-[0_0_36px_rgba(244,180,0,0.3)]">
+                    <div className="h-full w-full overflow-hidden rounded-full bg-[#07101d] p-[5px]">
+                      <img
+                        src={p.image}
+                        alt={p.alt}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full rounded-full object-cover object-[50%_30%] grayscale transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
+                      />
                     </div>
                   </div>
-
-                  {/* =================================================
-                      BOTTOM RIGHT GOLD CORNER
-                  ================================================= */}
-                  <div
-                    className="
-                      pointer-events-none
-                      absolute
-                      bottom-0
-                      right-0
-                      h-[48px]
-                      w-[48px]
-                      bg-gradient-to-tl
-                      from-[#e5a51d]
-                      via-[#9c680d]
-                      to-transparent
-                      opacity-80
-                    "
-                    style={{
-                      clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
-                    }}
-                  />
-                </div>
-              </motion.article>
-            );
-          })}
+                </motion.li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-/* =============================================================
-   INFO ITEM
-============================================================= */
-
-function InfoItem({
-  icon: Icon,
-  label,
-  value,
-  borderRight = false,
-  borderTop = false,
-}) {
-  return (
-    <div
-      className={`
-        flex
-        min-h-[70px]
-        items-center
-        gap-2.5
-        px-2.5
-        py-2.5
-        sm:px-3
-        ${borderRight ? "border-r border-[#dca21a]/20" : ""}
-        ${borderTop ? "border-t border-[#dca21a]/20" : ""}
-      `}
-    >
-      {/* Icon */}
-      <div
-        className="
-          flex
-          h-8
-          w-8
-          shrink-0
-          items-center
-          justify-center
-          rounded-full
-          border
-          border-[#dca21a]
-          bg-[#0d1723]
-          text-[#e5a51d]
-        "
-      >
-        <Icon size={15} strokeWidth={1.6} />
-      </div>
-
-      {/* Text — no truncation: every value (not just the longest one) reserves
-          the same 2-line block height, so all four cells stay row-aligned and
-          every card renders at the same height regardless of member. */}
-      <div className="min-w-0 flex-1">
-        <p
-          className="
-            text-[8px]
-            font-semibold
-            tracking-[0.12em]
-            text-[#e5a51d]
-            uppercase
-          "
-        >
-          {label}
-        </p>
-
-        <p
-          className="
-            mt-0.5
-            flex
-            min-h-[2rem]
-            items-center
-            break-words
-            text-[10px]
-            leading-4
-            text-white/75
-          "
-        >
-          {value}
-        </p>
-      </div>
-    </div>
   );
 }
